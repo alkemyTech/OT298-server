@@ -1,5 +1,6 @@
 package com.alkemy.ong.model;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
@@ -18,10 +19,15 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String name;// VARCHAR NOT NULL
-    private String description; //VARCHAR NULLABLE
-    private String image; //VARCHAR NULLABLE
+    @NotNull
+    private String name;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "image")
+    private String image;
+    @Column(name = "timestamps")
     private LocalDate timestamps;
+    @Column(name = "soft_delete")
     private boolean softDelete = Boolean.FALSE;
 
 }
