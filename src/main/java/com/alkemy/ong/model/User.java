@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -26,9 +27,11 @@ public class User {
     @Column(name="user_id")
     private Long id;
 
+    @NotBlank
     @Column(name="first_name", nullable = false)
     private String firstName;
 
+    @NotBlank
     @Column(name="last_name", nullable = false)
     private String lastName;
 
@@ -36,22 +39,28 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @NotBlank
     @Pattern(regexp = "^[a-zA-Z0-9]{8,16}$")
+    @Column(nullable = false)
     private String password;
 
+    @Nullable
     private String photo;
 
+    @NotBlank
     @Column(name = "role_id", nullable = false)
     private Long roleId;
 
+    @Nullable
     private boolean deleted = Boolean.FALSE;
 
-    @Column(name="creation_date", updatable = false)
+    @NotBlank
     @CreationTimestamp
+    @Column(name="creation_date", updatable = false, nullable = false)
     private Timestamp creationDate;
 
-    @Column(name="last_updated")
+    @NotBlank
     @UpdateTimestamp
+    @Column(name="last_updated", nullable = false)
     private Timestamp lastUpdated;
 }
