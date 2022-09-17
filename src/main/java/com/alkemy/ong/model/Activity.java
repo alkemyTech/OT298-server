@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -27,21 +29,21 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Activity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name= "name", nullable = false)
+    @NotNull(message = "Name cannot be empty")
     private String name;
-    @Column(name= "context", nullable = false)
+    @NotNull(message = "Content cannot be empty")
     private String content;
-    @Column(name= "image", nullable = false)
+    @NotNull(message = "Image cannot be empty")
     private String image;
 
-   	@Column(name = "timestamps")
-  	@CreationTimestamp
- 	  private Timestamp timestamps;
+    @Column(name = "timestamps")
+    @CreationTimestamp
+    private Timestamp timestamps;
 
-  	@Column(name = "softDelete")
-  	private boolean softDelete;
+    @Column(name = "softDelete")
+    private boolean softDelete;
 }
