@@ -35,9 +35,11 @@ public class Testimonial {
     @Nullable
     private String content;
 
+    @Column(name = "creation_date")
     @CreationTimestamp
     private Timestamp creationDate;
 
+    @Column(name = "update_date")
     @UpdateTimestamp
     private Timestamp updateDate;
 
