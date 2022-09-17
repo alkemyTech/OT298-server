@@ -3,7 +3,9 @@ package com.alkemy.ong.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import org.springframework.lang.Nullable;
 
@@ -33,7 +35,11 @@ public class Testimonial {
     @Nullable
     private String content;
 
-    private Timestamp timestamps;
+    @CreationTimestamp
+    private Timestamp creationDate;
+
+    @UpdateTimestamp
+    private Timestamp updateDate;
 
     private Boolean deleted = Boolean.FALSE;
 }
