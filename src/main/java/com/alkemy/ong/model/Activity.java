@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
@@ -15,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -40,10 +41,10 @@ public class Activity {
     @NotNull(message = "Image cannot be empty")
     private String image;
 
-    @Column(name = "timestamps")
     @CreationTimestamp
-    private Timestamp timestamps;
-
-    @Column(name = "softDelete")
+    private Timestamp creationDate;
+    @UpdateTimestamp
+    private Timestamp updateDate;
+    
     private boolean softDelete;
 }
