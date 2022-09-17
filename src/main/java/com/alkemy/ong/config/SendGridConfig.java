@@ -11,7 +11,7 @@ import com.sendgrid.SendGrid;
 @PropertySource("classpath:application.properties")
 public class SendGridConfig {
     @Bean
-    @Value("${sendgrid.api.key}") //System.getenv("SENDGRID_API_KEY")
+    @Value("${sendgrid.api.key}")
     public SendGrid sendGridClient(String sendGridAPIKey){
         return new SendGrid(sendGridAPIKey);
     }
