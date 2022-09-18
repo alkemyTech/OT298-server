@@ -2,6 +2,10 @@ package com.alkemy.ong.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,51 +14,52 @@ import java.time.LocalDateTime;
 @Entity
 @Setter
 @Getter
+@SQLDelete(sql="UPDATE organizations SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 @Table(name="organizations")
 public class Organization {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "organization_id")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
-    @Column(name = "organization_name")
+    @Column(name = "name")
     private String name;
 
     @NotNull
-    @Column(name = "organization_image")
+    @Column(name = "image")
     private String image;
 
-    @Column(name = "organization_address")
+    @Column(name = "address")
     private String address;
 
-    @Column(name = "organization_phone")
+    @Column(name = "phone")
     private Integer phone;
 
     @NotNull
-    @Column(name = "organization_email")
+    @Column(name = "email")
     private String email;
 
     @NotNull
-    @Column(name = "organization_welcome_text", columnDefinition = "TEXT")
+    @Column(name = "welcome_text", columnDefinition = "TEXT")
     private String welcomeText;
 
-    @Column(name = "organization_about_us_text", columnDefinition = "TEXT")
+    @Column(name = "about_us_text", columnDefinition = "TEXT")
     private String aboutUsText;
 
     @NotNull
-    @Column(name="organization_deleted")
+    @Column(name="deleted")
     private Boolean deleted;
 
     @NotNull
-    @Column(name="organization_creation_date")
+    @CreationTimestamp
+    @Column(name="creation_date")
     private LocalDateTime creationDate;
 
-    @Column(name="organization_update_date")
+    @UpdateTimestamp
+    @Column(name="update_date")
     private LocalDateTime updateDate;
-
-    @Column(name="organization_removal_date")
-    private LocalDateTime removalDate;
 
 }
