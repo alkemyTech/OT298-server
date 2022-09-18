@@ -2,10 +2,13 @@ package com.alkemy.ong.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -16,33 +19,33 @@ import java.time.LocalDate;
 @Where(clause = "deleted = false")
 public class Member {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull(message = "name is required")
     private String name;
 
-    @Column(name = "facebook_url", nullable = false)
+    @Column(name = "facebook_url")
     private String facebookUrl;
 
-    @Column(name = "instagram_url", nullable = false)
+    @Column(name = "instagram_url")
     private String instagramUrl;
 
-    @Column(name = "linkedin_url", nullable = false)
+    @Column(name = "linkedin_url")
     private String linkedinUrl;
 
-    @Column(nullable = false)
+    @NotNull(message = "image is required")
     private String image;
 
-    @Column(nullable = false)
     private String description;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
+    @CreationTimestamp
     private LocalDate createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
+    @UpdateTimestamp
     private LocalDate updatedAt;
 
-    @Column(nullable = false)
     private boolean deleted = Boolean.FALSE;
 }
