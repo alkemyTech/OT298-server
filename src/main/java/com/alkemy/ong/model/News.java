@@ -39,7 +39,7 @@ public class News {
     @Column(name="category_id")
     private Long categoryId;
 
-    @Column(name = "CREATION_DATE")
+    @Column(name = "creation_date")
     @CreationTimestamp
     private LocalDateTime creationDate;
 
