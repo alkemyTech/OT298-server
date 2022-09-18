@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 public class News {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
