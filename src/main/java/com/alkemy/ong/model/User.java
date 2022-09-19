@@ -27,40 +27,41 @@ public class User {
     @Column(name="user_id")
     private Long id;
 
-    @NotBlank
+    @NotBlank (message = "First name is required")
+    @Pattern(regexp = "^[A-Za-z]*$")
     @Column(name="first_name", nullable = false)
     private String firstName;
 
-    @NotBlank
+    @NotBlank (message = "Last name is required")
+    @Pattern(regexp = "^[A-Za-z]*$")
     @Column(name="last_name", nullable = false)
     private String lastName;
 
-    @Email
+    @Email (message = "Email name is required")
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9]{8,16}$")
+    @NotBlank(message = "Password is required")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–{}:;',?/*~$^+=<>]).{8,20}$")
     @Column(nullable = false)
     private String password;
 
     @Nullable
     private String photo;
 
-    @NotBlank
-    @Column(name = "role_id", nullable = false)
-    private Long roleId;
+    @NotBlank (message = "Role is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_role", nullable = false)
+    private Role role;
 
     @Nullable
     private boolean deleted = Boolean.FALSE;
 
-    @NotBlank
     @CreationTimestamp
-    @Column(name="creation_date", updatable = false, nullable = false)
+    @Column(name="creation_date", updatable = false)
     private Timestamp creationDate;
 
-    @NotBlank
     @UpdateTimestamp
-    @Column(name="last_updated", nullable = false)
+    @Column(name="last_updated")
     private Timestamp lastUpdated;
 }
