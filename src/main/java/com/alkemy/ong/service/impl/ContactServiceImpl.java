@@ -16,10 +16,10 @@ import java.util.List;
 public class ContactServiceImpl implements IContactService {
 
     @Autowired
-    ContactRepository contactRepository;
+    private ContactRepository contactRepository;
 
     @Autowired
-    ContactMapper contactMapper;
+    private ContactMapper contactMapper;
 
     @Transactional
     @Override
