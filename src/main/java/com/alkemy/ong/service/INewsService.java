@@ -8,9 +8,8 @@ import java.util.List;
 
 public interface INewsService {
     NewsDto save(NewsDto dto);
-    NewsDto update(NewsDto dto); 
-    void delete(Long id);
+    void deleteById(Long id);
     boolean existById(Long id);
     Optional<News> findById(Long id);
-    Optional<List> findAll(int index);
+    Optional<List> findAll();
 }
