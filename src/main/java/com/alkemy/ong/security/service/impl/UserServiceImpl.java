@@ -6,10 +6,9 @@ import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.model.User;
 import com.alkemy.ong.repository.RoleRepository;
 import com.alkemy.ong.repository.UserRepository;
-import com.alkemy.ong.exception.CustomException;
+import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.security.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,8 +35,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     public UserGetDto registerUser(UserPostDto dto) {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new CustomException(
-                    "There is an account with that email adress:" + dto.getEmail(), HttpStatus.BAD_REQUEST);
+            throw new AlreadyExistsException(
+                    "There is an account with that email address:" + dto.getEmail());
         }
 
         User user = userMapper.userPostDtoToUser(dto);
