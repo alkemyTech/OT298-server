@@ -22,8 +22,8 @@ public class ActivityServiceImpl implements IActivityService {
     @Transactional
     @Override
     public ActivityDTO save(ActivityDTO dto) {
-        Activity activity = activityMapper.activityDTOToActivity(dto);
-        Activity savedActivity = activityRepository.save(activity);
-        return activityMapper.activityToActivityDTO(savedActivity);
+            Activity activity = activityMapper.activityDTOToActivity(dto);
+            Activity savedActivity = activityRepository.save(activity);
+            return activityMapper.activityToActivityDTO(savedActivity);
     }
 }
