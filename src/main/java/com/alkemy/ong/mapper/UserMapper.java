@@ -1,7 +1,7 @@
 package com.alkemy.ong.mapper;
 
-import com.alkemy.ong.dto.UserGetDto;
-import com.alkemy.ong.dto.UserPostDto;
+import com.alkemy.ong.security.dto.UserGetDto;
+import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

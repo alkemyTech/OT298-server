@@ -1,13 +1,13 @@
-package com.alkemy.ong.service.impl;
+package com.alkemy.ong.security.service.impl;
 
-import com.alkemy.ong.dto.UserGetDto;
-import com.alkemy.ong.dto.UserPostDto;
+import com.alkemy.ong.security.dto.UserGetDto;
+import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.model.User;
 import com.alkemy.ong.repository.RoleRepository;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.exception.CustomException;
-import com.alkemy.ong.service.UserService;
+import com.alkemy.ong.security.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
