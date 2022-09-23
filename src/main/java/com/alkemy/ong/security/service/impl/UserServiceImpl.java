@@ -1,17 +1,20 @@
 package com.alkemy.ong.security.service.impl;
 
+
+import com.alkemy.ong.exception.ParameterNotFound;
 import com.alkemy.ong.security.dto.AuthRequest;
 import com.alkemy.ong.security.dto.AuthResponse;
-import com.alkemy.ong.security.model.UserEntity;
+import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.UserRepository;
 import com.alkemy.ong.security.service.IUserService;
 import com.alkemy.ong.security.service.JwtUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +22,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Locale;
+
 
 @Service
 public class UserServiceImpl implements IUserService, UserDetailsService {
@@ -34,18 +39,24 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     private JwtUtils jwtUtils;
 
 
-    @Override
+    @Autowired
+    private MessageSource message;
+
+
+
+
+   @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserEntity user  = userRepository.findByEmail(email);
+        User user  = userRepository.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("Username not found");
         }
-        return new User(user.getUsername(), user.getPassword(), Collections.emptyList());
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), Collections.emptyList());
     }
 
-    public AuthResponse authenticate(AuthRequest request) throws Exception {
+    public AuthResponse authenticate(AuthRequest request) throws ParameterNotFound {
 
-        UserEntity user = userRepository.findByEmail(request.getUsername());
+        User user = userRepository.findByEmail(request.getUsername());
 
         if (  user==null) {
             throw new UsernameNotFoundException("Username not found");
@@ -60,12 +71,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             );
             userDetails = (UserDetails) auth.getPrincipal();
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+            throw new ParameterNotFound(message.getMessage("credencials.incorrect",null,Locale.US));
         }
         final String jwt = jwtUtils.generateToken(userDetails);
         return new AuthResponse(jwt);
     }
 
 
-
 }
+
