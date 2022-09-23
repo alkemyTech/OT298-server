@@ -32,8 +32,20 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value={AlreadyExistsException.class})
+    protected ResponseEntity<Object> handleAlreadyExistException(AlreadyExistsException ex,
+                                                                 WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(value = {ResourceNotFoundException.class})
-    protected ResponseEntity<ErrorMessage> handleResourceNotFondException (ResourceNotFoundException ex,
+    protected ResponseEntity<ErrorMessage> handleResourceNotFoundException (ResourceNotFoundException ex,
                                                                            WebRequest request){
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
