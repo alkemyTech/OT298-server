@@ -42,14 +42,13 @@ public class User {
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–{}:;',?/*~$^+=<>]).{8,20}$")
     @Column(nullable = false)
     private String password;
 
     @Nullable
     private String photo;
 
-    @NotBlank (message = "Role is required")
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_role", nullable = false)
     private Role role;
