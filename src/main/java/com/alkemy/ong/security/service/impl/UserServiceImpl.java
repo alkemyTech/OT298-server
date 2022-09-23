@@ -36,7 +36,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     public UserGetDto registerUser(UserPostDto dto) {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new CustomException(
+            throw new AlreadyExistsException(
                     "There is an account with that email adress:" + dto.getEmail(), HttpStatus.BAD_REQUEST);
         }
 
