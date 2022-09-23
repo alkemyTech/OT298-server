@@ -1,4 +1,4 @@
-package com.alkemy.ong.rest;
+package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.ActivityDTO;
 import com.alkemy.ong.service.IActivityService;
