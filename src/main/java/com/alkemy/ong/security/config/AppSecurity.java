@@ -25,6 +25,9 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
     private UserServiceImpl userDetailsCustomService;
 
     @Autowired
+    private PasswordEncoder encoder;
+
+    @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
     @Override

@@ -7,14 +7,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 @Entity
 @Table(name = "roles")
 @Getter
 @Setter
-
 public class Role {
 
     @Id
@@ -38,5 +39,12 @@ public class Role {
     private Date lastUpdate;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
+
+    //TODO : finish method
+    public Role get() {
+
+        return null;
+    }
+
 }

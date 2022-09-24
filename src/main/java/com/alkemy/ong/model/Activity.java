@@ -47,4 +47,5 @@ public class Activity {
     private Timestamp updateDate;
     
     private boolean deleted;
+
 }
