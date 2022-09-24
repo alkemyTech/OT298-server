@@ -1,21 +1,25 @@
 package com.alkemy.ong.security.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -23,7 +27,9 @@ import java.util.stream.Collectors;
 @Table(name="user")
 @Getter
 @Setter
-@AllArgsConstructor
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@Where(clause= "deleted = false")
+
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,16 +68,18 @@ public class User implements UserDetails {
     @Column(name="last_updated")
     private Timestamp lastUpdated;
 
-
     @ManyToMany(fetch =
             FetchType.EAGER,
             cascade = CascadeType.PERSIST)
 
     @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
 
-    private List<Role> roles;
+    private Set<Role> roles = new HashSet<>();
+
+
+
 
     private boolean accountNonExpired;
 
@@ -100,8 +108,15 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return this.email;
     }
 
 
+    public void setRole(Role role) {
+
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
 }

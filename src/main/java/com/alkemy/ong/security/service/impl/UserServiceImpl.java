@@ -1,5 +1,7 @@
 package com.alkemy.ong.security.service.impl;
 
+
+import com.alkemy.ong.security.model.Role;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import com.alkemy.ong.exception.AlreadyExistsException;
@@ -19,10 +21,10 @@ import org.springframework.security.core.Authentication;
 
 import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.dto.UserPostDto;
-import com.alkemy.ong.mapper.UserMapper;
-import com.alkemy.ong.model.User;
-import com.alkemy.ong.repository.RoleRepository;
-import com.alkemy.ong.repository.UserRepository;
+import com.alkemy.ong.security.mapper.UserMapper;
+
+import com.alkemy.ong.security.repository.RoleRepository;
+
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,6 +33,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Collections;
 
@@ -92,19 +95,25 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         User user = userMapper.userPostDtoToUser(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
         user.setRole(roleRepository.findByName(dto.getNameRole()).get());
 
         User savedUser = userRepository.save(user);
 
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
-        userGetDto.setNameRole(savedUser.getRole().getName());
+      //  userGetDto.setNameRole(savedUser.getRoles().getName());
 
         return userGetDto;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email).orElseThrow(( new UsernameNotFoundException("User not found with the given email.")));
+
+        User user = userRepository.findByEmail(email);
+        if(user==null){
+
+            throw new UsernameNotFoundException(message.getMessage("email.notfound",null,Locale.US));
+        }
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRoles());
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singletonList(authority));

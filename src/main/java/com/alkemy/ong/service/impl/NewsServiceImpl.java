@@ -10,6 +10,9 @@ import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.dto.NewsDto;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 public class NewsServiceImpl implements INewsService {
@@ -33,6 +36,6 @@ public class NewsServiceImpl implements INewsService {
         return repo.findById(id);
     }
     public Optional<List> findAll(){
-        return repo.findAll();
+        return Optional.of(repo.findAll());
     }
 }
