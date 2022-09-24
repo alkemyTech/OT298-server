@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import com.alkemy.ong.security.dto.AuthRequest;
 import com.alkemy.ong.security.dto.AuthResponse;
-import com.alkemy.ong.security.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +28,7 @@ public class UserController {
         UserGetDto userGetDto = userService.registerUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userGetDto);
     }
-      @PostMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<AuthResponse> signIn(@Valid @RequestBody AuthRequest request) throws Exception {
         AuthResponse response = userService.authenticate(request);
 
