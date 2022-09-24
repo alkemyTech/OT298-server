@@ -23,8 +23,8 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "activities")
-@SQLDelete(sql = "UPDATE activities SET softDelete = true WHERE id=?")
-@Where(clause = "softDelete=false")
+@SQLDelete(sql = "UPDATE activities SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -46,5 +46,5 @@ public class Activity {
     @UpdateTimestamp
     private Timestamp updateDate;
     
-    private boolean softDelete;
+    private boolean deleted;
 }

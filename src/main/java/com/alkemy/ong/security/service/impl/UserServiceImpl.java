@@ -1,6 +1,8 @@
 package com.alkemy.ong.security.service.impl;
 
-
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
+import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.ParameterNotFound;
 import com.alkemy.ong.security.dto.AuthRequest;
 import com.alkemy.ong.security.dto.AuthResponse;
@@ -12,18 +14,25 @@ import com.alkemy.ong.security.service.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+
+import com.alkemy.ong.security.dto.UserGetDto;
+import com.alkemy.ong.security.dto.UserPostDto;
+import com.alkemy.ong.mapper.UserMapper;
+import com.alkemy.ong.model.User;
+import com.alkemy.ong.repository.RoleRepository;
+import com.alkemy.ong.repository.UserRepository;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Locale;
-
+import java.util.Collections;
 
 @Service
 public class UserServiceImpl implements IUserService, UserDetailsService {
@@ -32,27 +41,20 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     private UserRepository userRepository;
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
 
     @Autowired
     private MessageSource message;
 
-
-
-
-   @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user  = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("Username not found");
-        }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), Collections.emptyList());
-    }
 
     public AuthResponse authenticate(AuthRequest request) throws ParameterNotFound {
 
@@ -78,5 +80,35 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
 
 
-}
+
+
+    @Override
+    public UserGetDto registerUser(UserPostDto dto) {
+
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new AlreadyExistsException(
+                    "There is an account with that email address:" + dto.getEmail());
+        }
+
+        User user = userMapper.userPostDtoToUser(dto);
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(roleRepository.findByName(dto.getNameRole()).get());
+
+        User savedUser = userRepository.save(user);
+
+        UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
+        userGetDto.setNameRole(savedUser.getRole().getName());
+
+        return userGetDto;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email).orElseThrow(( new UsernameNotFoundException("User not found with the given email.")));
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRoles());
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singletonList(authority));
+    }
+ }
+ 
 
