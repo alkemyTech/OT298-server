@@ -34,10 +34,14 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull(message = "Name cannot be empty")
     private String name;
+
     @NotNull(message = "Content cannot be empty")
+    @Lob
     private String content;
+
     @NotNull(message = "Image cannot be empty")
     private String image;
 
