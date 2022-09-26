@@ -23,12 +23,8 @@ public class MemberServiceImpl implements IMemberService {
 
     @Transactional
     public MemberDTO save(MemberDTO dto){
-        try {
             Member member = memberMapper.memberDTOToMember(dto);
             Member savedMember = memberRepository.save(member);
             return memberMapper.memberToMemberDTO(savedMember);
-        }catch(Exception e){
-            throw new CustomException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }
