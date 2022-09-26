@@ -1,7 +1,6 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.MemberDTO;
-import com.alkemy.ong.exception.CustomException;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.model.Member;
 import com.alkemy.ong.repository.MemberRepository;
