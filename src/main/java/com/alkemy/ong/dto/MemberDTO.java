@@ -12,7 +12,7 @@ public class MemberDTO {
     private Long id;
 
     @NotNull(message = "name is required")
-    @Pattern(regexp = "^[a-zA-Z][ a-zA-Z]*$")
+    @Pattern(regexp = "^[a-zA-Z][ a-zA-Z]*$", message = "{member.name.pattern.error}")
     private String name;
 
     private String facebookUrl;
