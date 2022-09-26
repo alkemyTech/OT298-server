@@ -1,15 +1,16 @@
-package com.alkemy.ong.repository;
+package com.alkemy.ong.security.repository;
 
-import com.alkemy.ong.model.User;
+import com.alkemy.ong.security.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    User findByEmail(String email);
 
     boolean existsByEmail (String email);
-    Optional<User> findByEmail(String email);
+
 
 }
