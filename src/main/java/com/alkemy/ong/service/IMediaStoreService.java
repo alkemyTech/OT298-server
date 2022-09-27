@@ -1,4 +1,4 @@
-package com.alkemy.ong.security.service;
+package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.MediaBasicDTO;
 import org.springframework.web.multipart.MultipartFile;
