@@ -12,6 +12,6 @@ public interface IUserService {
     AuthResponse authenticate(AuthRequest request) throws ParameterNotFound;
 
 
-    AuthResponse registerUser(UserPostDto dto);
+    UserGetDto registerUser(UserPostDto dto);
 
 }
