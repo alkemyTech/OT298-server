@@ -1,7 +1,7 @@
-package com.alkemy.ong.security.service.impl;
+package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.MediaBasicDTO;
-import com.alkemy.ong.security.service.IMediaStoreService;
+import com.alkemy.ong.service.IMediaStoreService;
 import com.alkemy.ong.util.FileUtil;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
