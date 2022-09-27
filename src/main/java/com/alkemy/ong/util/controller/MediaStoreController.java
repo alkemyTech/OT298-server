@@ -1,7 +1,7 @@
-package com.alkemy.ong.security.controller;
+package com.alkemy.ong.util.controller;
 
 import com.alkemy.ong.dto.MediaBasicDTO;
-import com.alkemy.ong.security.service.IMediaStoreService;
+import com.alkemy.ong.service.IMediaStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
