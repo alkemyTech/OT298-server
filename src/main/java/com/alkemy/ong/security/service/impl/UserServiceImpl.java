@@ -19,7 +19,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
-import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.security.mapper.UserMapper;
 
