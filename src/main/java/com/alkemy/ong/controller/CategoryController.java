@@ -19,6 +19,7 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
+    //TODO: @RolesAllowed("ADMIN")
     @PostMapping
     public ResponseEntity<CategoryDTO> saveCategory (@Valid @RequestBody CategoryDTO dto){
 
