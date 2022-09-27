@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 @RestController
@@ -19,7 +18,6 @@ public class ActivityController {
     @Autowired
     private IActivityService activityService;
 
-    @RolesAllowed("ADMIN")
     @PostMapping
     public ResponseEntity<ActivityDTO> saveActivity (@Valid @RequestBody ActivityDTO dto){
         ActivityDTO savedActivity = activityService.save(dto);

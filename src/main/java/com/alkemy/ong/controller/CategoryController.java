@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 @RestController
@@ -20,7 +19,6 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
-    @RolesAllowed("ADMIN")
     @PostMapping
     public ResponseEntity<CategoryDTO> saveCategory (@Valid @RequestBody CategoryDTO dto){
 
