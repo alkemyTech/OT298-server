@@ -86,7 +86,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
 
     @Override
-    public UserGetDto registerUser(UserPostDto dto) {
+    public AuthResponse registerUser(UserPostDto dto) {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new AlreadyExistsException(
@@ -100,10 +100,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         User savedUser = userRepository.save(user);
 
-        UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
-      //  userGetDto.setNameRole(savedUser.getRoles().getName());
-
-        return userGetDto;
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(savedUser.getUsername(), savedUser.getPassword())
+        );
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        final String jwt = jwtUtils.generateToken(userDetails);
+        return new AuthResponse(jwt);
     }
 
     @Override
