@@ -90,7 +90,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new AlreadyExistsException(
-                    "There is an account with that email address:" + dto.getEmail());
+                    message.getMessage("email.exists", null, Locale.US));
         }
 
         User user = userMapper.userPostDtoToUser(dto);
