@@ -5,11 +5,7 @@ import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -34,11 +30,15 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull(message = "Name cannot be empty")
+
+    @NotNull(message = "{request.name}")
     private String name;
-    @NotNull(message = "Content cannot be empty")
+
+    @NotNull(message = "{request.content}")
+    @Lob
     private String content;
-    @NotNull(message = "Image cannot be empty")
+
+    @NotNull(message = "{request.image}")
     private String image;
 
     @CreationTimestamp
