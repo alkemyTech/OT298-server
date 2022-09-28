@@ -33,11 +33,8 @@ public class CommentServiceImpl implements ICommentService {
         try {
             Comment commentEntity = commentMapper.commentDtoToEntity(commentDto);
 
-            if(commentEntity==null) {
-                throw new NullPointerException(messageSource.getMessage("null.dto", null, Locale.US));
-            }
-
-            try {
+           
+          
                 Comment savedEntity=commentRepository.save(commentEntity);
 
 
@@ -48,13 +45,6 @@ public class CommentServiceImpl implements ICommentService {
 
                 throw new ParameterNotFound(messageSource.getMessage("not.saved.entity",null,Locale.US));
             }
-
-
-
-        } catch (ParameterNotFound pnf) {
-
-            throw new ParameterNotFound(messageSource.getMessage("mapper.error",null,Locale.US));
-        }
 
 
 
