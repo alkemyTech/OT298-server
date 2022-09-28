@@ -32,10 +32,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Collections;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements IUserService, UserDetailsService {
@@ -58,6 +57,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Autowired
     private MessageSource message;
 
+    @Override
+    public List<UserGetDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserGetDto> usersDtos = userMapper.listUsersToListDtos(users);
+        return usersDtos;
+    }
 
     public AuthResponse authenticate(AuthRequest request) throws ParameterNotFound {
 
@@ -83,9 +88,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
 
 
-
-
     @Override
+    @Transactional
     public UserGetDto registerUser(UserPostDto dto) {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
@@ -96,14 +100,49 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         User user = userMapper.userPostDtoToUser(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
-        user.setRole(roleRepository.findByName(dto.getNameRole()).get());
+        User savedUser = userRepository.save(user);
+
+        addRoleToUser(dto.getNameRole(), savedUser);
+
+        UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
+        //userGetDto.setNameRole(savedUser.getRoles().toString());
+
+        return userGetDto;
+    }
+
+    @Override
+    @Transactional
+    public UserGetDto saveTestDataUser(UserPostDto dto) {
+
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new AlreadyExistsException(
+                    message.getMessage("email.exists", null, Locale.US));
+        }
+
+        User user = userMapper.userPostDtoToUser(dto);
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         User savedUser = userRepository.save(user);
 
+        addRoleToUser(dto.getNameRole(), savedUser);
+
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
-      //  userGetDto.setNameRole(savedUser.getRoles().getName());
+        userGetDto.setNameRole(savedUser.getRoles().toString());
 
         return userGetDto;
+    }
+
+    @Override
+    @Transactional
+    public void addRoleToUser(String nameRole, User user) {
+        Role role = roleRepository.findByName(nameRole);
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+
+        List<User> users = new ArrayList<>();
+        users.add(user);
+        role.setUsers(users);
     }
 
     @Override

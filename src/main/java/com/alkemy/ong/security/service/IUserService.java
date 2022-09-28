@@ -6,6 +6,9 @@ import com.alkemy.ong.security.dto.AuthRequest;
 import com.alkemy.ong.security.dto.AuthResponse;
 import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.dto.UserPostDto;
+import com.alkemy.ong.security.model.User;
+
+import java.util.List;
 
 public interface IUserService {
 
@@ -14,4 +17,9 @@ public interface IUserService {
 
     UserGetDto registerUser(UserPostDto dto);
 
+    void addRoleToUser (String nameRole, User user);
+
+    UserGetDto saveTestDataUser(UserPostDto dto);
+
+    List<UserGetDto> getAllUsers();
 }

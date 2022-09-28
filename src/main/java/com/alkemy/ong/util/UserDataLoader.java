@@ -1,9 +1,13 @@
 package com.alkemy.ong.util;
 
+import com.alkemy.ong.security.dto.RolePostDto;
+import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.security.model.Role;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.RoleRepository;
 import com.alkemy.ong.security.repository.UserRepository;
+import com.alkemy.ong.security.service.IUserService;
+import com.alkemy.ong.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,13 +21,10 @@ import java.util.Set;
 @Component
 public class UserDataLoader implements CommandLineRunner {
     @Autowired
-    private UserRepository userRepository;
+    private IUserService userService;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private IRoleService roleService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -31,174 +32,199 @@ public class UserDataLoader implements CommandLineRunner {
     }
 
     private void loadUserData() {
-        if (userRepository.count() == 0) {
 
             //ROLES
-            Role roleAdmin = new Role(1L, "ROLE_ADMIN");
-            Role roleRegular = new Role(2L, "ROLE_USER");
+            if(roleService.getAllRoles().isEmpty()){
+                    RolePostDto roleAdmin = new RolePostDto("ADMIN");
+                    roleService.save(roleAdmin);
+                    RolePostDto roleRegular = new RolePostDto("USER");
+                    roleService.save(roleRegular);
+            }
 
-            List<Role> roles = new ArrayList<>();
-            roles.add(roleAdmin);
-            roles.add(roleRegular);
-            roleRepository.saveAll(roles);
-
-            //LIST ROLES
-            Set<Role> rolesRegular = new HashSet<>();
-            rolesRegular.add(roleRegular);
-
-            Set<Role> rolesAdmin = new HashSet<>();
-            rolesAdmin.add(roleAdmin);
 
             //ADMIN USERS
-            User userAdmin1 = new User(1L,
-                    "AdminFirstNameUno",
-                    "AdminLastNameUno",
-                    "admin1@admin1.com",
-                    passwordEncoder.encode("1234Admin1!"),
-                    rolesAdmin);
-            User userAdmin2 = new User(2L,
-                    "AdminFirstNameDos",
-                    "AdminLastNameDos",
-                    "admin2@admin2.com",
-                    passwordEncoder.encode("1234Admin2!"),
-                    rolesAdmin);
-            User userAdmin3 = new User(3L,
-                    "AdminFirstNameTres",
-                    "AdminLastNameTres",
-                    "admin3@admin3.com",
-                    passwordEncoder.encode("1234Admin3!"),
-                    rolesAdmin);
-            User userAdmin4 = new User(4L,
-                    "AdminFirstNameFour",
-                    "AdminLastNameFour",
-                    "admin4@admin4.com",
-                    passwordEncoder.encode("1234Admin4!"),
-                    rolesAdmin);
-            User userAdmin5 = new User(5L,
-                    "AdminFirstNameFive",
-                    "AdminLastNameFive",
-                    "admin5@admin5.com",
-                    passwordEncoder.encode("1234Admin5!"),
-                    rolesAdmin);
-            User userAdmin6 = new User(6L,
-                    "AdminFirstNameSix",
-                    "AdminLastNameSix",
-                    "admin6@admin6.com",
-                    passwordEncoder.encode("1234Admin6!"),
-                    rolesAdmin);
-            User userAdmin7 = new User(7L,
-                    "AdminFirstNameSeven",
-                    "AdminLastNameSeven",
-                    "admin7@admin7.com",
-                    passwordEncoder.encode("1234Admin7!"),
-                    rolesAdmin);
-            User userAdmin8 = new User(8L,
-                    "AdminFirstNameEight",
-                    "AdminLastNameEight",
-                    "admin8@admin8.com",
-                    passwordEncoder.encode("1234Admin8!"),
-                    rolesAdmin);
-            User userAdmin9 = new User(9L,
-                    "AdminFirstNameNine",
-                    "AdminLastNameNine",
-                    "admin9@admin9.com",
-                    passwordEncoder.encode("1234Admin9!"),
-                    rolesAdmin);
-            User userAdmin10 = new User(10L,
-                    "AdminFirstNameTen",
-                    "AdminLastNameTen",
-                    "admin10@admin10.com",
-                    passwordEncoder.encode("1234Admin10!"),
-                    rolesAdmin);
+            if(userService.getAllUsers().isEmpty()) {
+                    UserPostDto userAdmin1 = new UserPostDto(
+                            "Alden",
+                            "Ferrel",
+                            "alden.admin1@ongadmin.com",
+                            "1234Admin1!",
+                            "ADMIN",
+                            "example.png");
+                    userService.saveTestDataUser(userAdmin1);
 
-            List<User> usersAdmin = new ArrayList<>();
-            usersAdmin.add(userAdmin1);
-            usersAdmin.add(userAdmin2);
-            usersAdmin.add(userAdmin3);
-            usersAdmin.add(userAdmin4);
-            usersAdmin.add(userAdmin5);
-            usersAdmin.add(userAdmin6);
-            usersAdmin.add(userAdmin7);
-            usersAdmin.add(userAdmin8);
-            usersAdmin.add(userAdmin9);
-            usersAdmin.add(userAdmin10);
-            userRepository.saveAll(usersAdmin);
+                    UserPostDto userAdmin2 = new UserPostDto(
+                            "Juan",
+                            "Berger",
+                            "juan.admin2@ongadmin.com",
+                            "1234Admin2!",
+                            "ADMIN",
+                            "example.png");
+                    userService.saveTestDataUser(userAdmin2);
 
-            //REGULAR USERS
-            User userRegular1 = new User(11L,
-                    "UserFirstNameUno",
-                    "UserLastNameUno",
-                    "user1@user1.com",
-                    passwordEncoder.encode("1234User1!"),
-                    rolesRegular);
-            User userRegular2 = new User(12L,
-                    "UserFirstNameDos",
-                    "UserLastNameDos",
-                    "user2@user2.com",
-                    passwordEncoder.encode("1234User2!"),
-                    rolesRegular);
-            User userRegular3 = new User(13L,
-                    "UserFirstNameTres",
-                    "UserLastNameTres",
-                    "user3@user3.com",
-                    passwordEncoder.encode("1234User3!"),
-                    rolesRegular);
-            User userRegular4 = new User(14L,
-                    "UserFirstNameFour",
-                    "UserLastNameFour",
-                    "user4@user4.com",
-                    passwordEncoder.encode("1234User4!"),
-                    rolesRegular);
-            User userRegular5 = new User(15L,
-                    "UserFirstNameFive",
-                    "UserLastNameFive",
-                    "user5@user5.com",
-                    passwordEncoder.encode("1234User5!"),
-                    rolesRegular);
-            User userRegular6 = new User(16L,
-                    "UserFirstNameSix",
-                    "UserLastNameSix",
-                    "user6@user6.com",
-                    passwordEncoder.encode("1234User6!"),
-                    rolesRegular);
-            User userRegular7 = new User(17L,
-                    "UserFirstNameSeven",
-                    "UserLastNameSeven",
-                    "user7@user7.com",
-                    passwordEncoder.encode("1234User7!"),
-                    rolesRegular);
-            User userRegular8 = new User(18L,
-                    "UserFirstNameEight",
-                    "UserLastNameEight",
-                    "user8@user8.com",
-                    passwordEncoder.encode("1234User8!"),
-                    rolesRegular);
-            User userRegular9 = new User(19L,
-                    "UserFirstNameNine",
-                    "UserLastNameNine",
-                    "user9@user9.com",
-                    passwordEncoder.encode("1234User9!"),
-                    rolesRegular);
-            User userRegular10 = new User(20L,
-                    "UserFirstNameTen",
-                    "UserLastNameTen",
-                    "user10@user10.com",
-                    passwordEncoder.encode("1234User10!"),
-                    rolesRegular);
+                    UserPostDto userAdmin3 = new UserPostDto(
+                            "Maria",
+                            "Macias",
+                            "maria.admin3@ongadmin.com",
+                            "1234Admin3!",
+                            "ADMIN",
+                            "example.png");
+                    userService.saveTestDataUser(userAdmin3);
 
-            List<User> usersRegular = new ArrayList<>();
-            usersRegular.add(userRegular1);
-            usersRegular.add(userRegular2);
-            usersRegular.add(userRegular3);
-            usersRegular.add(userRegular4);
-            usersRegular.add(userRegular5);
-            usersRegular.add(userRegular6);
-            usersRegular.add(userRegular7);
-            usersRegular.add(userRegular8);
-            usersRegular.add(userRegular9);
-            usersRegular.add(userRegular10);
-            userRepository.saveAll(usersRegular);
+                    UserPostDto userAdmin4 = new UserPostDto(
+                            "Amal",
+                            "Stuart",
+                            "amal.admin4@ongadmin.com",
+                            "1234Admin4!",
+                            "ADMIN",
+                            "example.png");
+                    userService.saveTestDataUser(userAdmin4);
 
-        }
+                    UserPostDto userAdmin5 = new UserPostDto(
+                            "Connor",
+                            "Wood",
+                            "connor.admin5@ongadmin.com",
+                            "1234Admin5!",
+                            "ADMIN",
+                            "example.png");
+                    userService.saveTestDataUser(userAdmin5);
+
+                    UserPostDto userAdmin6 = new UserPostDto(
+                            "Rodrigo",
+                            "Perez",
+                            "rodrigo.admin6@ongadmin.com",
+                            "1234Admin6!",
+                            "ADMIN",
+                            "example.png");
+                    userService.saveTestDataUser(userAdmin6);
+
+                    UserPostDto userAdmin7 = new UserPostDto(
+                            "Samanta",
+                            "Claker",
+                            "samanta.admin7@ongadmin.com",
+                            "1234Admin7!",
+                            "ADMIN",
+                            "example.png");
+                    userService.saveTestDataUser(userAdmin7);
+
+                    UserPostDto userAdmin8 = new UserPostDto(
+                            "Catherine",
+                            "Steve",
+                            "catherine.admin8@ongadmin.com",
+                            "1234Admin8!",
+                            "ADMIN",
+                            "example.png");
+                    userService.saveTestDataUser(userAdmin8);
+
+                    UserPostDto userAdmin9 = new UserPostDto(
+                            "Esteban",
+                            "Rush",
+                            "esteban.admin9@ongadmin.com",
+                            "1234Admin9!",
+                            "ADMIN",
+                            "example.png");
+                    userService.saveTestDataUser(userAdmin9);
+
+                    UserPostDto userAdmin10 = new UserPostDto(
+                            "Lana",
+                            "Allison",
+                            "lana.admin10@ongadmin.com",
+                            "1234Admin10!",
+                            "ADMIN",
+                            "example.png");
+                    userService.saveTestDataUser(userAdmin10);
+
+
+                    //REGULAR USERS
+                    UserPostDto userRegular1 = new UserPostDto(
+                            "Alice",
+                            "Lott",
+                            "alice.l123@hotm.ca",
+                            "1234User1!",
+                            "USER",
+                            "example.png");
+                    userService.saveTestDataUser(userRegular1);
+
+                    UserPostDto userRegular2 = new UserPostDto(
+                            "Meredith",
+                            "Mathews",
+                            "mathMer.90@yah.couk",
+                            "1234User2!",
+                            "USER",
+                            "example.png");
+                    userService.saveTestDataUser(userRegular2);
+
+                    UserPostDto userRegular3 = new UserPostDto(
+                            "Walter",
+                            "Mason",
+                            "walter1998@google.ca",
+                            "1234User3!",
+                            "USER",
+                            "example.png");
+                    userService.saveTestDataUser(userRegular3);
+
+                    UserPostDto userRegular4 = new UserPostDto(
+                            "Barbara",
+                            "Contreras",
+                            "barbaraC-cont@google.ca",
+                            "1234User4!",
+                            "USER",
+                            "example.png");
+                    userService.saveTestDataUser(userRegular4);
+
+                    UserPostDto userRegular5 = new UserPostDto(
+                            "Pedro",
+                            "Hudson",
+                            "pedroH@hotm.ca",
+                            "1234User5!",
+                            "USER",
+                            "example.png");
+                    userService.saveTestDataUser(userRegular5);
+
+                    UserPostDto userRegular6 = new UserPostDto(
+                            "Felipe",
+                            "Benitez",
+                            "f.Benitez@yah.couk",
+                            "1234User6!",
+                            "USER",
+                            "example.png");
+                    userService.saveTestDataUser(userRegular6);
+
+                    UserPostDto userRegular7 = new UserPostDto(
+                            "Virginia",
+                            "Walters",
+                            "walters.virg123@google.net",
+                            "1234User7!",
+                            "USER",
+                            "example.png");
+                    userService.saveTestDataUser(userRegular7);
+
+                    UserPostDto userRegular8 = new UserPostDto(
+                            "Julian",
+                            "Velasquez",
+                            "jul.vel@example.ca",
+                            "1234User8!",
+                            "USER",
+                            "example.png");
+                    userService.saveTestDataUser(userRegular8);
+
+                    UserPostDto userRegular9 = new UserPostDto(
+                            "Gabriel",
+                            "Carter",
+                            "gabriel.carter00@google.org",
+                            "1234User9!",
+                            "USER",
+                            "example.png");
+                    userService.saveTestDataUser(userRegular9);
+
+                    UserPostDto userRegular10 = new UserPostDto(
+                            "Tatiana",
+                            "Castaneda",
+                            "tatiana.elit-you@yah.couk",
+                            "1234User10!",
+                            "USER",
+                            "example.png");
+                    userService.saveTestDataUser(userRegular10);
+            }
     }
 }
