@@ -20,11 +20,11 @@ public class CommentDto {
     @NotBlank(message = "{body.empty}")
     private String body;
 
-    @Min(value = 1,message = "{id.invalid}")
+    @Min(value = 1,message = "{invalid.id}")
     @NotNull(message = "{id.invalid}")
     private Long userId;
 
-    @Min(value = 1,message = "{id.invalid}")
+    @Min(value = 1,message = "{invalid.id}")
     @NotNull(message = "{id.invalid}")
     private Long newsId;
 
