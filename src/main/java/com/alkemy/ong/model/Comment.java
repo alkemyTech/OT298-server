@@ -25,16 +25,21 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "body cannot be empty")
+
     private String body;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id",insertable = false, updatable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "news_id")
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "news_id",insertable = false, updatable = false)
     private News news;
+    @Column(name = "news_id", nullable = false)
+    private Long newsId;
 
     @Column(name = "creation_date")
     @CreationTimestamp
