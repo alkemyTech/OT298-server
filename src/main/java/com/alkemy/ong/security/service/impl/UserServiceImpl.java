@@ -31,6 +31,9 @@ import java.util.Locale;
 import java.io.IOException;
 import java.util.Collections;
 
+import java.util.List;
+import java.util.ArrayList;
+
 @Service
 public class UserServiceImpl implements IUserService, UserDetailsService {
 
@@ -109,5 +112,13 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRoles());
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singletonList(authority));
+    }
+    @Override
+    public List<UserGetDto> getAll(){
+        List<UserGetDto> list = new ArrayList<>(); 
+        for(User u : userRepository.findAll()){
+            list.add(userMapper.userToUserDto(u));
+        }
+        return list;
     }
  }
