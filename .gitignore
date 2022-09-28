@@ -34,7 +34,4 @@ build/
 
 ### Properties ###
 src/main/resources/application.properties
-pom.xml
-src/main/resources/application.properties
-src/main/java/com/alkemy/ong/service/SendGridEmailService.java
-src/main/java/com/alkemy/ong/service/SendGridEmailService.java
+
