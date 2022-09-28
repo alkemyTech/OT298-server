@@ -1,33 +1,57 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.util.EmailConstants;
 import com.sendgrid.*;
-import java.io.IOException;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import java.io.IOException;
+import java.util.Locale;
 
 @Service
-public class SendGridEmailService implements EmailService {
+@RequiredArgsConstructor
+public class SendGridEmailService implements IEmailService {
+    @Value("${sendgrid.email}")
+    private String sender;
 
     @Autowired
     private SendGrid sendGridClient;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @Override
-    public Response sendText(String from, String to, String subject, String body) throws IOException {
-        return sendEmail(from, to, subject, new Content("text/plain", body));
+    public void sendText(String from, String to, String subject, String body) throws IOException {
     }
 
     @Override
-    public Response sendHTML(String from, String to, String subject, String body) throws IOException {
-        return sendEmail(from, to, subject, new Content("text/html", body));
+    public void sendHTML(String from, String to, String subject, String body) throws IOException {
     }
 
-    private Response sendEmail(String from, String to, String subject, Content content) throws IOException {
-        Mail mail = new Mail(new Email(from), subject, new Email(to), content);
-        mail.setReplyTo(new Email(from));
+    @Override
+    public void sendWelcomeEmail(String email) throws IOException {
+        Email from = new Email(sender);
+        Email to = new Email(email);
+        String subject = EmailConstants.SUBJECT_WELCOME;
+        Content content = new Content("text/html", EmailConstants.TEMPLATE_WELCOME);
+        Mail mail = new Mail(from, subject, to, content);
+        sendMail(mail);
+    }
+
+    public void sendMail(Mail mail) throws IOException{
         Request request = new Request();
-        request.setMethod(Method.POST);
-        request.setEndpoint("mail/send");
-        request.setBody(mail.build());
-        return this.sendGridClient.api(request);
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint(EmailConstants.ENDPOINT);
+            request.setBody(mail.build());
+            sendGridClient.api(request);
+        } catch (IOException ex) {
+            throw new IOException(messageSource.getMessage("email.not.sent",null, Locale.US));
+        }
     }
 }
