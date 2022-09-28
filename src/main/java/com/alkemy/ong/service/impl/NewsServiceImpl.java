@@ -30,7 +30,7 @@ public class NewsServiceImpl implements INewsService {
         repo.deleteById(id);
     }
     public boolean existById(Long id){
-        return repo.existById(id);
+        return repo.existsById(id);
     }
     public Optional<News> findById(Long id){
         return repo.findById(id);
