@@ -9,7 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
-    boolean existById(Long id);
+    boolean existsById(Long id);
+
 
 
 }

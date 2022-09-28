@@ -1,5 +1,7 @@
 package com.alkemy.ong.security.service.impl;
 
+
+import com.alkemy.ong.security.dto.UserGetDto;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import com.alkemy.ong.exception.AlreadyExistsException;
@@ -16,6 +18,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
+
+import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.security.mapper.UserMapper;
 
 
@@ -93,9 +97,20 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         User savedUser = userRepository.save(user);
 
+
+        UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
+
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(savedUser.getUsername(), savedUser.getPassword())
+        );
+
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        final String jwt = jwtUtils.generateToken(userDetails);
+        userGetDto.setJwtToken(jwt);
+
         emailService.sendWelcomeEmail(user.getEmail());
 
-        return userMapper.userToUserDto(savedUser);
+        return userGetDto;
     }
 
     @Override
