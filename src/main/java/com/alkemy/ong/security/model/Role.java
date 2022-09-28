@@ -1,4 +1,4 @@
-package com.alkemy.ong.model;
+package com.alkemy.ong.security.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 
 @Entity
 @Table(name = "roles")
@@ -35,5 +38,13 @@ public class Role {
     @UpdateTimestamp
     private Date lastUpdate;
 
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private List<User> users = new ArrayList<>();
+
+    //TODO : finish method
+    public Role get() {
+
+        return null;
+    }
 
 }
