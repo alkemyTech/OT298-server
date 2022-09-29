@@ -17,6 +17,7 @@ public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
     @Mapping(target = "lastUpdated", ignore = true)
+    //@Mapping(target = "roles", ignore = true)
     User userPostDtoToUser (UserPostDto dto);
 
     @Mapping(target = "nameRole", ignore = true)

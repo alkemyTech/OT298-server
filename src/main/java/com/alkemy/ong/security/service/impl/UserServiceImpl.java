@@ -109,7 +109,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         User savedUser = userRepository.save(user);
 
-        addRoleToUser(dto.getNameRole(), savedUser);
+        addRoleToUser("USER", savedUser);
 
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
         //userGetDto.setNameRole(savedUser.getRoles().toString());
@@ -131,13 +131,13 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         User savedUser = userRepository.save(user);
 
-        addRoleToUser(dto.getNameRole(), savedUser);
+        addRoleToUser("USER", savedUser);
 
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
         //userGetDto.setNameRole(savedUser.getRoles().toString());
 
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(savedUser.getUsername(), savedUser.getPassword())
+                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
         );
 
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
@@ -153,13 +153,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Transactional
     public void addRoleToUser(String nameRole, User user) {
         Role role = roleRepository.findByName(nameRole);
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
-
-        List<User> users = new ArrayList<>();
-        users.add(user);
-        role.setUsers(users);
+        user.addRole(role);
+        userRepository.savedUser(user);
     }
 
     @Override

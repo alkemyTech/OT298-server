@@ -35,9 +35,9 @@ public class UserPostDto {
     @NotNull
     private String password;
 
-    @NotBlank(message = "Role is required")
+    /*@NotBlank(message = "Role is required")
     @NotNull
-    private String nameRole;
+    private String nameRole;*/
 
     private String photo;
 }

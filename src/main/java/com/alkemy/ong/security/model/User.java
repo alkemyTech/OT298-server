@@ -125,6 +125,11 @@ public class User implements UserDetails {
 
     }
 
+    public void addRole(Role role){
+        roles.add(role);
+        role.getUsers().add(role);
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }

@@ -18,7 +18,7 @@ public class UserController {
     private IUserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserGetDto>> getAll() throws Exception {
-        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
+    public ResponseEntity<?> getAll() throws Exception {
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 }
