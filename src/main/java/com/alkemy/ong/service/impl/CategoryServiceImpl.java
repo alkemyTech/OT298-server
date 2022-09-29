@@ -1,7 +1,10 @@
 package com.alkemy.ong.service.impl;
 
+
 import com.alkemy.ong.dto.CategoryGetDto;
 import com.alkemy.ong.exception.ThereAreNoCategories;
+import com.alkemy.ong.dto.CategoryDTO;
+
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.repository.CategoryRepository;
@@ -12,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
+
+import javax.transaction.Transactional;
+
 
 @Service
 public class CategoryServiceImpl implements ICategoryService {
@@ -33,5 +39,13 @@ public class CategoryServiceImpl implements ICategoryService {
         }
         List<CategoryGetDto> listDtosCategories = categoryMapper.listCategoriesToListDtos(categories);
         return listDtosCategories;
+    }
+
+    @Transactional
+    @Override
+    public CategoryDTO save (CategoryDTO dto){
+            Category category = categoryMapper.categoryDTOToCategory(dto);
+            Category savedCategory = categoryRepository.save(category);
+            return categoryMapper.categoryToCategoryDTO(savedCategory);
     }
 }
