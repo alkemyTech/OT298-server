@@ -13,6 +13,6 @@ public class SlidesDTO {
 
     private String text;
 
-    private int position;
+    private Integer position;
 
 }
