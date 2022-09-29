@@ -6,6 +6,8 @@ import com.alkemy.ong.security.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel="spring")
 public interface UserMapper {
 
@@ -21,4 +23,5 @@ public interface UserMapper {
     @Mapping(target = "jwtToken", ignore = true)
     UserGetDto userToUserDto (User user);
 
+    List<UserGetDto> listUsersToListDtos (List<User> users);
 }
