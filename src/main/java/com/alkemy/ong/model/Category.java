@@ -8,6 +8,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 
 @Entity
@@ -21,10 +22,12 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "User name cannot not be empty")
+    @NotNull(message = "{request.name}")
+    @Pattern(regexp = "^[A-Za-z]*$", message = "{request.letters}")
     private String name;
 
     private String description;
+
     private String image;
 
     @Column(name = "creation_date")
