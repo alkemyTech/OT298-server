@@ -12,7 +12,7 @@ import com.alkemy.ong.security.service.*;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.UserRepository;
 import com.alkemy.ong.security.repository.RoleRepository;
-import com.alkemy.ong.service.IEmailService;
+//import com.alkemy.ong.service.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -58,8 +58,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private IEmailService emailService;
+    //@Autowired
+    //private IEmailService emailService;
 
     @Autowired
     private MessageSource message;
@@ -107,10 +107,15 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         User savedUser = userRepository.save(user);
 
-        addRoleToUser(dto.getNameRole(), savedUser);
-
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
-        //userGetDto.setNameRole(savedUser.getRoles().toString());
+        List<User> users = userRepository.findAll();
+        for(User userGet : users){
+            if(userGet.getId()>=1 && userGet.getId()<=10){
+                this.addRoleToUser("ADMIN", user);
+            } else {
+                this.addRoleToUser("USER", user);
+            }
+        }
 
         return userGetDto;
     }
@@ -129,20 +134,19 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         User savedUser = userRepository.save(user);
 
-        addRoleToUser(dto.getNameRole(), savedUser);
+        addRoleToUser("USER", savedUser);
 
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
-        //userGetDto.setNameRole(savedUser.getRoles().toString());
 
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(savedUser.getUsername(), savedUser.getPassword())
+                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
         );
 
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         final String jwt = jwtUtils.generateToken(userDetails);
         userGetDto.setJwtToken(jwt);
 
-        emailService.sendWelcomeEmail(user.getEmail());
+        //emailService.sendWelcomeEmail(user.getEmail());
 
         return userGetDto;
     }
@@ -155,9 +159,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         roles.add(role);
         user.setRoles(roles);
 
-        List<User> users = new ArrayList<>();
-        users.add(user);
-        role.setUsers(users);
+        role.getUsers().add(user);
     }
 
     @Override
