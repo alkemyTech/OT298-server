@@ -1,7 +1,9 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryGetDto;
 import com.alkemy.ong.dto.CategoryDTO;
+import com.alkemy.ong.model.Category;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,11 +11,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -25,9 +23,15 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @GetMapping
-    private ResponseEntity<List<CategoryGetDto>> getAllCategories(){
+    public ResponseEntity<List<CategoryGetDto>> getAllCategories(){
         List<CategoryGetDto> categories = categoryService.getAllCategories();
         return ResponseEntity.status(HttpStatus.OK).body(categories);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryCompleteGetDto> getCategoryById(@PathVariable Long id){
+        CategoryCompleteGetDto category = categoryService.getCategoryById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
     //TODO: @RolesAllowed("ADMIN")
