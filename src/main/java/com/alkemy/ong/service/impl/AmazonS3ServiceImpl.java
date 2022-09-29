@@ -1,7 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.MediaBasicDTO;
-import com.alkemy.ong.service.IMediaStoreService;
+import com.alkemy.ong.service.IAmazonS3Service;
 import com.alkemy.ong.util.FileUtil;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -16,11 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 
 @Service
-public class MediaStoreServiceImpl implements IMediaStoreService {
+public class AmazonS3ServiceImpl implements IAmazonS3Service {
 
     @Value("${amazonProperties.bucketName}")
     private String bucketName;
@@ -47,20 +46,23 @@ public class MediaStoreServiceImpl implements IMediaStoreService {
     }
 
     public MediaBasicDTO uploadFile(MultipartFile file) {
-        String fileName = FileUtil.createFileName(file);
-        File fileObj = FileUtil.convertMultipartFileToFile(file);
-        s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
-
-        String fileUrl = s3Client.getUrl(bucketName, fileName).toString();
-        fileObj.delete();
-        return new MediaBasicDTO(fileName, fileUrl);
+        String fileUrl = "";
+        try {
+            String fileName = FileUtil.createFileName(file);
+            File fileObj = FileUtil.convertMultipartFileToFile(file);
+            s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            fileUrl = s3Client.getUrl(bucketName, fileName).toString();
+            fileObj.delete();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return new MediaBasicDTO(fileUrl);
     }
 
     public void deleteFile(String fileUrl) {
         String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
         s3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
         s3Client.deleteObject(bucketName, fileName);
-
     }
 }
