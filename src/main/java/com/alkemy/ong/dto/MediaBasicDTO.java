@@ -10,6 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MediaBasicDTO {
-    private String name;
     private String url;
 }
