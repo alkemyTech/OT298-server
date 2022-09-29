@@ -1,29 +1,26 @@
 package com.alkemy.ong.security.service.impl;
 
 
-import com.alkemy.ong.security.model.Role;
+import com.alkemy.ong.security.dto.UserGetDto;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.ParameterNotFound;
-import com.alkemy.ong.security.dto.AuthRequest;
-import com.alkemy.ong.security.dto.AuthResponse;
+import com.alkemy.ong.security.dto.*;
+import com.alkemy.ong.security.service.*;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.UserRepository;
-import com.alkemy.ong.security.service.IUserService;
-import com.alkemy.ong.security.service.JwtUtils;
-
+import com.alkemy.ong.security.repository.RoleRepository;
+import com.alkemy.ong.service.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
-import com.alkemy.ong.security.dto.UserGetDto;
+
 import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.security.mapper.UserMapper;
-
-import com.alkemy.ong.security.repository.RoleRepository;
 
 
 import org.springframework.security.core.GrantedAuthority;
@@ -34,28 +31,38 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.*;
+import java.io.IOException;
+import java.util.Collections;
 
 @Service
 public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     private JwtUtils jwtUtils;
+
     @Autowired
     private RoleRepository roleRepository;
+
     @Autowired
     private UserMapper userMapper;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
+    @Autowired
+    private IEmailService emailService;
 
     @Autowired
     private MessageSource message;
+
 
     @Override
     public List<UserGetDto> getAllUsers() {
@@ -71,10 +78,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         if (  user==null) {
             throw new UsernameNotFoundException("Username not found");
          }
-
-
              UserDetails userDetails;
-
         try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
@@ -90,7 +94,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Override
     @Transactional
-    public UserGetDto registerUser(UserPostDto dto) {
+    public UserGetDto saveTestDataUser(UserPostDto dto) {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new AlreadyExistsException(
@@ -112,7 +116,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Override
     @Transactional
-    public UserGetDto saveTestDataUser(UserPostDto dto) {
+    public UserGetDto registerUser(UserPostDto dto) throws IOException {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new AlreadyExistsException(
@@ -127,7 +131,17 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         addRoleToUser(dto.getNameRole(), savedUser);
 
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
-        userGetDto.setNameRole(savedUser.getRoles().toString());
+        //userGetDto.setNameRole(savedUser.getRoles().toString());
+
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(savedUser.getUsername(), savedUser.getPassword())
+        );
+
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        final String jwt = jwtUtils.generateToken(userDetails);
+        userGetDto.setJwtToken(jwt);
+
+        emailService.sendWelcomeEmail(user.getEmail());
 
         return userGetDto;
     }
@@ -158,5 +172,3 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singletonList(authority));
     }
  }
- 
-

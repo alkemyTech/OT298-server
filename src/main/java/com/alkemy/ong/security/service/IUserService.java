@@ -10,16 +10,18 @@ import com.alkemy.ong.security.model.User;
 
 import java.util.List;
 
+import java.io.IOException;
+
 public interface IUserService {
 
     AuthResponse authenticate(AuthRequest request) throws ParameterNotFound;
-
-
-    UserGetDto registerUser(UserPostDto dto);
 
     void addRoleToUser (String nameRole, User user);
 
     UserGetDto saveTestDataUser(UserPostDto dto);
 
     List<UserGetDto> getAllUsers();
+
+    UserGetDto registerUser(UserPostDto dto) throws IOException;
+
 }

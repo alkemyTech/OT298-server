@@ -20,6 +20,7 @@ public interface UserMapper {
     User userPostDtoToUser (UserPostDto dto);
 
     @Mapping(target = "nameRole", ignore = true)
+    @Mapping(target = "jwtToken", ignore = true)
     UserGetDto userToUserDto (User user);
 
     List<UserGetDto> listUsersToListDtos (List<User> users);
