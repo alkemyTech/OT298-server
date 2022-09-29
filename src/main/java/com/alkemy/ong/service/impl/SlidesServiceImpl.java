@@ -29,12 +29,10 @@ public class SlidesServiceImpl implements ISlidesService {
     @Autowired
     private MediaBasicDTO mediaBasicDTO;
 
-
     @Override
     public SlidesDTO save(SlidesDTO slidesDTO) {
 
         Slides slides = slidesMapper.slidesDTO2Slides(slidesDTO);
-
 
         String imageString = slides.getImage();
         byte[] decodeImg = Base64.getDecoder().decode(imageString);
