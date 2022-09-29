@@ -68,8 +68,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(value = {ArrayIsEmpty.class})
-    protected ResponseEntity<Object> handleArrayIsEmpty (ArrayIsEmpty ex, WebRequest request){
+    @ExceptionHandler(value = {ThereAreNoCategories.class})
+    protected ResponseEntity<Object> handleArrayIsEmpty (ThereAreNoCategories ex, WebRequest request){
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.OK.value(),
                 new Date(),

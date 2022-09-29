@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ArrayIsEmpty extends RuntimeException {
+public class ThereAreNoCategories extends RuntimeException {
 
-    public ArrayIsEmpty (String message){
+    public ThereAreNoCategories(String message){
         super(message);
     }
 }
