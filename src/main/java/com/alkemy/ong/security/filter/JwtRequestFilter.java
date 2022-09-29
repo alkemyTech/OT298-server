@@ -1,9 +1,6 @@
 package com.alkemy.ong.security.filter;
 
-<<<<<<< HEAD
 
-public class JwtRequestFilter {
-=======
 import com.alkemy.ong.security.service.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -59,5 +56,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
 
     }
->>>>>>> develop
+
 }
