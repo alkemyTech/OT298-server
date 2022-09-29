@@ -81,6 +81,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+    @ExceptionHandler(value = {ThereAreNoCategories.class})
+    protected ResponseEntity<Object> handleThereAreNoCategories (ThereAreNoCategories ex, WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.OK.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+                
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
     @ExceptionHandler(value = {FileConversionException.class})
     protected ResponseEntity<ErrorMessage> handleFileConversionException (FileConversionException ex,
                                                                             WebRequest request){
@@ -92,4 +104,5 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    
 }

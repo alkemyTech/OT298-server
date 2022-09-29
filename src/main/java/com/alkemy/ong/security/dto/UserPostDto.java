@@ -1,5 +1,6 @@
 package com.alkemy.ong.security.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class UserPostDto {
 
     @NotBlank (message = "First name is required")

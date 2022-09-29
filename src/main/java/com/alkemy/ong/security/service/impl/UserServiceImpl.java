@@ -8,7 +8,7 @@ import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.ParameterNotFound;
 import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.service.*;
-import com.alkemy.ong.security.model.User;
+import com.alkemy.ong.security.model.*;
 import com.alkemy.ong.security.repository.UserRepository;
 import com.alkemy.ong.security.repository.RoleRepository;
 import com.alkemy.ong.service.IEmailService;
@@ -29,9 +29,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Locale;
 
+import java.util.*;
 import java.io.IOException;
 import java.util.Collections;
 
@@ -65,6 +66,14 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Autowired
     private MessageSource message;
 
+
+    @Override
+    public List<UserGetDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserGetDto> usersDtos = userMapper.listUsersToListDtos(users);
+        return usersDtos;
+    }
+
     public AuthResponse authenticate(AuthRequest request) throws ParameterNotFound {
 
         User user = userRepository.findByEmail(request.getUsername());
@@ -85,23 +94,47 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return new AuthResponse(jwt);
     }
 
+
     @Override
-    public UserGetDto registerUser(UserPostDto dto) throws IOException {
+    @Transactional
+    public UserGetDto saveTestDataUser(UserPostDto dto) {
 
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new AlreadyExistsException(
-                    "There is an account with that email address:" + dto.getEmail());
+                    message.getMessage("email.exists", null, Locale.US));
         }
 
         User user = userMapper.userPostDtoToUser(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
-        user.setRole(roleRepository.findByName(dto.getNameRole()).get());
+        User savedUser = userRepository.save(user);
+
+        addRoleToUser(dto.getNameRole(), savedUser);
+
+        UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
+        //userGetDto.setNameRole(savedUser.getRoles().toString());
+
+        return userGetDto;
+    }
+
+    @Override
+    @Transactional
+    public UserGetDto registerUser(UserPostDto dto) throws IOException {
+
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new AlreadyExistsException(
+                    message.getMessage("email.exists", null, Locale.US));
+        }
+
+        User user = userMapper.userPostDtoToUser(dto);
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         User savedUser = userRepository.save(user);
 
+        addRoleToUser(dto.getNameRole(), savedUser);
 
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
+        //userGetDto.setNameRole(savedUser.getRoles().toString());
 
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(savedUser.getUsername(), savedUser.getPassword())
@@ -117,6 +150,19 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
+    public void addRoleToUser(String nameRole, User user) {
+        Role role = roleRepository.findByName(nameRole);
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+
+        List<User> users = new ArrayList<>();
+        users.add(user);
+        role.setUsers(users);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         User user = userRepository.findByEmail(email);
@@ -128,12 +174,5 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singletonList(authority));
     }
-    @Override
-    public List<UserGetDto> getAll(){
-        List<UserGetDto> list = new ArrayList<>(); 
-        for(User u : userRepository.findAll()){
-            list.add(userMapper.userToUserDto(u));
-        }
-        return list;
-    }
+    
  }
