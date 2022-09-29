@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,7 +24,7 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<UserGetDto> register(@Valid @RequestBody UserPostDto dto){
+    public ResponseEntity<UserGetDto> register(@Valid @RequestBody UserPostDto dto) throws IOException {
         UserGetDto userGetDto = userService.registerUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userGetDto);
     }
