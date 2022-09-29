@@ -7,9 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/news")
@@ -21,5 +19,11 @@ public class NewsController {
     @PostMapping
     public ResponseEntity<?> saveNews(@Valid NewsDto newsDto) throws Exception{
         return new ResponseEntity<>(newsService.save(newsDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<NewsDto> getById(@PathVariable Long id){
+        NewsDto newsDto = newsService.getById(id);
+        return ResponseEntity.ok().body(newsDto);
     }
 }
