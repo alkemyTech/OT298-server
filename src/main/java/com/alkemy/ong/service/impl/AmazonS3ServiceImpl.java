@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 
 @Service
@@ -36,25 +37,30 @@ public class MediaStoreServiceImpl implements IMediaStoreService {
     @Autowired
     private AmazonS3 s3Client;
 
+    @Bean
+    public AmazonS3 s3Client() {
+        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+        return AmazonS3ClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .withRegion(region)
+                .build();
+    }
+
     public MediaBasicDTO uploadFile(MultipartFile file) {
         String fileName = FileUtil.createFileName(file);
         File fileObj = FileUtil.convertMultipartFileToFile(file);
-        s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
+        s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+
         String fileUrl = s3Client.getUrl(bucketName, fileName).toString();
         fileObj.delete();
-        MediaBasicDTO dto = new MediaBasicDTO(fileName, fileUrl);
-        return dto;
+        return new MediaBasicDTO(fileName, fileUrl);
     }
 
     public void deleteFile(String fileUrl) {
         String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
         s3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
         s3Client.deleteObject(bucketName, fileName);
-    }
 
-    @Bean
-    public AmazonS3 s3Client() {
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
-        return AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).withRegion(region).build();
     }
 }
