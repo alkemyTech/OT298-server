@@ -1,7 +1,7 @@
 package com.alkemy.ong.util.controller;
 
 import com.alkemy.ong.dto.MediaBasicDTO;
-import com.alkemy.ong.service.IMediaStoreService;
+import com.alkemy.ong.service.IAmazonS3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/store")
-public class MediaStoreController {
+@RequestMapping("/storage")
+public class AmazonS3Controller {
 
     @Autowired
-    private IMediaStoreService mediaStoreService;
+    private IAmazonS3Service amazonS3Service;
 
     @PostMapping("/uploadFile")
     public ResponseEntity<MediaBasicDTO> uploadFile(@RequestPart(value = "file") MultipartFile file) {
-        return ResponseEntity.ok(mediaStoreService.uploadFile(file));
+        return ResponseEntity.ok(amazonS3Service.uploadFile(file));
     }
 
     @DeleteMapping("/deleteFile")
     public ResponseEntity<Void> deleteFile(@RequestPart(value = "url") String fileUrl) {
-        mediaStoreService.deleteFile(fileUrl);
+        amazonS3Service.deleteFile(fileUrl);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
