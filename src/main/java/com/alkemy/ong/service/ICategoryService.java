@@ -14,4 +14,6 @@ public interface ICategoryService {
     CategoryDTO save(CategoryDTO dto);
     
     List<CategoryGetDto> getAllCategories();
+
+    void delete(Long id);
 }
