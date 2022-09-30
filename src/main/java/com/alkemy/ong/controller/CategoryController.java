@@ -9,11 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -37,5 +33,11 @@ public class CategoryController {
         CategoryDTO savedCategory = categoryService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
 
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryDTO dto){
+        CategoryDTO categoryUpdated = categoryService.update(id, dto);
+        return ResponseEntity.ok().body(categoryUpdated);
     }
 }
