@@ -1,6 +1,7 @@
 package com.alkemy.ong.security.service.impl;
 
 
+import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.model.Role;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.io.IOException;
-import java.util.Collections;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -74,7 +74,13 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         List<UserGetDto> usersDtos = userMapper.listUsersToListDtos(users);
         return usersDtos;
     }
-
+    @Override
+    public List<AuxUserGetDto> getAllAuxUsers() {
+        List<User> users = userRepository.findAll();
+        List<AuxUserGetDto> usersDtos = userMapper.toAuxList(users);
+        return usersDtos;
+    }
+    @Override
     public AuthResponse authenticate(AuthRequest request) throws ParameterNotFound {
 
         User user = userRepository.findByEmail(request.getUsername());
@@ -173,9 +179,13 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
             throw new UsernameNotFoundException(message.getMessage("email.notfound",null,Locale.US));
         }
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRoles());
-
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singletonList(authority));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for(Role role : user.getRoles()){
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
+        }
+        
+        org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);        
+        return userDetails;
     }
     
  }

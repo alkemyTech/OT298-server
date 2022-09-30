@@ -1,5 +1,6 @@
 package com.alkemy.ong.security.mapper;
 
+import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.security.model.User;
@@ -24,4 +25,6 @@ public interface UserMapper {
     UserGetDto userToUserDto (User user);
 
     List<UserGetDto> listUsersToListDtos (List<User> users);
+    
+    List<AuxUserGetDto> toAuxList (List<User> users);
 }

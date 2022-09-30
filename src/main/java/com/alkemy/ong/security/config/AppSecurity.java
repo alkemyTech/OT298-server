@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.Filter;
+import org.springframework.http.HttpMethod;
 
 
 @Configuration
@@ -34,8 +35,9 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/auth/*").permitAll()
-                .antMatchers("/**").hasAnyAuthority("ROLE_ADMIN")
+                .authorizeRequests()
+                .antMatchers("/auth/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
 //                .antMatchers("/media/upload**").hasAuthority("ROLE_ADMIN")/*To be defined*/
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
