@@ -36,7 +36,6 @@ public class CategoryController {
 
     }
 
-    @RolesAllowed("ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id){
         categoryService.delete(id);
