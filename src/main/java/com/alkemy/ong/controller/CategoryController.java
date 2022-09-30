@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 @RestController
@@ -35,6 +36,7 @@ public class CategoryController {
 
     }
 
+    @RolesAllowed("ADMIN")
     @PutMapping("/{id}")
     public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryDTO dto){
         CategoryDTO categoryUpdated = categoryService.update(id, dto);
