@@ -49,7 +49,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Ferrel",
                             "alden.admin1@ongadmin.com",
                             "1234Admin1!",
-                            //"ADMIN",
                             "example.png");
                     userService.saveTestDataUser(userAdmin1);
 
@@ -58,7 +57,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Berger",
                             "juan.admin2@ongadmin.com",
                             "1234Admin2!",
-                            //"ADMIN",
                             "example.png");
                     userService.saveTestDataUser(userAdmin2);
 
@@ -67,7 +65,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Macias",
                             "maria.admin3@ongadmin.com",
                             "1234Admin3!",
-                            //"ADMIN",
                             "example.png");
                     userService.saveTestDataUser(userAdmin3);
 
@@ -76,7 +73,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Stuart",
                             "amal.admin4@ongadmin.com",
                             "1234Admin4!",
-                            //"ADMIN",
                             "example.png");
                     userService.saveTestDataUser(userAdmin4);
 
@@ -85,7 +81,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Wood",
                             "connor.admin5@ongadmin.com",
                             "1234Admin5!",
-                            //"ADMIN",
                             "example.png");
                     userService.saveTestDataUser(userAdmin5);
 
@@ -94,7 +89,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Perez",
                             "rodrigo.admin6@ongadmin.com",
                             "1234Admin6!",
-                            //"ADMIN",
                             "example.png");
                     userService.saveTestDataUser(userAdmin6);
 
@@ -103,7 +97,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Claker",
                             "samanta.admin7@ongadmin.com",
                             "1234Admin7!",
-                            //"ADMIN",
                             "example.png");
                     userService.saveTestDataUser(userAdmin7);
 
@@ -112,7 +105,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Steve",
                             "catherine.admin8@ongadmin.com",
                             "1234Admin8!",
-                            //"ADMIN",
                             "example.png");
                     userService.saveTestDataUser(userAdmin8);
 
@@ -121,7 +113,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Rush",
                             "esteban.admin9@ongadmin.com",
                             "1234Admin9!",
-                            //"ADMIN",
                             "example.png");
                     userService.saveTestDataUser(userAdmin9);
 
@@ -130,7 +121,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Allison",
                             "lana.admin10@ongadmin.com",
                             "1234Admin10!",
-                            //"ADMIN",
                             "example.png");
                     userService.saveTestDataUser(userAdmin10);
 
@@ -141,7 +131,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Lott",
                             "alice.l123@hotm.ca",
                             "1234User1!",
-                            //"USER",
                             "example.png");
                     userService.saveTestDataUser(userRegular1);
 
@@ -150,7 +139,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Mathews",
                             "mathMer.90@yah.couk",
                             "1234User2!",
-                            //"USER",
                             "example.png");
                     userService.saveTestDataUser(userRegular2);
 
@@ -159,7 +147,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Mason",
                             "walter1998@google.ca",
                             "1234User3!",
-                            //"USER",
                             "example.png");
                     userService.saveTestDataUser(userRegular3);
 
@@ -168,7 +155,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Contreras",
                             "barbaraC-cont@google.ca",
                             "1234User4!",
-                            //"USER",
                             "example.png");
                     userService.saveTestDataUser(userRegular4);
 
@@ -177,7 +163,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Hudson",
                             "pedroH@hotm.ca",
                             "1234User5!",
-                            //"USER",
                             "example.png");
                     userService.saveTestDataUser(userRegular5);
 
@@ -186,7 +171,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Benitez",
                             "f.Benitez@yah.couk",
                             "1234User6!",
-                            //"USER",
                             "example.png");
                     userService.saveTestDataUser(userRegular6);
 
@@ -195,7 +179,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Walters",
                             "walters.virg123@google.net",
                             "1234User7!",
-                            //"USER",
                             "example.png");
                     userService.saveTestDataUser(userRegular7);
 
@@ -204,7 +187,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Velasquez",
                             "jul.vel@example.ca",
                             "1234User8!",
-                            //"USER",
                             "example.png");
                     userService.saveTestDataUser(userRegular8);
 
@@ -213,7 +195,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Carter",
                             "gabriel.carter00@google.org",
                             "1234User9!",
-                            //"USER",
                             "example.png");
                     userService.saveTestDataUser(userRegular9);
 
@@ -222,7 +203,6 @@ public class UserDataLoader implements CommandLineRunner {
                             "Castaneda",
                             "tatiana.elit-you@yah.couk",
                             "1234User10!",
-                            //"USER",
                             "example.png");
                     userService.saveTestDataUser(userRegular10);
             }

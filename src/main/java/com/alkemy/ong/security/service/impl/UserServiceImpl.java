@@ -2,6 +2,7 @@ package com.alkemy.ong.security.service.impl;
 
 
 import com.alkemy.ong.security.dto.UserGetDto;
+import com.alkemy.ong.security.model.Role;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import com.alkemy.ong.exception.AlreadyExistsException;
@@ -11,7 +12,7 @@ import com.alkemy.ong.security.service.*;
 import com.alkemy.ong.security.model.*;
 import com.alkemy.ong.security.repository.UserRepository;
 import com.alkemy.ong.security.repository.RoleRepository;
-import com.alkemy.ong.service.IEmailService;
+//import com.alkemy.ong.service.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -60,8 +61,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private IEmailService emailService;
+    //@Autowired
+    //private IEmailService emailService;
 
     @Autowired
     private MessageSource message;
@@ -109,10 +110,15 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         User savedUser = userRepository.save(user);
 
-        addRoleToUser("USER", savedUser);
-
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
-        //userGetDto.setNameRole(savedUser.getRoles().toString());
+        List<User> users = userRepository.findAll();
+        for(User userGet : users){
+            if(userGet.getId()>=1 && userGet.getId()<=10){
+                this.addRoleToUser("ADMIN", user);
+            } else {
+                this.addRoleToUser("USER", user);
+            }
+        }
 
         return userGetDto;
     }
@@ -134,7 +140,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         addRoleToUser("USER", savedUser);
 
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
-        //userGetDto.setNameRole(savedUser.getRoles().toString());
 
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
@@ -144,7 +149,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         final String jwt = jwtUtils.generateToken(userDetails);
         userGetDto.setJwtToken(jwt);
 
-        emailService.sendWelcomeEmail(user.getEmail());
+        //emailService.sendWelcomeEmail(user.getEmail());
 
         return userGetDto;
     }
@@ -153,8 +158,11 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Transactional
     public void addRoleToUser(String nameRole, User user) {
         Role role = roleRepository.findByName(nameRole);
-        user.addRole(role);
-        userRepository.savedUser(user);
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+
+        role.getUsers().add(user);
     }
 
     @Override

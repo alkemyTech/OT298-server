@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Set;
-import com.alkemy.ong.security.dto.RoleGetDto;
 
 @Setter
 @Getter
