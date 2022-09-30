@@ -170,8 +170,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
             throw new UsernameNotFoundException(message.getMessage("email.notfound",null,Locale.US));
         }
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRoles());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for(Role role : user.getRoles()){
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
+        }
 
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singletonList(authority));
+        org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+        return userDetails;
     }
  }
