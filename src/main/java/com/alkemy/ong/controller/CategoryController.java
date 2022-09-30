@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 @RestController
@@ -35,6 +36,7 @@ public class CategoryController {
 
     }
 
+    @RolesAllowed("ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id){
         categoryService.delete(id);
