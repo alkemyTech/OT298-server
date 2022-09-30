@@ -13,7 +13,7 @@ import com.alkemy.ong.security.service.*;
 import com.alkemy.ong.security.model.*;
 import com.alkemy.ong.security.repository.UserRepository;
 import com.alkemy.ong.security.repository.RoleRepository;
-//import com.alkemy.ong.service.IEmailService;
+import com.alkemy.ong.service.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -61,8 +61,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    //@Autowired
-    //private IEmailService emailService;
+    @Autowired
+    private IEmailService emailService;
 
     @Autowired
     private MessageSource message;
@@ -155,7 +155,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         final String jwt = jwtUtils.generateToken(userDetails);
         userGetDto.setJwtToken(jwt);
 
-        //emailService.sendWelcomeEmail(user.getEmail());
+        emailService.sendWelcomeEmail(user.getEmail());
 
         return userGetDto;
     }
