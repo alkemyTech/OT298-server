@@ -22,7 +22,6 @@ public class NewsController {
         return new ResponseEntity<>(newsService.save(newsDto), HttpStatus.OK);
     }
 
-    @RolesAllowed("ADMIN")
     @GetMapping("/{id}")
     public ResponseEntity<NewsDto> getById(@PathVariable Long id){
         NewsDto newsDto = newsService.getById(id);
