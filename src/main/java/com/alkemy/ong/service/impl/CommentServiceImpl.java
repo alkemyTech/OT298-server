@@ -1,7 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CommentDto;
-import com.alkemy.ong.exception.ParameterNotFound;
+import com.alkemy.ong.exception.EntityNotSavedException;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
@@ -30,34 +30,23 @@ public class CommentServiceImpl implements ICommentService {
     public CommentDto save(CommentDto commentDto) {
 
 
+
         try {
+
             Comment commentEntity = commentMapper.commentDtoToEntity(commentDto);
 
-            if(commentEntity==null) {
-                throw new NullPointerException(messageSource.getMessage("null.dto", null, Locale.US));
-            }
-
-            try {
-                Comment savedEntity=commentRepository.save(commentEntity);
+            Comment savedEntity = commentRepository.save(commentEntity);
 
 
+            return commentMapper.commentEntityToDto(savedEntity);
 
-                return   commentMapper.commentEntityToDto(savedEntity);
-            }
-            catch (ParameterNotFound pnf){
+        } catch (EntityNotSavedException ense) {
 
-                throw new ParameterNotFound(messageSource.getMessage("not.saved.entity",null,Locale.US));
-            }
+            throw new EntityNotSavedException(messageSource.getMessage("comment.notAdded", null, Locale.US));
 
 
 
-        } catch (ParameterNotFound pnf) {
-
-            throw new ParameterNotFound(messageSource.getMessage("mapper.error",null,Locale.US));
         }
-
-
-
 
     }
 }

@@ -32,14 +32,10 @@ public class Comment {
     @JoinColumn(name = "user_id",insertable = false, updatable = false)
     private User user;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "news_id",insertable = false, updatable = false)
     private News news;
-    @Column(name = "news_id", nullable = false)
-    private Long newsId;
 
     @Column(name = "creation_date")
     @CreationTimestamp
