@@ -2,6 +2,7 @@ package com.alkemy.ong.security.service.impl;
 
 
 import com.alkemy.ong.dto.AuxUserGetDto;
+import com.alkemy.ong.util.Constants;
 import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.model.Role;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -120,9 +121,9 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         List<User> users = userRepository.findAll();
         for(User userGet : users){
             if(userGet.getId()>=1 && userGet.getId()<=10){
-                this.addRoleToUser("ADMIN", user);
+                this.addRoleToUser(Constants.ROLE_ADMIN, user);
             } else {
-                this.addRoleToUser("USER", user);
+                this.addRoleToUser(Constants.ROLE_USER, user);
             }
         }
 
@@ -143,7 +144,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         User savedUser = userRepository.save(user);
 
-        addRoleToUser("USER", savedUser);
+        addRoleToUser(Constants.ROLE_USER, savedUser);
 
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
 
@@ -181,7 +182,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
         for(Role role : user.getRoles()){
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         
         org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);        

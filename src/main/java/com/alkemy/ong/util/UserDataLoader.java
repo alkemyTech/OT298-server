@@ -2,21 +2,12 @@ package com.alkemy.ong.util;
 
 import com.alkemy.ong.security.dto.RolePostDto;
 import com.alkemy.ong.security.dto.UserPostDto;
-import com.alkemy.ong.security.model.Role;
-import com.alkemy.ong.security.model.User;
-import com.alkemy.ong.security.repository.RoleRepository;
-import com.alkemy.ong.security.repository.UserRepository;
 import com.alkemy.ong.security.service.IUserService;
 import com.alkemy.ong.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Component
 public class UserDataLoader implements CommandLineRunner {
@@ -35,9 +26,9 @@ public class UserDataLoader implements CommandLineRunner {
 
             //ROLES
             if(roleService.getAllRoles().isEmpty()){
-                    RolePostDto roleAdmin = new RolePostDto("ADMIN");
+                    RolePostDto roleAdmin = new RolePostDto(Constants.ROLE_ADMIN);
                     roleService.save(roleAdmin);
-                    RolePostDto roleRegular = new RolePostDto("USER");
+                    RolePostDto roleRegular = new RolePostDto(Constants.ROLE_USER);
                     roleService.save(roleRegular);
             }
 

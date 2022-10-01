@@ -1,5 +1,6 @@
 package com.alkemy.ong.security.config;
 
+import com.alkemy.ong.util.Constants;
 import com.alkemy.ong.security.filter.JwtRequestFilter;
 import com.alkemy.ong.security.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/**").hasAnyAuthority(Constants.ROLE_ADMIN)
 //                .antMatchers("/media/upload**").hasAuthority("ROLE_ADMIN")/*To be defined*/
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
