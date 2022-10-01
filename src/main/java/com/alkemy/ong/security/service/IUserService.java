@@ -2,6 +2,7 @@ package com.alkemy.ong.security.service;
 
 
 import com.alkemy.ong.exception.ParameterNotFound;
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.security.dto.AuthRequest;
 import com.alkemy.ong.security.dto.AuthResponse;
 import com.alkemy.ong.security.dto.UserGetDto;
@@ -23,5 +24,7 @@ public interface IUserService {
     List<UserGetDto> getAllUsers();
 
     UserGetDto registerUser(UserPostDto dto) throws IOException;
+    
+    UserGetDto update(Long id, UserPostDto dto) throws ResourceNotFoundException;
 
 }

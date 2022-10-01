@@ -2,6 +2,8 @@ package com.alkemy.ong.security.config;
 
 import com.alkemy.ong.security.filter.JwtRequestFilter;
 import com.alkemy.ong.security.service.impl.UserServiceImpl;
+import static com.alkemy.ong.util.Constants.ALL_ROLES;
+import static com.alkemy.ong.util.Constants.Endpoints.USER_UPDATE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.Filter;
+import org.springframework.http.HttpMethod;
 
 
 @Configuration
@@ -34,7 +37,9 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/auth/*").permitAll()
+                .authorizeRequests()
+                .antMatchers("/auth/*").permitAll()
+                .antMatchers("/users/{id}").hasAnyAuthority(ALL_ROLES)
 //                .antMatchers("/media/upload**").hasAuthority("ROLE_ADMIN")/*To be defined*/
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
