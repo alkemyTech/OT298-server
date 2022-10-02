@@ -24,4 +24,6 @@ public interface IUserService {
 
     UserGetDto registerUser(UserPostDto dto) throws IOException;
 
+    void deleteUser(Long id);
+
 }

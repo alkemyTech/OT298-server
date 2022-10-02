@@ -148,6 +148,16 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Override
     @Transactional
+    public void deleteUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()){
+            throw new ParameterNotFound(message.getMessage("id.not.found", null, Locale.US));
+        }
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
     public void addRoleToUser(String nameRole, User user) {
         Role role = roleRepository.findByName(nameRole);
         Set<Role> roles = new HashSet<>();
