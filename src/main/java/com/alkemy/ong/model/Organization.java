@@ -24,36 +24,35 @@ public class Organization {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
+    @NotNull(message = "{request.name}")
     @Column(name = "name")
     private String name;
 
-    @NotNull
-    @Column(name = "image")
+    @NotNull(message = "{request.image}")
     private String image;
 
-    @Column(name = "address")
     private String address;
 
-    @Column(name = "phone")
     private Integer phone;
 
-    @NotNull
-    @Column(name = "email")
+    private String url_linkedin;
+
+    private String url_facebook;
+
+    private String url_instagram;
+
+    @NotNull(message = "User email cannot not be empty")
     private String email;
 
-    @NotNull
+    @NotNull(message = "User Welcome cannot not be empty")
     @Column(name = "welcome_text", columnDefinition = "TEXT")
     private String welcomeText;
 
     @Column(name = "about_us_text", columnDefinition = "TEXT")
     private String aboutUsText;
 
-    @NotNull
-    @Column(name="deleted")
-    private Boolean deleted;
+    private boolean deleted = Boolean.FALSE;
 
-    @NotNull
     @CreationTimestamp
     @Column(name="creation_date")
     private LocalDateTime creationDate;
