@@ -49,6 +49,15 @@ public class Organization {
     @Column(name = "about_us_text", columnDefinition = "TEXT")
     private String aboutUsText;
 
+    @Column(name = "url_facebook")
+    private String urlFacebook;
+
+    @Column(name = "url_linkedin")
+    private String urlLinkedin;
+
+    @Column(name = "url_instagram")
+    private String urlInstagram;
+
     @NotNull
     @Column(name="deleted")
     private Boolean deleted;
