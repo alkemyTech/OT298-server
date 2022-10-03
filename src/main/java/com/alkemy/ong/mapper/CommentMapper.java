@@ -26,9 +26,7 @@ public class CommentMapper {
     private MessageSource message;
 
     public CommentDto commentEntityToDto(Comment comment) {
-        if ( comment == null ) {
-            return null;
-        }
+      
 
         CommentDto commentDto = new CommentDto();
 
@@ -45,9 +43,7 @@ public class CommentMapper {
     }
 
     public Comment commentDtoToEntity(CommentDto commentDto) {
-        if ( commentDto == null ) {
-            return null;
-        }
+      
         User user = usersRepository.findById(commentDto.getUserId()).orElseThrow(() -> new UsernameNotFoundException(message.getMessage("user.notFound",null, Locale.US)));
 
         News news = newsRepository.findById(commentDto.getNewsId()).orElseThrow(()-> new UsernameNotFoundException(message.getMessage("news.notFound",null, Locale.US)));
