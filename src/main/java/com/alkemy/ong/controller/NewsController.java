@@ -18,7 +18,7 @@ public class NewsController {
     private INewsService newsService;
 
     @PostMapping
-    public ResponseEntity<?> saveNews(@Valid NewsDto newsDto) throws Exception{
+    public ResponseEntity<?> saveNews(@Valid @RequestBody NewsDto newsDto) throws Exception{
         return new ResponseEntity<>(newsService.save(newsDto), HttpStatus.OK);
     }
 
@@ -26,5 +26,11 @@ public class NewsController {
     public ResponseEntity<NewsDto> getById(@PathVariable Long id){
         NewsDto newsDto = newsService.getById(id);
         return ResponseEntity.ok().body(newsDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<NewsDto> updateNews(@PathVariable Long id, @Valid @RequestBody NewsDto newsDto){
+        NewsDto news = newsService.update(id, newsDto);
+        return new ResponseEntity<NewsDto>(news, HttpStatus.OK);
     }
 }
