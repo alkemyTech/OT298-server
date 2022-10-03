@@ -25,15 +25,15 @@ public class News {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message="name is required")
+    @NotNull(message = "{request.name}")
     private String name;
 
 
-    @NotNull(message="content is empty")
+    @NotNull(message = "{request.content}")
     private String content;
 
 
-    @NotNull(message="image not found")
+    @NotNull(message = "{request.image}")
     private String image;
 
     @Column(name="category_id")
