@@ -51,6 +51,15 @@ public class CategoryServiceImpl implements ICategoryService {
             return categoryMapper.categoryToCategoryDTO(savedCategory);
     }
 
+    public void delete (Long id){
+        Optional<Category> response = categoryRepository.findById(id);
+        if(response.isPresent()) {
+            categoryRepository.deleteById(id);
+        }else{
+                throw new ResourceNotFoundException("{category.notFound}");
+        }
+    }
+
     @Transactional
     public CategoryDTO update (Long id, CategoryDTO dto){
         Optional<Category> response = categoryRepository.findById(id);
@@ -58,7 +67,7 @@ public class CategoryServiceImpl implements ICategoryService {
             Category category = response.get();
             category = categoryRepository.save(categoryMapper.categoryDTOToCategory(dto));
             return categoryMapper.categoryToCategoryDTO(category);
-        }else{
+        }else {
             throw new ResourceNotFoundException("{category.notFound}");
         }
     }
