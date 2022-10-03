@@ -10,5 +10,6 @@ public class UserGetDto {
     private String firstName;
     private String email;
     private String nameRole;
+    private String jwtToken;
 
 }

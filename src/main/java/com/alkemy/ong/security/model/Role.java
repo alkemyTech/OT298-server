@@ -47,4 +47,12 @@ public class Role {
         return null;
     }
 
+    public Role(){
+
+    }
+    public Role (Long id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
 }

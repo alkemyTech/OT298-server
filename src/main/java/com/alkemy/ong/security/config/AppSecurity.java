@@ -5,6 +5,7 @@ import com.alkemy.ong.security.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import javax.servlet.Filter;
 
 
@@ -34,6 +36,11 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
+//                .antMatchers("/media/upload**").hasAuthority("ROLE_ADMIN")/*To be defined*/
+                .antMatchers(HttpMethod.PUT, "/news/{id}").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/categories/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/news/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/categories/{id}").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .and().sessionManagement()
@@ -41,6 +48,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
 
         httpSecurity.addFilterBefore((Filter) jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsCustomService).passwordEncoder(passwordEncoder());

@@ -1,19 +1,22 @@
 package com.alkemy.ong.dto;
 
-import java.time.LocalDateTime;
-import javax.persistence.Column;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.NotNull;
 
+@Setter
+@Getter
 public class NewsDto {
-    @NotNull(message="Name may not be empty.")
+    @NotNull(message = "{request.name}")
     private String name;
 
-    @NotNull(message="Content may not be empty.")
+    @NotNull(message = "{request.content}")
     private String content;
 
-    @NotNull(message="Image cannot be empty")
+    @NotNull(message = "{request.image}")
     private String image;
 
-    @NotNull(message = "Category ID cannot be empty")
+    @NotNull(message = "{request.categoryId}")
     private Long categoryId;
 }
