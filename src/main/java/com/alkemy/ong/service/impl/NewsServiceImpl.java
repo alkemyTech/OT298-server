@@ -35,8 +35,8 @@ public class NewsServiceImpl implements INewsService {
 
     @Override
     public NewsDto update(Long id, NewsDto dto) {
-        if(!repo.existsById(id)){
-            throw new ResourceNotFoundException(message.getMessage("new.notFound", null, Locale.US));
+        if(!findById(id).isPresent()){
+            throw new ResourceNotFoundException(message.getMessage("news.notFound", null, Locale.US));
         }
         News newsEntity = repo.findById(id).get();
         News news = repo.save(mapper.updateNewsFromDto(dto, newsEntity));
@@ -55,5 +55,14 @@ public class NewsServiceImpl implements INewsService {
     }
     public Optional<List> findAll(){
         return Optional.of(repo.findAll());
+    }
+
+    public NewsDto getById(Long id){
+        if(findById(id).isPresent()){
+            News news = findById(id).get();
+            return mapper.toDto(news);
+        }else{
+            throw new ResourceNotFoundException("{news.notFound}");
+        }
     }
 }
