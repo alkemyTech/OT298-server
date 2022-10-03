@@ -37,6 +37,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
 //                .antMatchers("/media/upload**").hasAuthority("ROLE_ADMIN")/*To be defined*/
+                .antMatchers(HttpMethod.GET, "/news/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/categories/{id}").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
