@@ -12,4 +12,5 @@ public interface INewsService {
     boolean existsById(Long id);
     Optional<News> findById(Long id);
     Optional<List> findAll();
+    NewsDto getById(Long id);
 }

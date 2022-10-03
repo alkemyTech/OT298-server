@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.transaction.Transactional;
@@ -37,5 +38,14 @@ public class NewsServiceImpl implements INewsService {
     }
     public Optional<List> findAll(){
         return Optional.of(repo.findAll());
+    }
+
+    public NewsDto getById(Long id){
+        if(findById(id).isPresent()){
+            News news = findById(id).get();
+            return mapper.toDto(news);
+        }else{
+            throw new ResourceNotFoundException("{news.notFound}");
+        }
     }
 }
