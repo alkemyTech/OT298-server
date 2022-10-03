@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,5 +33,11 @@ public class NewsController {
     public ResponseEntity<NewsDto> updateNews(@PathVariable Long id, @Valid @RequestBody NewsDto newsDto){
         NewsDto news = newsService.update(id, newsDto);
         return new ResponseEntity<NewsDto>(news, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNews(@PathVariable Long id){
+        newsService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
