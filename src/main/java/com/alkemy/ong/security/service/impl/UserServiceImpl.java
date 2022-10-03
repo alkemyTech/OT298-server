@@ -2,6 +2,7 @@ package com.alkemy.ong.security.service.impl;
 
 
 import com.alkemy.ong.security.dto.UserGetDto;
+import com.alkemy.ong.security.model.Role;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import com.alkemy.ong.exception.AlreadyExistsException;
