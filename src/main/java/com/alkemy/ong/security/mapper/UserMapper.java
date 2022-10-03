@@ -1,5 +1,6 @@
 package com.alkemy.ong.security.mapper;
 
+import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.security.model.User;
@@ -22,6 +23,8 @@ public interface UserMapper {
     @Mapping(target = "nameRole", ignore = true)
     @Mapping(target = "jwtToken", ignore = true)
     UserGetDto userToUserDto (User user);
-
+    
     List<UserGetDto> listUsersToListDtos (List<User> users);
+    
+    AuxUserGetDto toAuxDto(User user);
 }

@@ -1,5 +1,6 @@
 package com.alkemy.ong.security.service.impl;
 
+import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -178,7 +179,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
     @Override
-    public UserGetDto update(Long id, UserPostDto dto) throws ResourceNotFoundException {
+    public AuxUserGetDto update(Long id, UserPostDto dto) throws ResourceNotFoundException {
         if (!userRepository.existsById(id)) {
             throw new ResourceNotFoundException(message.getMessage("id.invalid", null, Locale.US));
         }
@@ -200,6 +201,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
 
-        return userMapper.userToUserDto(userRepository.save(user));
+        return userMapper.toAuxDto(userRepository.save(user));
     }
 }
