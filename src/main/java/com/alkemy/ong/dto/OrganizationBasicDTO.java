@@ -19,5 +19,8 @@ public class OrganizationBasicDTO {
     private String address;
     private String image;
     private List<SlidesDTO> slides;
+    private String urlLinkedin;
+    private String urlFacebook;
+    private String urlInstagram;
 
 }
