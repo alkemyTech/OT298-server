@@ -2,15 +2,19 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.util.EmailConstants;
 import com.sendgrid.*;
+
+import java.io.IOException;
+
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
-import java.io.IOException;
+
 import java.util.Locale;
 
 @Service
@@ -24,6 +28,7 @@ public class SendGridEmailService implements IEmailService {
 
     @Autowired
     private MessageSource messageSource;
+
 
     @Override
     public void sendText(String from, String to, String subject, String body) throws IOException {

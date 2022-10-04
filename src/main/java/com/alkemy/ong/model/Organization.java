@@ -26,6 +26,7 @@ public class Organization {
     private Long id;
 
     @NotNull(message = "{request.name}")
+    @Column(name = "name")
     private String name;
 
     @NotNull(message = "{request.image}")
@@ -48,7 +49,7 @@ public class Organization {
     @NotNull(message = "User email cannot not be empty")
     private String email;
 
-    @NotNull
+    @NotNull(message = "User Welcome cannot not be empty")
     @Column(name = "welcome_text", columnDefinition = "TEXT")
     private String welcomeText;
 
