@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-10-03T22:34:44-0300",
+    date = "2022-10-04T00:14:12-0300",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.15 (Private Build)"
 )
 @Component
@@ -47,6 +47,7 @@ public class UserMapperImpl implements UserMapper {
 
         userGetDto.setFirstName( user.getFirstName() );
         userGetDto.setEmail( user.getEmail() );
+        userGetDto.setRoles( roleSetToRoleGetDtoSet( user.getRoles() ) );
 
         return userGetDto;
     }
@@ -60,6 +61,20 @@ public class UserMapperImpl implements UserMapper {
         List<UserGetDto> list = new ArrayList<UserGetDto>( users.size() );
         for ( User user : users ) {
             list.add( userToUserDto( user ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<AuxUserGetDto> toAuxList(List<User> users) {
+        if ( users == null ) {
+            return null;
+        }
+
+        List<AuxUserGetDto> list = new ArrayList<AuxUserGetDto>( users.size() );
+        for ( User user : users ) {
+            list.add( toAuxDto( user ) );
         }
 
         return list;

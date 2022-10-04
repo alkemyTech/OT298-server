@@ -1,5 +1,6 @@
 package com.alkemy.ong.mapper;
 
+import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.dto.CategoryGetDto;
 import com.alkemy.ong.model.Category;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-10-03T22:34:45-0300",
+    date = "2022-10-04T00:14:12-0300",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.15 (Private Build)"
 )
 @Component
@@ -73,5 +74,24 @@ public class CategoryMapperImpl implements CategoryMapper {
         category.setImage( dto.getImage() );
 
         return category;
+    }
+
+    @Override
+    public CategoryCompleteGetDto categoryToCategoryCompleteGetDto(Category category) {
+        if ( category == null ) {
+            return null;
+        }
+
+        CategoryCompleteGetDto categoryCompleteGetDto = new CategoryCompleteGetDto();
+
+        categoryCompleteGetDto.setId( category.getId() );
+        categoryCompleteGetDto.setName( category.getName() );
+        categoryCompleteGetDto.setDescription( category.getDescription() );
+        categoryCompleteGetDto.setImage( category.getImage() );
+        categoryCompleteGetDto.setCreationDate( category.getCreationDate() );
+        categoryCompleteGetDto.setUpdateDate( category.getUpdateDate() );
+        categoryCompleteGetDto.setDeleted( category.isDeleted() );
+
+        return categoryCompleteGetDto;
     }
 }
