@@ -18,16 +18,16 @@ import java.util.List;
 public class OrganizationServiceImpl implements IOrganizationService {
 
     @Autowired
-    OrganizationMapper organizationMapper;
+    private OrganizationMapper organizationMapper;
 
     @Autowired
-    OrganizationRepository organizationRepository;
+    private OrganizationRepository organizationRepository;
 
     @Autowired
-    SlidesRepository slidesRepository;
+    private SlidesRepository slidesRepository;
 
     @Autowired
-    SlidesMapper slidesMapper;
+    private SlidesMapper slidesMapper;
 
     @Override
     public OrganizationBasicDTO getOrganizationBasic() {
