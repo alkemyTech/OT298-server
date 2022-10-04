@@ -8,5 +8,6 @@ import org.mapstruct.Mapper;
 public interface OrganizationMapper {
 
     OrganizationBasicDTO organizationToOrganizationBasicDTO(Organization entity);
+    Organization organizationBasicDtoToOrganization (OrganizationBasicDTO dto);
 
 }

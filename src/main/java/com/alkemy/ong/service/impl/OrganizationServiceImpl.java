@@ -9,6 +9,7 @@ import com.alkemy.ong.model.Slides;
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.repository.SlidesRepository;
 import com.alkemy.ong.service.IOrganizationService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +39,12 @@ public class OrganizationServiceImpl implements IOrganizationService {
                 .organizationToOrganizationBasicDTO(organization);
         organizationBasicDTO.setSlides(slides);
         return organizationBasicDTO;
+    }
+
+    @Override
+    public OrganizationBasicDTO save(OrganizationBasicDTO dto) {
+        Organization organization = organizationMapper.organizationBasicDtoToOrganization(dto);
+        Organization savedOrganization = organizationRepository.save(organization);
+        return organizationMapper.organizationToOrganizationBasicDTO(savedOrganization);
     }
 }
