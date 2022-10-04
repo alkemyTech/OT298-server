@@ -14,5 +14,4 @@ public class SlidesDTO {
     private String text;
 
     private Integer position;
-
 }
