@@ -7,9 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/news")
@@ -19,7 +17,25 @@ public class NewsController {
     private INewsService newsService;
 
     @PostMapping
-    public ResponseEntity<?> saveNews(@Valid NewsDto newsDto) throws Exception{
+    public ResponseEntity<?> saveNews(@Valid @RequestBody NewsDto newsDto) throws Exception{
         return new ResponseEntity<>(newsService.save(newsDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<NewsDto> getById(@PathVariable Long id){
+        NewsDto newsDto = newsService.getById(id);
+        return ResponseEntity.ok().body(newsDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<NewsDto> updateNews(@PathVariable Long id, @Valid @RequestBody NewsDto newsDto){
+        NewsDto news = newsService.update(id, newsDto);
+        return new ResponseEntity<NewsDto>(news, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNews(@PathVariable Long id){
+        newsService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

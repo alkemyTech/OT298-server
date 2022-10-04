@@ -23,8 +23,9 @@ public interface UserMapper {
 
     @Mapping(target = "jwtToken", ignore = true)
     UserGetDto userToUserDto (User user);
-
+    
     List<UserGetDto> listUsersToListDtos (List<User> users);
     
     List<AuxUserGetDto> toAuxList (List<User> users);
+    AuxUserGetDto toAuxDto(User user);
 }

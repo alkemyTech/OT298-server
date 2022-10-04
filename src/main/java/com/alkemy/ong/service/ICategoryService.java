@@ -18,4 +18,6 @@ public interface ICategoryService {
     List<CategoryGetDto> getAllCategories();
 
     CategoryCompleteGetDto getCategoryById(Long id);
+    void delete(Long id);
+    CategoryDTO update(Long id, CategoryDTO dto);
 }

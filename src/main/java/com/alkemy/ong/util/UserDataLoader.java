@@ -4,6 +4,8 @@ import com.alkemy.ong.security.dto.RolePostDto;
 import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.security.service.IUserService;
 import com.alkemy.ong.service.IRoleService;
+import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
+import static com.alkemy.ong.util.Constants.ROLE_USER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -26,9 +28,9 @@ public class UserDataLoader implements CommandLineRunner {
 
             //ROLES
             if(roleService.getAllRoles().isEmpty()){
-                    RolePostDto roleAdmin = new RolePostDto(Constants.ROLE_ADMIN);
+                    RolePostDto roleAdmin = new RolePostDto(ROLE_ADMIN);
                     roleService.save(roleAdmin);
-                    RolePostDto roleRegular = new RolePostDto(Constants.ROLE_USER);
+                    RolePostDto roleRegular = new RolePostDto(ROLE_USER);
                     roleService.save(roleRegular);
             }
 

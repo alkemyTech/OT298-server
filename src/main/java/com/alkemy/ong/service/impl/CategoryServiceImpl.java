@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -59,5 +60,26 @@ public class CategoryServiceImpl implements ICategoryService {
             Category category = categoryMapper.categoryDTOToCategory(dto);
             Category savedCategory = categoryRepository.save(category);
             return categoryMapper.categoryToCategoryDTO(savedCategory);
+    }
+
+    public void delete (Long id){
+        Optional<Category> response = categoryRepository.findById(id);
+        if(response.isPresent()) {
+            categoryRepository.deleteById(id);
+        }else{
+                throw new ResourceNotFoundException("{category.notFound}");
+        }
+    }
+
+    @Transactional
+    public CategoryDTO update (Long id, CategoryDTO dto){
+        Optional<Category> response = categoryRepository.findById(id);
+        if(response.isPresent()){
+            Category category = response.get();
+            category = categoryRepository.save(categoryMapper.categoryDTOToCategory(dto));
+            return categoryMapper.categoryToCategoryDTO(category);
+        }else {
+            throw new ResourceNotFoundException("{category.notFound}");
+        }
     }
 }
