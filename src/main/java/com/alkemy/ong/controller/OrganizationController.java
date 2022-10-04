@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.ActivityDTO;
 import com.alkemy.ong.dto.OrganizationBasicDTO;
+import com.alkemy.ong.dto.OrganizationFullDTO;
 import com.alkemy.ong.service.IOrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +23,9 @@ public class OrganizationController {
         return ResponseEntity.ok(organizationService.getOrganizationBasic());
     }
 
-    @PatchMapping("/public")
-    public ResponseEntity<OrganizationBasicDTO> patchOrganization(@Valid @RequestBody OrganizationBasicDTO dto) {
-        OrganizationBasicDTO savedOrganization = organizationService.save(dto);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(savedOrganization);
+    @PutMapping ("/public/{id}")
+    public ResponseEntity<OrganizationFullDTO> putOrganization(@PathVariable Long id, @Valid @RequestBody OrganizationFullDTO dto) {
+        OrganizationFullDTO updatedOrganization = organizationService.update(id, dto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedOrganization);
     }
 }

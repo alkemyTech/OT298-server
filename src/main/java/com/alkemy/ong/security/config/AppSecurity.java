@@ -52,7 +52,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/organization/public").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.PATCH, "/organization/public").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/activities").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PATCH, "/organization/public").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/organization/public/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/categories").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
