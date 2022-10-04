@@ -11,7 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SlidesDTO {
 
+    private Long id;
+
     private String image;
+
     private String text;
 
+    private Integer position;
 }

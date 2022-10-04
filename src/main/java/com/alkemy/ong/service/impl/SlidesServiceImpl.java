@@ -1,23 +1,88 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.service.ISlidesService;
-import com.alkemy.ong.repository.SlidesRepository;
+import com.alkemy.ong.dto.MediaBasicDTO;
 import com.alkemy.ong.dto.SlidesDTO;
-import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.mapper.SlidesMapper;
-import java.util.Locale;
+import com.alkemy.ong.model.Slides;
+import com.alkemy.ong.repository.SlidesRepository;
+import com.alkemy.ong.service.ISlidesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+
+import com.alkemy.ong.exception.ResourceNotFoundException;
+import org.springframework.context.MessageSource;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.util.*;
 
 @Service
 public class SlidesServiceImpl implements ISlidesService {
+
     @Autowired
     private SlidesRepository slidesRepository;
-    @Autowired
-    private MessageSource message;
+
     @Autowired
     private SlidesMapper slidesMapper;
+
+    @Autowired
+    private AmazonS3ServiceImpl amazonS3Service;
+
+    @Autowired
+    private MediaBasicDTO mediaBasicDTO;
+
+    @Autowired
+    private MessageSource message;
+
+    @Override
+    public SlidesDTO save(SlidesDTO slidesDTO) {
+
+        Slides slides = slidesMapper.slidesDTOToSlides(slidesDTO);
+
+        listOrderPosition(slides);
+
+        String imageString = slides.getImage();
+        byte[] decodeImg = Base64.getDecoder().decode(imageString);
+
+
+        File file = new File(String.valueOf(decodeImg));
+
+        mediaBasicDTO  = amazonS3Service.uploadFile((MultipartFile) file);
+
+
+        slides.setImage(mediaBasicDTO.getUrl());
+
+        Slides slideSave = slidesRepository.save(slides);
+
+
+        SlidesDTO result = slidesMapper.slidesToSlidesDTO(slideSave);
+
+        return result;
+
+    }
+
+    public void listOrderPosition(Slides slides) {
+        LinkedList<Slides> slidesList = new LinkedList<>();
+        for(Slides slide : slidesList){
+            if(slides.getPosition() == null){
+                slidesList.addLast(slide);
+            }
+        }
+    }
+
+    @Override
+    public LinkedList<SlidesDTO> listSlides(LinkedList<SlidesDTO> slidesDTOList) {
+        LinkedList<Slides> slidesList = (LinkedList<Slides>) slidesRepository.findAll();
+        for(SlidesDTO dto : slidesDTOList){
+            if(dto.getPosition() == null){
+                slidesList.addLast(slidesMapper.slidesDTOToSlides(dto));
+            }
+        }
+        return slidesMapper.listSlide2listSlideDTO(slidesList);
+
+    }
+
     @Override
     public SlidesDTO delete(Long id){
         if(!slidesRepository.existsById(id)){
@@ -29,4 +94,6 @@ public class SlidesServiceImpl implements ISlidesService {
 
         return dto;
     }
+
 }
+
