@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,5 +17,9 @@ public class OrganizationBasicDTO {
     private Integer phone;
     private String address;
     private String image;
+    private List<SlidesDTO> slides;
+    private String urlLinkedin;
+    private String urlFacebook;
+    private String urlInstagram;
 
 }

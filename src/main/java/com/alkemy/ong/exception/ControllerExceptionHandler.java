@@ -103,6 +103,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
+                
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
