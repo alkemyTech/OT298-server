@@ -48,6 +48,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/news/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/categories/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/organization/public").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/slides").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .and().sessionManagement()

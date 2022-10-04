@@ -4,5 +4,6 @@ public class SlidesDTO {
 
     private String image;
     private String text;
+    private int order;
 
 }
