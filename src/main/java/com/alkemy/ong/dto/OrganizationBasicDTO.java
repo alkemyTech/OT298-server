@@ -17,6 +17,6 @@ public class OrganizationBasicDTO {
     private Integer phone;
     private String address;
     private String image;
-    private List<SlidesDto> slides;
+    private List<SlidesDTO> slides;
 
 }
