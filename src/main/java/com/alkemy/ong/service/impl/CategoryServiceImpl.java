@@ -65,7 +65,7 @@ public class CategoryServiceImpl implements ICategoryService {
         Optional<Category> response = categoryRepository.findById(id);
         if(response.isPresent()){
             Category category = response.get();
-            category = categoryRepository.save(categoryMapper.categoryDTOToCategory(dto));
+            category = categoryRepository.save(categoryMapper.updateCategoryFromDto(dto, category));
             return categoryMapper.categoryToCategoryDTO(category);
         }else {
             throw new ResourceNotFoundException("{category.notFound}");
