@@ -131,5 +131,26 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    
+
+    @ExceptionHandler(value = {InvalidTokenException.class})
+    protected ResponseEntity<ErrorMessage> handleInvalidTokenException(InvalidTokenException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(value = {NoAuthorizationProvidedException.class})
+    protected ResponseEntity<ErrorMessage> handleNoAuthorizationProvidedException(NoAuthorizationProvidedException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.UNAUTHORIZED.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
+    }
 }
