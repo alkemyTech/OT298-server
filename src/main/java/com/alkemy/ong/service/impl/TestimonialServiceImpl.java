@@ -28,11 +28,30 @@ public class TestimonialServiceImpl implements ITestimonialService {
     @Autowired
     private TestimonialMapper mapper;
 
+    @Autowired
+    private MessageSource message;
+
     public TestimonialDTO save(TestimonialDTO dto){
         Testimonial Testimonial = repository.save(mapper.toEntity(dto));
         return mapper.toDto(Testimonial);
     }
 
+    @Override
+    public TestimonialDTO update(Long id, TestimonialDTO dto) {
+        if(!findById(id).isPresent()){
+            throw new ResourceNotFoundException(message.getMessage("testimonial.notFound", null, Locale.US));
+        }
+        Testimonial testimonialEntity = findById(id).get();
+        Testimonial  testimonial = mapper.updateTestimonialFromDto(dto, testimonialEntity);
+        TestimonialDTO testimonialDTO = mapper.toDto(testimonial);
+        return testimonialDTO;
+    }
+
+    @Override
+    public Optional<Testimonial> findById(Long id) {
+        return repo.findById(id);
+    }
+    
     @Override
     public void delete (Long id) {
         Optional<Testimonial> response = repository.findById(id);
@@ -42,4 +61,5 @@ public class TestimonialServiceImpl implements ITestimonialService {
             throw new ResourceNotFoundException(message.getMessage("testimonial.notFound",null,Locale.US)+id);
         }
     }
+    
 }
