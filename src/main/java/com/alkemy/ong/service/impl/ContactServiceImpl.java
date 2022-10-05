@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.ContactDTO;
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.mapper.ContactMapper;
 import com.alkemy.ong.model.Contact;
 import com.alkemy.ong.repository.ContactRepository;
@@ -8,6 +9,7 @@ import com.alkemy.ong.service.IContactService;
 import com.alkemy.ong.service.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +29,11 @@ public class ContactServiceImpl implements IContactService {
     private ContactMapper contactMapper;
 
     @Autowired
+
     private IEmailService emailService;
 
     @Autowired
+
     private MessageSource message;
 
     @Transactional
@@ -61,11 +65,15 @@ public class ContactServiceImpl implements IContactService {
 
     public List<ContactDTO> getAll (){
         List<Contact> contactList = contactRepository.findAll();
-        List<ContactDTO> contactDTOList = new ArrayList<>();
-        for (Contact contact : contactList){
-            contactDTOList.add(this.contactMapper.contactToContactDTO(contact));
+        if (!contactList.isEmpty()){
+            List<ContactDTO> contactDTOList = new ArrayList<>();
+            for (Contact contact : contactList){
+                contactDTOList.add(this.contactMapper.contactToContactDTO(contact));
+            }
+            return contactDTOList;
+        } else {
+            throw new ResourceNotFoundException(message.getMessage("{contacts.notFound}",null, Locale.US));
         }
-        return contactDTOList;
     }
 
     public void deleteById (Long id){

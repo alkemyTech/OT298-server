@@ -26,7 +26,7 @@ public class Testimonial {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Name cannot be null")
+    @NotNull(message = "{request.name}")
     private String name;
 
     @Nullable

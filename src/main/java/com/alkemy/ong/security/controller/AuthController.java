@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
-public class UserController {
+public class AuthController {
     @Autowired
     private IUserService userService;
 

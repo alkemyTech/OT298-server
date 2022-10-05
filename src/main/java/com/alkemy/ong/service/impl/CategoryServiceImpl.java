@@ -1,7 +1,9 @@
 package com.alkemy.ong.service.impl;
 
 
+import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryGetDto;
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.exception.ThereAreNoCategories;
 import com.alkemy.ong.dto.CategoryDTO;
 
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -41,11 +44,42 @@ public class CategoryServiceImpl implements ICategoryService {
         return listDtosCategories;
     }
 
+    @Override
+    public CategoryCompleteGetDto getCategoryById(Long id) {
+        if(!categoryRepository.existsById(id)){
+            throw new ResourceNotFoundException (message.getMessage("category.notFound", null, Locale.US));
+        }
+        Category category = categoryRepository.findById(id).get();
+        CategoryCompleteGetDto categoryDto = categoryMapper.categoryToCategoryCompleteGetDto(category);
+        return categoryDto;
+    }
+
     @Transactional
     @Override
     public CategoryDTO save (CategoryDTO dto){
             Category category = categoryMapper.categoryDTOToCategory(dto);
             Category savedCategory = categoryRepository.save(category);
             return categoryMapper.categoryToCategoryDTO(savedCategory);
+    }
+
+    public void delete (Long id){
+        Optional<Category> response = categoryRepository.findById(id);
+        if(response.isPresent()) {
+            categoryRepository.deleteById(id);
+        }else{
+                throw new ResourceNotFoundException(message.getMessage("category.notFound", null, Locale.US));
+        }
+    }
+
+    @Transactional
+    public CategoryDTO update (Long id, CategoryDTO dto){
+        Optional<Category> response = categoryRepository.findById(id);
+        if(response.isPresent()){
+            Category category = response.get();
+            category = categoryRepository.save(categoryMapper.updateCategoryFromDto(dto, category));
+            return categoryMapper.categoryToCategoryDTO(category);
+        }else {
+            throw new ResourceNotFoundException(message.getMessage("category.notFound", null, Locale.US));
+        }
     }
 }
