@@ -46,10 +46,10 @@ public class Organization {
     private String urlInstagram;
 
     @Email
-    @NotNull(message = "User email cannot not be empty")
+    @NotNull(message = "{request.email}")
     private String email;
 
-    @NotNull(message = "User Welcome cannot not be empty")
+    @NotNull(message = "{request.field}")
     @Column(name = "welcome_text", columnDefinition = "TEXT")
     private String welcomeText;
 
