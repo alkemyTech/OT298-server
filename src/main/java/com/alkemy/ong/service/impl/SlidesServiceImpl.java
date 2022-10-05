@@ -9,6 +9,9 @@ import com.alkemy.ong.service.ISlidesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alkemy.ong.exception.ResourceNotFoundException;
+import org.springframework.context.MessageSource;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -28,6 +31,9 @@ public class SlidesServiceImpl implements ISlidesService {
 
     @Autowired
     private MediaBasicDTO mediaBasicDTO;
+
+    @Autowired
+    private MessageSource message;
 
     @Override
     public SlidesDTO save(SlidesDTO slidesDTO) {
@@ -75,6 +81,18 @@ public class SlidesServiceImpl implements ISlidesService {
         }
         return slidesMapper.listSlide2listSlideDTO(slidesList);
 
+    }
+
+    @Override
+    public SlidesDTO delete(Long id){
+        if(!slidesRepository.existsById(id)){
+            throw new ResourceNotFoundException(message.getMessage("id.invalid", null, Locale.US));
+        }
+        SlidesDTO dto = slidesMapper.slidesToSlidesDTO(slidesRepository.findById(id).get());
+
+        slidesRepository.deleteById(id);
+
+        return dto;
     }
 
 }
