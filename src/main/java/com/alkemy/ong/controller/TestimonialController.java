@@ -7,10 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/testimonials")
@@ -22,5 +19,11 @@ public class TestimonialController {
     @PostMapping
     public ResponseEntity<?> save(@Valid @RequestBody TestimonialDTO dto) throws Exception{
         return new ResponseEntity<>(service.save(dto), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TestimonialDTO> updateTestimonial(@PathVariable Long id, @Valid @RequestBody TestimonialDTO dto){
+        TestimonialDTO testimonialDTO = service.update(id, dto);
+        return new ResponseEntity<TestimonialDTO>(testimonialDTO, HttpStatus.OK);
     }
 }
