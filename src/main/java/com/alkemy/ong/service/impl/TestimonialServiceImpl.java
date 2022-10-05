@@ -28,9 +28,6 @@ public class TestimonialServiceImpl implements ITestimonialService {
     @Autowired
     private TestimonialMapper mapper;
 
-    @Autowired
-    private MessageSource message;
-
     public TestimonialDTO save(TestimonialDTO dto){
         Testimonial Testimonial = repository.save(mapper.toEntity(dto));
         return mapper.toDto(Testimonial);
@@ -49,7 +46,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
 
     @Override
     public Optional<Testimonial> findById(Long id) {
-        return repo.findById(id);
+        return repository.findById(id);
     }
     
     @Override
