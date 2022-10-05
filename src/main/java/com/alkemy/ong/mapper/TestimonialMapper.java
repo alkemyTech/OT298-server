@@ -1,9 +1,6 @@
 package com.alkemy.ong.mapper;
 
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 import com.alkemy.ong.model.Testimonial;
 import com.alkemy.ong.dto.TestimonialDTO;
@@ -11,6 +8,11 @@ import com.alkemy.ong.dto.TestimonialDTO;
 @Mapper(componentModel = "spring")
 public interface TestimonialMapper {
     TestimonialDTO toDto(Testimonial entity);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "creationDate", ignore = true)
+    @Mapping(target = "updateDate", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
     Testimonial toEntity(TestimonialDTO dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
