@@ -19,7 +19,6 @@ public class ActivityController {
     @Autowired
     private IActivityService activityService;
 
-    //TODO: @RolesAllowed("ADMIN")
     @PostMapping
     public ResponseEntity<ActivityDTO> saveActivity (@Valid @RequestBody ActivityDTO dto){
         ActivityDTO savedActivity = activityService.save(dto);

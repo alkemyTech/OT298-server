@@ -18,8 +18,12 @@ import java.util.Optional;
 @Service
 @Transactional
 public class TestimonialServiceImpl implements ITestimonialService {
+
     @Autowired
-    private TestimonialRepository repo;
+    private MessageSource message;
+
+    @Autowired
+    private TestimonialRepository repository;
 
     @Autowired
     private TestimonialMapper mapper;
@@ -28,7 +32,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
     private MessageSource message;
 
     public TestimonialDTO save(TestimonialDTO dto){
-        Testimonial Testimonial = repo.save(mapper.toEntity(dto));
+        Testimonial Testimonial = repository.save(mapper.toEntity(dto));
         return mapper.toDto(Testimonial);
     }
 
@@ -47,4 +51,15 @@ public class TestimonialServiceImpl implements ITestimonialService {
     public Optional<Testimonial> findById(Long id) {
         return repo.findById(id);
     }
+    
+    @Override
+    public void delete (Long id) {
+        Optional<Testimonial> response = repository.findById(id);
+        if(response.isPresent()) {
+            repository.deleteById(id);
+        }else{
+            throw new ResourceNotFoundException(message.getMessage("testimonial.notFound",null,Locale.US)+id);
+        }
+    }
+    
 }

@@ -6,9 +6,13 @@ import com.alkemy.ong.model.Testimonial;
 import java.util.Optional;
 
 public interface ITestimonialService {
+
     TestimonialDTO save(TestimonialDTO dto);
 
     TestimonialDTO update(Long id, TestimonialDTO dto);
 
     Optional<Testimonial> findById(Long id);
+
+    void delete(Long id);
+
 }

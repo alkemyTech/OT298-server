@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.TestimonialDTO;
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.service.ITestimonialService;
 
 import javax.validation.Valid;
@@ -25,5 +26,11 @@ public class TestimonialController {
     public ResponseEntity<TestimonialDTO> updateTestimonial(@PathVariable Long id, @Valid @RequestBody TestimonialDTO dto){
         TestimonialDTO testimonialDTO = service.update(id, dto);
         return new ResponseEntity<TestimonialDTO>(testimonialDTO, HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete (@PathVariable Long id) throws ResourceNotFoundException {
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

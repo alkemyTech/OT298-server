@@ -3,7 +3,6 @@ package com.alkemy.ong.security.config;
 import com.alkemy.ong.security.filter.JwtRequestFilter;
 import com.alkemy.ong.security.service.impl.UserServiceImpl;
 import static com.alkemy.ong.util.Constants.ALL_ROLES;
-import static com.alkemy.ong.util.Constants.Endpoints.SLIDE_UPDATE;
 import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
 import static com.alkemy.ong.util.Constants.Endpoints.USER_UPDATE;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,6 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/**").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, USER_UPDATE).hasAnyAuthority(ALL_ROLES)
-//                .antMatchers("/media/upload**").hasAuthority("ROLE_ADMIN")/*To be defined*/
                 .antMatchers(HttpMethod.PUT, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
@@ -52,6 +50,11 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/categories/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/organization/public").hasAnyAuthority(ALL_ROLES)
                 .antMatchers(HttpMethod.PUT, "/testimonials/{id}").hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.GET, "/contacts").hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.PATCH, "/organization/public/{id}").hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.POST, "/activities").hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.POST, "/categories").hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.DELETE, "/testimonials/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .and().sessionManagement()
