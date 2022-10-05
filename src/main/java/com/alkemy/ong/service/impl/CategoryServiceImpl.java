@@ -56,7 +56,7 @@ public class CategoryServiceImpl implements ICategoryService {
         if(response.isPresent()) {
             categoryRepository.deleteById(id);
         }else{
-                throw new ResourceNotFoundException("{category.notFound}");
+                throw new ResourceNotFoundException(message.getMessage("category.notFound", null, Locale.US));
         }
     }
 
@@ -68,7 +68,7 @@ public class CategoryServiceImpl implements ICategoryService {
             category = categoryRepository.save(categoryMapper.updateCategoryFromDto(dto, category));
             return categoryMapper.categoryToCategoryDTO(category);
         }else {
-            throw new ResourceNotFoundException("{category.notFound}");
+            throw new ResourceNotFoundException(message.getMessage("category.notFound", null, Locale.US));
         }
     }
 }

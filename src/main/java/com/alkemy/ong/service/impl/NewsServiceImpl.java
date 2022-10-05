@@ -67,7 +67,7 @@ public class NewsServiceImpl implements INewsService {
             News news = findById(id).get();
             return mapper.toDto(news);
         }else{
-            throw new ResourceNotFoundException("{news.notFound}");
+            throw new ResourceNotFoundException(message.getMessage("news.notFound", null, Locale.US));
         }
     }
 }
