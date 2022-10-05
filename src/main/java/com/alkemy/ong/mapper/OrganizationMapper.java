@@ -3,7 +3,7 @@ package com.alkemy.ong.mapper;
 import com.alkemy.ong.dto.OrganizationBasicDTO;
 import com.alkemy.ong.dto.OrganizationFullDTO;
 import com.alkemy.ong.model.Organization;
-import org.mapstruct.Mapper;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface OrganizationMapper {
@@ -12,6 +12,6 @@ public interface OrganizationMapper {
 
     OrganizationFullDTO organizationToOrganizationFullDTO (Organization entity);
 
-    Organization organizationFullDTOToOrganization (OrganizationFullDTO dto);
-
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Organization updateOrganizationFromDto(OrganizationFullDTO dto, @MappingTarget Organization organization);
 }
