@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,5 +105,19 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler(value = {IOException.class})
+    protected ResponseEntity<ErrorMessage> handleIOExceptionException (IOException ex,
+                                                                            WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.NOT_FOUND.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    }
+
+
+
     
 }

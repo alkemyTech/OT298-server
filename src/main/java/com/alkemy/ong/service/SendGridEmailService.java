@@ -54,4 +54,12 @@ public class SendGridEmailService implements IEmailService {
             throw new IOException(messageSource.getMessage("email.not.sent",null, Locale.US));
         }
     }
+    public void sendThanksContactEmail(String email) throws IOException {
+        Email from = new Email(sender);
+        Email to = new Email(email);
+        String subject = EmailConstants.THANKS_CONTACT;
+        Content content = new Content("text/html", EmailConstants.TEMPLATE_CONTACT);
+        Mail mail = new Mail(from, subject, to, content);
+        sendMail(mail);
+    }
 }
