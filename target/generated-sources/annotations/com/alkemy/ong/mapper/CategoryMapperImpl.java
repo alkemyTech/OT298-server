@@ -10,8 +10,13 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
+<<<<<<< HEAD
     date = "2022-10-05T11:36:31-0300",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16 (Ubuntu)"
+=======
+    date = "2022-10-04T00:26:58-0300",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.15 (Private Build)"
+>>>>>>> b4fef73cb7eea0a5d2a5b2fc4a78cf5d02acef65
 )
 @Component
 public class CategoryMapperImpl implements CategoryMapper {
@@ -74,6 +79,7 @@ public class CategoryMapperImpl implements CategoryMapper {
 
         return category;
     }
+<<<<<<< HEAD
 
     @Override
     public Category updateCategoryFromDto(CategoryDTO dto, Category category) {
@@ -96,4 +102,6 @@ public class CategoryMapperImpl implements CategoryMapper {
 
         return category;
     }
+=======
+>>>>>>> b4fef73cb7eea0a5d2a5b2fc4a78cf5d02acef65
 }

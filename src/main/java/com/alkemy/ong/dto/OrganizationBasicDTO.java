@@ -1,7 +1,6 @@
 package com.alkemy.ong.dto;
 
 
-import com.alkemy.ong.model.Slides;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +18,8 @@ public class OrganizationBasicDTO {
     private String address;
     private String image;
     private List<SlidesDTO> slides;
+    private String urlLinkedin;
+    private String urlFacebook;
+    private String urlInstagram;
 
 }

@@ -2,6 +2,7 @@ package com.alkemy.ong.mapper;
 
 import java.util.List;
 
+import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryGetDto;
 import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.model.Category;
@@ -20,4 +21,5 @@ public interface CategoryMapper {
 
     Category categoryDTOToCategory (CategoryDTO dto);
 
+    CategoryCompleteGetDto categoryToCategoryCompleteGetDto (Category category);
 }
