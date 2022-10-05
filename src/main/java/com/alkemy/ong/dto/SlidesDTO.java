@@ -10,5 +10,5 @@ import java.io.Serializable;
 public class SlidesDTO implements Serializable {
     private String image;
     private String text;
-    private int orders;
+    private int order;
 }

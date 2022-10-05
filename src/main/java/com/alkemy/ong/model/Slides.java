@@ -13,7 +13,8 @@ public class Slides {
 
     private String image;
     private String text;
-    private int orders;
+    @Column(name = "position")
+    private int order;
 
     @ManyToOne
     @JoinColumn(name = "organization_id")
