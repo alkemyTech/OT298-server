@@ -22,6 +22,12 @@ public class TestimonialController {
         return new ResponseEntity<>(service.save(dto), HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TestimonialDTO> updateTestimonial(@PathVariable Long id, @Valid @RequestBody TestimonialDTO dto){
+        TestimonialDTO testimonialDTO = service.update(id, dto);
+        return new ResponseEntity<TestimonialDTO>(testimonialDTO, HttpStatus.OK);
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete (@PathVariable Long id) throws ResourceNotFoundException {
         service.delete(id);
