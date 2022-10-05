@@ -39,7 +39,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
         if(response.isPresent()) {
             repository.deleteById(id);
         }else{
-            throw new ResourceNotFoundException(message.getMessage("object.notFound",null,Locale.US)+id);
+            throw new ResourceNotFoundException(message.getMessage("testimonial.notFound",null,Locale.US)+id);
         }
     }
 }
