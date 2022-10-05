@@ -1,5 +1,6 @@
 package com.alkemy.ong.security.service.impl;
 
+import com.alkemy.ong.util.Constants;
 import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.model.Role;
@@ -10,7 +11,7 @@ import com.alkemy.ong.exception.ParameterNotFound;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.service.*;
-import com.alkemy.ong.security.model.User;
+import com.alkemy.ong.security.model.*;
 import com.alkemy.ong.security.repository.UserRepository;
 import com.alkemy.ong.security.repository.RoleRepository;
 import com.alkemy.ong.service.IEmailService;
@@ -70,7 +71,13 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         List<UserGetDto> usersDtos = userMapper.listUsersToListDtos(users);
         return usersDtos;
     }
-
+    @Override
+    public List<AuxUserGetDto> getAllAuxUsers() {
+        List<User> users = userRepository.findAll();
+        List<AuxUserGetDto> usersDtos = userMapper.toAuxList(users);
+        return usersDtos;
+    }
+    @Override
     public AuthResponse authenticate(AuthRequest request) throws ParameterNotFound {
 
         User user = userRepository.findByEmail(request.getUsername());
@@ -138,7 +145,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
 
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(savedUser.getUsername(), savedUser.getPassword())
+                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
         );
 
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
@@ -158,9 +165,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         roles.add(role);
         user.setRoles(roles);
 
-        List<User> users = new ArrayList<>();
-        users.add(user);
-        role.setUsers(users);
+        role.getUsers().add(user);
     }
 
     @Override
@@ -176,9 +181,11 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         for (Role role : user.getRoles()){
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+        
+        org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);        
+        return userDetails;
     }
+    
     @Override
     public AuxUserGetDto update(Long id, UserPostDto dto) throws ResourceNotFoundException {
         if (!userRepository.existsById(id)) {

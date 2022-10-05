@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c2fae4ee-d3a5-4240-b39c-2b5b06c41684" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/dto/CategoryCompleteGetDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/dto/OrganizationFullDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/ActivityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/ActivityController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/ContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/ContactController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/OrganizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/OrganizationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/SlidesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/SlidesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/TestimonialController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/TestimonialController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/dto/MediaBasicDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/dto/MediaBasicDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/dto/OrganizationBasicDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/dto/OrganizationBasicDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/dto/SlidesDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/dto/SlidesDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/dto/TestimonialDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/dto/TestimonialDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/mapper/CategoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/mapper/CategoryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/mapper/OrganizationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/mapper/OrganizationMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/mapper/SlidesMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/mapper/SlidesMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/mapper/TestimonialMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/mapper/TestimonialMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/model/Organization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/model/Organization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/model/Slides.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/model/Slides.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/model/Testimonial.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/model/Testimonial.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/repository/CategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/repository/CategoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/repository/SlidesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/repository/SlidesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/config/AppSecurity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/config/AppSecurity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/dto/UserGetDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/dto/UserGetDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/filter/JwtRequestFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/filter/JwtRequestFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/service/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/service/IUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/security/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/IActivityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/IActivityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/ICategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/ICategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/IEmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/IEmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/IOrganizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/IOrganizationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/ISlidesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/ISlidesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/ITestimonialService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/ITestimonialService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/SendGridEmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/SendGridEmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/ActivityServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/ActivityServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/CategoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/ContactServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/OrganizationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/OrganizationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/SlidesServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/SlidesServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/TestimonialServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/service/impl/TestimonialServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alkemy/ong/util/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/messages.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messages.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2ElxqAl5zWTTxB55mgYRFhRB5Rl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/lauri/Desktop/Java/Alkemy/Aceleración/OT298-server&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c2fae4ee-d3a5-4240-b39c-2b5b06c41684" name="Changes" comment="" />
+      <created>1663184162186</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1663184162186</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

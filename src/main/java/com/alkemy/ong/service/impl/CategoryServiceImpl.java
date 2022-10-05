@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 
+import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryGetDto;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.exception.ThereAreNoCategories;
@@ -41,6 +42,16 @@ public class CategoryServiceImpl implements ICategoryService {
         }
         List<CategoryGetDto> listDtosCategories = categoryMapper.listCategoriesToListDtos(categories);
         return listDtosCategories;
+    }
+
+    @Override
+    public CategoryCompleteGetDto getCategoryById(Long id) {
+        if(!categoryRepository.existsById(id)){
+            throw new ResourceNotFoundException (message.getMessage("category.notFound", null, Locale.US));
+        }
+        Category category = categoryRepository.findById(id).get();
+        CategoryCompleteGetDto categoryDto = categoryMapper.categoryToCategoryCompleteGetDto(category);
+        return categoryDto;
     }
 
     @Transactional

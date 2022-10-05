@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -21,4 +22,6 @@ public interface SlidesMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Slides updateSlidesFromSlidesDto(SlidesDTO slidesDto, @MappingTarget Slides slides);
+    LinkedList<SlidesDTO> listSlide2listSlideDTO(LinkedList<Slides> slidesList);
+
 }

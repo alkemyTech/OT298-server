@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -24,36 +25,39 @@ public class Organization {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
+    @NotNull(message = "{request.name}")
     @Column(name = "name")
     private String name;
 
-    @NotNull
-    @Column(name = "image")
+    @NotNull(message = "{request.image}")
     private String image;
 
-    @Column(name = "address")
     private String address;
 
-    @Column(name = "phone")
     private Integer phone;
 
-    @NotNull
-    @Column(name = "email")
+    @Column(name = "url_linkedin")
+    private String urlLinkedin;
+
+    @Column(name = "url_facebook")
+    private String urlFacebook;
+
+    @Column(name = "url_instagram")
+    private String urlInstagram;
+
+    @Email
+    @NotNull(message = "{request.email}")
     private String email;
 
-    @NotNull
+    @NotNull(message = "{request.field}")
     @Column(name = "welcome_text", columnDefinition = "TEXT")
     private String welcomeText;
 
     @Column(name = "about_us_text", columnDefinition = "TEXT")
     private String aboutUsText;
 
-    @NotNull
-    @Column(name="deleted")
-    private Boolean deleted;
+    private boolean deleted = Boolean.FALSE;
 
-    @NotNull
     @CreationTimestamp
     @Column(name="creation_date")
     private LocalDateTime creationDate;

@@ -1,10 +1,10 @@
 package com.alkemy.ong.security.filter;
 
+
 import com.alkemy.ong.security.service.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -47,7 +48,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             if(jwtUtils.validateToken(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authReq =
                         new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
-                
+                authReq.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                 SecurityContextHolder.getContext().setAuthentication(authReq);
             }
         }
@@ -55,4 +56,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
 
     }
+
 }
