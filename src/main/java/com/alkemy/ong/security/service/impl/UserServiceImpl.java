@@ -1,5 +1,6 @@
 package com.alkemy.ong.security.service.impl;
 
+import com.alkemy.ong.exception.NoAuthorizationProvidedException;
 import com.alkemy.ong.util.Constants;
 import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
@@ -210,5 +211,22 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
 
         return userMapper.toAuxDto(userRepository.save(user));
+    }
+
+    @Override
+    public UserInformationDto getCurrentAuthenticatedUser(Authentication authentication) {
+
+        if (authentication == null) {
+            throw new NoAuthorizationProvidedException(message.getMessage("request.authorizationNotProvided", null, Locale.US));
+        }
+        if (!authentication.isAuthenticated()) {
+            throw new BadCredentialsException(message.getMessage("user.notAuthenticated", null, Locale.US));
+        }
+        User user = userRepository.findByEmail((String) authentication.getPrincipal());
+
+        if (user == null) {
+            throw new UsernameNotFoundException(message.getMessage("email.notFound", null, Locale.US));
+        }
+        return userMapper.userToUserInformationDto  (user);
     }
 }
