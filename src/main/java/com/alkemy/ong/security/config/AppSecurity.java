@@ -3,6 +3,7 @@ package com.alkemy.ong.security.config;
 import com.alkemy.ong.security.filter.JwtRequestFilter;
 import com.alkemy.ong.security.service.impl.UserServiceImpl;
 import static com.alkemy.ong.util.Constants.ALL_ROLES;
+import static com.alkemy.ong.util.Constants.Endpoints.SLIDE_UPDATE;
 import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
 import static com.alkemy.ong.util.Constants.Endpoints.USER_UPDATE;
 import org.springframework.beans.factory.annotation.Autowired;
