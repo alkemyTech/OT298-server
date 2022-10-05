@@ -1,10 +1,7 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.SlidesDTO;
-import com.alkemy.ong.mapper.SlidesMapper;
-import com.alkemy.ong.repository.SlidesRepository;
+import com.alkemy.ong.dto.SlidesDto;
 import com.alkemy.ong.service.ISlidesService;
-import com.alkemy.ong.service.impl.SlidesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +19,7 @@ public class SlidesController {
     private ISlidesService slidesService;
 
     @GetMapping
-    public ResponseEntity<List<SlidesDTO>> getAllSlides(){
+    public ResponseEntity<List<SlidesDto>> getAllSlides(){
         return ResponseEntity.status(HttpStatus.OK).body(slidesService.getAllSlides());
     }
 }

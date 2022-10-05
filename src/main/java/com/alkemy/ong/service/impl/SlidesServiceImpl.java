@@ -1,6 +1,6 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.SlidesDTO;
+import com.alkemy.ong.dto.SlidesDto;
 import com.alkemy.ong.exception.ThereAreNoSlides;
 import com.alkemy.ong.mapper.SlidesMapper;
 import com.alkemy.ong.model.Slides;
@@ -19,12 +19,12 @@ public class SlidesServiceImpl implements ISlidesService {
     @Autowired
     private SlidesMapper slidesMapper;
 
-    public List<SlidesDTO> getAllSlides(){
+    public List<SlidesDto> getAllSlides(){
         List<Slides> slides = slidesRepository.findAll();
         if(slides.isEmpty()){
             throw new ThereAreNoSlides("{slides.empty}");
         }
-        List<SlidesDTO> dtos = slidesMapper.listSlidesToDtos(slides);
+        List<SlidesDto> dtos = slidesMapper.listSlidesToDtos(slides);
         return dtos;
     }
 }
