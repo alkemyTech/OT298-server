@@ -2,10 +2,9 @@ package com.alkemy.ong.security.config;
 
 import com.alkemy.ong.security.filter.JwtRequestFilter;
 import com.alkemy.ong.security.service.impl.UserServiceImpl;
-import static com.alkemy.ong.util.Constants.ALL_ROLES;
-import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
+
+import static com.alkemy.ong.util.Constants.*;
 import static com.alkemy.ong.util.Constants.Endpoints.USER_UPDATE;
-import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -53,6 +52,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/slides").hasAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/**").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, USER_UPDATE).hasAnyAuthority(ALL_ROLES)
+                .antMatchers(HttpMethod.DELETE, "/users/{id}").hasAnyAuthority(ROLE_USER)
                 .antMatchers(HttpMethod.PUT, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)

@@ -1,9 +1,11 @@
 package com.alkemy.ong.security.service.impl;
 
+import com.alkemy.ong.exception.MismatchException;
 import com.alkemy.ong.util.Constants;
 import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.model.Role;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -166,10 +168,9 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             throw new ParameterNotFound(message.getMessage("id.invalid", null, Locale.US));
         }
         String target = user.get().getEmail();
-        //String logg = loadUserByUsername(user.get().getEmail()).getUsername();
         String logged = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!logged.equals(target)){
-            throw new ParameterNotFound("You have no permission to delete this id");
+            throw new MismatchException(message.getMessage("mismatch.users",null,Locale.US));
         }
         userRepository.deleteById(id);
     }
