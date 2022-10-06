@@ -7,11 +7,13 @@ import com.alkemy.ong.model.Member;
 import com.alkemy.ong.repository.MemberRepository;
 import com.alkemy.ong.service.IMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class MemberServiceImpl implements IMemberService {
@@ -22,6 +24,8 @@ public class MemberServiceImpl implements IMemberService {
     @Autowired
     private MemberMapper memberMapper;
 
+    @Autowired
+    private MessageSource message;
     @Transactional
     public MemberDTO save(MemberDTO dto){
             Member member = memberMapper.memberDTOToMember(dto);
@@ -31,7 +35,7 @@ public class MemberServiceImpl implements IMemberService {
     public List<MemberDTO> getAll(){
         List<Member> list = memberRepository.findAll();
         if (list.isEmpty()){
-            throw new ResourceNotFoundException("member.empty_list");
+            throw new ResourceNotFoundException(message.getMessage("member.empty_list", null, Locale.US));
         }
         return memberMapper.toDtoList(list);
     }
