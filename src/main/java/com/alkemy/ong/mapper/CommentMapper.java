@@ -1,5 +1,6 @@
 package com.alkemy.ong.mapper;
 
+import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.model.News;
@@ -26,10 +27,8 @@ public class CommentMapper {
     private MessageSource message;
 
     public CommentDto commentEntityToDto(Comment comment) {
-      
 
         CommentDto commentDto = new CommentDto();
-
 
 
         commentDto.setId( comment.getId() );
@@ -57,5 +56,11 @@ public class CommentMapper {
         comment.setUpdateDate( commentDto.getUpdateDate() );
 
         return comment;
+    }
+
+    public CommentBasicDTO commentBodyToCommentBasicDTO(Comment comment){
+        CommentBasicDTO dto = new CommentBasicDTO();
+        dto.setBody(comment.getBody());
+        return dto;
     }
 }
