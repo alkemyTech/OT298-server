@@ -8,7 +8,7 @@ public class Constants {
         public static final String USER = "/users";
         public static final String USER_UPDATE = USER + "/{id}";
         public static final String SLIDE = "/slides";
-        public static final String SLIDE_UPDATE = SLIDE + "{/id}";
+        public static final String SLIDE_UPDATE = SLIDE + "/{id}";
         public static final String MEMBER = "/members";
     }
 }
