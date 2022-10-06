@@ -1,11 +1,10 @@
 package com.alkemy.ong.security.service.impl;
 
-import com.alkemy.ong.exception.MismatchException;
 import com.alkemy.ong.util.Constants;
+import com.alkemy.ong.exception.*;
 import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.model.Role;
-import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,6 +26,7 @@ import org.springframework.security.core.Authentication;
 import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.security.mapper.UserMapper;
 import com.alkemy.ong.security.model.Role;
+
 import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
 import static com.alkemy.ong.util.Constants.ROLE_USER;
 
@@ -74,12 +74,14 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         List<UserGetDto> usersDtos = userMapper.listUsersToListDtos(users);
         return usersDtos;
     }
+
     @Override
     public List<AuxUserGetDto> getAllAuxUsers() {
         List<User> users = userRepository.findAll();
         List<AuxUserGetDto> usersDtos = userMapper.toAuxList(users);
         return usersDtos;
     }
+
     @Override
     public AuthResponse authenticate(AuthRequest request) throws ParameterNotFound {
 
@@ -116,10 +118,10 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         User savedUser = userRepository.save(user);
 
         UserGetDto userGetDto = userMapper.userToUserDto(savedUser);
-        
+
         List<User> users = userRepository.findAll();
-        for(User userGet : users){
-            if(userGet.getId()>=1 && userGet.getId()<=10){
+        for (User userGet : users) {
+            if (userGet.getId() >= 1 && userGet.getId() <= 10) {
                 this.addRoleToUser(ROLE_ADMIN, user);
             } else {
                 this.addRoleToUser(ROLE_USER, user);
@@ -195,15 +197,15 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             throw new UsernameNotFoundException(message.getMessage("email.notfound", null, Locale.US));
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
-        
-        for (Role role : user.getRoles()){
+
+        for (Role role : user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-        
-        org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);        
+
+        org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
         return userDetails;
     }
-    
+
     @Override
     public AuxUserGetDto update(Long id, UserPostDto dto) throws ResourceNotFoundException {
         if (!userRepository.existsById(id)) {
@@ -211,22 +213,42 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
         User user = userRepository.findById(id).get();
 
-        if (dto.getFirstName()!=null) {
+        if (dto.getFirstName() != null) {
             user.setFirstName(dto.getFirstName());
         }
 
-        if (dto.getLastName()!=null) {
+        if (dto.getLastName() != null) {
             user.setLastName(dto.getLastName());
         }
 
-        if (dto.getPhoto()!=null) {
+        if (dto.getPhoto() != null) {
             user.setPhoto(dto.getPhoto());
         }
 
-        if (dto.getPassword()!=null) {
+        if (dto.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
 
         return userMapper.toAuxDto(userRepository.save(user));
+    }
+
+    @Override
+    public UserInformationDto getCurrentAuthenticatedUser(Authentication authentication) {
+        try {
+            if (authentication == null) {
+                throw new NoAuthorizationProvidedException(message.getMessage("request.authorizationNotProvided", null, Locale.US));
+            }
+            if (!authentication.isAuthenticated()) {
+                throw new BadCredentialsException(message.getMessage("user.notAuthenticated", null, Locale.US));
+            }
+            User user = userRepository.findByEmail((String) authentication.getPrincipal());
+
+            if (user == null) {
+                throw new UsernameNotFoundException(message.getMessage("email.notFound", null, Locale.US));
+            }
+            return userMapper.userToUserInformationDto(user);
+        } catch (io.jsonwebtoken.SignatureException e) {
+            throw new InvalidTokenException(message.getMessage("invalid.token", null, Locale.US));
+        }
     }
 }

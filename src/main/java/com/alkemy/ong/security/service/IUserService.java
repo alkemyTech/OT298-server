@@ -3,11 +3,9 @@ package com.alkemy.ong.security.service;
 import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.exception.ParameterNotFound;
 import com.alkemy.ong.exception.ResourceNotFoundException;
-import com.alkemy.ong.security.dto.AuthRequest;
-import com.alkemy.ong.security.dto.AuthResponse;
-import com.alkemy.ong.security.dto.UserGetDto;
-import com.alkemy.ong.security.dto.UserPostDto;
+import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.model.User;
+import org.springframework.security.core.Authentication;
 
 
 import java.io.IOException;
@@ -31,4 +29,5 @@ public interface IUserService {
 
     void deleteUser(Long id);
 
+    UserInformationDto getCurrentAuthenticatedUser(Authentication authentication);
 }

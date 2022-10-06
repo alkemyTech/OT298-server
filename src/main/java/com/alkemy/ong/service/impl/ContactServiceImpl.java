@@ -38,29 +38,16 @@ public class ContactServiceImpl implements IContactService {
 
     @Transactional
     @Override
-    public ContactDTO save (ContactDTO dto) throws IOException {
-
-
-
-
+    public ContactDTO save (ContactDTO dto) throws IOException{
         Contact contact = contactMapper.contactDTOToContact(dto);
-
         Contact savedContact = contactRepository.save(contact);
-
-
-
         try{
             emailService.sendThanksContactEmail(contact.getEmail());
         }catch (IOException ioException){
-
             throw new IOException(message.getMessage("email.wasNotSend",null,Locale.US));
         }
-
         ContactDTO savedDto =contactMapper.contactToContactDTO(savedContact);
-
-
         return savedDto;
-
     }
 
     public List<ContactDTO> getAll (){
