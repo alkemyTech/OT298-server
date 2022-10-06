@@ -1,20 +1,25 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.CategoryCompleteGetDto;
-import com.alkemy.ong.dto.CategoryGetDto;
 import com.alkemy.ong.dto.CategoryDTO;
-import com.alkemy.ong.model.Category;
+import com.alkemy.ong.exception.InvalidPageNumber;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
+
+import static com.alkemy.ong.util.Constants.FIRST_PAGE;
+import static com.alkemy.ong.util.Constants.PAGE_SIZE;
 
 @RestController
 @RequestMapping("/categories")
@@ -23,10 +28,18 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
+    @Autowired
+    private MessageSource message;
+
     @GetMapping
-    public ResponseEntity<List<CategoryGetDto>> getAllCategories(){
-        List<CategoryGetDto> categories = categoryService.getAllCategories();
-        return ResponseEntity.status(HttpStatus.OK).body(categories);
+    public ResponseEntity<Map<String, Object>> getAllCategories(
+            @RequestParam(defaultValue = FIRST_PAGE, required = false) Integer page){
+        if(page<0){
+            throw new InvalidPageNumber(message.getMessage("invalid.Page", null, Locale.US));
+        }
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Map<String, Object> response = categoryService.getAllCategories(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/{id}")
