@@ -7,4 +7,6 @@ public interface IMemberService {
     MemberDTO save(MemberDTO dto);
 
     MemberDTO update(Long id,MemberDTO dto);
+    
+    MemberDTO delete(Long id);
 }

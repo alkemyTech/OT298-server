@@ -93,7 +93,7 @@ public class SlidesServiceImpl implements ISlidesService {
         if(!slides.isPresent()) {
             throw new ResourceNotFoundException(message.getMessage("slides.notFound",null, Locale.US));
         }
-        return slidesMapper.slidesToSlidesDTO((Slides)slides.get());
+        return slidesMapper.slidesToSlidesDto((Slides)slides.get());
     }
 
     @Override
