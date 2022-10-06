@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 
+import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryGetDto;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.exception.ThereAreNoCategories;
@@ -43,6 +44,16 @@ public class CategoryServiceImpl implements ICategoryService {
         return listDtosCategories;
     }
 
+    @Override
+    public CategoryCompleteGetDto getCategoryById(Long id) {
+        if(!categoryRepository.existsById(id)){
+            throw new ResourceNotFoundException (message.getMessage("category.notFound", null, Locale.US));
+        }
+        Category category = categoryRepository.findById(id).get();
+        CategoryCompleteGetDto categoryDto = categoryMapper.categoryToCategoryCompleteGetDto(category);
+        return categoryDto;
+    }
+
     @Transactional
     @Override
     public CategoryDTO save (CategoryDTO dto){
@@ -56,7 +67,7 @@ public class CategoryServiceImpl implements ICategoryService {
         if(response.isPresent()) {
             categoryRepository.deleteById(id);
         }else{
-                throw new ResourceNotFoundException("{category.notFound}");
+                throw new ResourceNotFoundException(message.getMessage("category.notFound", null, Locale.US));
         }
     }
 
@@ -65,10 +76,10 @@ public class CategoryServiceImpl implements ICategoryService {
         Optional<Category> response = categoryRepository.findById(id);
         if(response.isPresent()){
             Category category = response.get();
-            category = categoryRepository.save(categoryMapper.categoryDTOToCategory(dto));
+            category = categoryRepository.save(categoryMapper.updateCategoryFromDto(dto, category));
             return categoryMapper.categoryToCategoryDTO(category);
         }else {
-            throw new ResourceNotFoundException("{category.notFound}");
+            throw new ResourceNotFoundException(message.getMessage("category.notFound", null, Locale.US));
         }
     }
 }

@@ -44,9 +44,14 @@ public class NewsServiceImpl implements INewsService {
         return newsDto;
     }
 
+    @Override
     public void deleteById(Long id){
+        if(!findById(id).isPresent()){
+            throw new ResourceNotFoundException(message.getMessage("news.notFound", null, Locale.US));
+        }
         repo.deleteById(id);
     }
+
     public boolean existsById(Long id){
         return repo.existsById(id);
     }
@@ -62,7 +67,7 @@ public class NewsServiceImpl implements INewsService {
             News news = findById(id).get();
             return mapper.toDto(news);
         }else{
-            throw new ResourceNotFoundException("{news.notFound}");
+            throw new ResourceNotFoundException(message.getMessage("news.notFound", null, Locale.US));
         }
     }
 }
