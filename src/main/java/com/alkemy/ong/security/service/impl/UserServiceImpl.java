@@ -3,6 +3,7 @@ package com.alkemy.ong.security.service.impl;
 
 import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.model.Role;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import com.alkemy.ong.exception.AlreadyExistsException;
@@ -152,7 +153,13 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     public void deleteUser(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (!user.isPresent()){
-            throw new ParameterNotFound(message.getMessage("id.not.found", null, Locale.US));
+            throw new ParameterNotFound(message.getMessage("id.invalid", null, Locale.US));
+        }
+        String target = user.get().getEmail();
+        //String logg = loadUserByUsername(user.get().getEmail()).getUsername();
+        String logged = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!logged.equals(target)){
+            throw new ParameterNotFound("You have no permission to delete this id");
         }
         userRepository.deleteById(id);
     }
