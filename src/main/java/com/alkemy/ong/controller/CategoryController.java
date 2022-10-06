@@ -35,7 +35,6 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
-    //TODO: @RolesAllowed("ADMIN")
     @PostMapping
     public ResponseEntity<CategoryDTO> saveCategory (@Valid @RequestBody CategoryDTO dto){
 

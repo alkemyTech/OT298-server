@@ -12,11 +12,11 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TestimonialDTO {
-    @NotNull(message = "Name cannot be empty")
+    @NotNull(message = "{request.name}")
     private String name;
 
     private String image;
 
-    @NotNull(message = "Content cannot be empty")
+    @NotNull(message = "{request.content}")
     private String content;
 }

@@ -2,7 +2,10 @@ package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.SlidesDTO;
 import com.alkemy.ong.model.Slides;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,11 +14,14 @@ import java.util.List;
 public interface SlidesMapper {
 
 
-    Slides slidesDTOToSlides(SlidesDTO slidesDTO);
+    Slides slidesDtoToSlides(SlidesDTO slidesDto);
 
-    SlidesDTO slidesToSlidesDTO(Slides slides);
+    SlidesDTO slidesToSlidesDto(Slides slides);
+
     List<SlidesDTO> listSlidesToDtos(List<Slides> slides);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Slides updateSlidesFromSlidesDto(SlidesDTO slidesDto, @MappingTarget Slides slides);
     LinkedList<SlidesDTO> listSlide2listSlideDTO(LinkedList<Slides> slidesList);
 
 }
