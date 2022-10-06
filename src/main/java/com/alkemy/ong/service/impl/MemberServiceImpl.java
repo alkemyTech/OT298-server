@@ -43,7 +43,7 @@ public class MemberServiceImpl implements IMemberService {
 
         try {
 
-            VerifiedNullData(dto, member);
+            verifiedNullData(dto, member);
 
 
             memberRepository.save(member);
@@ -61,7 +61,7 @@ public class MemberServiceImpl implements IMemberService {
     /*Comprueba que los datos que se van a actualizar no pisen a los que no se actualizan,si no, los va retorna nulos
      o no actualiza nada en la base de datos*/
 
-    private static void VerifiedNullData(MemberDTO dto, Member member) {
+    private static void verifiedNullData(MemberDTO dto, Member member) {
         if(!StringUtils.hasLength(dto.getName())){
             member.setName(member.getName());
         }else{
