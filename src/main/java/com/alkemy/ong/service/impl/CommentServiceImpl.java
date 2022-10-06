@@ -52,7 +52,7 @@ public class CommentServiceImpl implements ICommentService {
             }
             return dtoList;
         } else {
-            throw new ResourceNotFoundException(messageSource.getMessage("{comments.notFound}", null, Locale.US));
+            throw new ResourceNotFoundException(messageSource.getMessage("comments.notFound", null, Locale.US));
         }
     }
 }
