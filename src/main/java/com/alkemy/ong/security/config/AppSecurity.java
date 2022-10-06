@@ -6,6 +6,7 @@ import com.alkemy.ong.security.service.impl.UserServiceImpl;
 import static com.alkemy.ong.util.Constants.ALL_ROLES;
 import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
 import static com.alkemy.ong.util.Constants.Endpoints.USER_UPDATE;
+import static com.alkemy.ong.util.Constants.Endpoints.MEMBER_UPDATE;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -68,6 +69,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/categories").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/testimonials/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/comments").hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.DELETE, MEMBER_UPDATE).hasAnyAuthority(ROLE_ADMIN)
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .and().sessionManagement()
