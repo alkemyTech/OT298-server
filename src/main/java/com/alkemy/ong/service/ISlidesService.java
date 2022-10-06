@@ -15,4 +15,6 @@ public interface ISlidesService {
     SlidesDTO getById(Long id);
 
     List<SlidesDTO> getAllSlides();
+
+    SlidesDTO update(Long id, SlidesDTO slides);
 }
