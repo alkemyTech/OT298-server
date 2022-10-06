@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class ContactController {
     private IContactService contactService;
 
     @PostMapping("/contacts")
-    public ResponseEntity<ContactDTO> saveContact(@Valid @RequestBody ContactDTO contactDTO) {
+    public ResponseEntity<ContactDTO> saveContact(@Valid @RequestBody ContactDTO contactDTO) throws IOException {
         ContactDTO savedContact = contactService.save(contactDTO);
         return ResponseEntity.ok(savedContact);
     }
