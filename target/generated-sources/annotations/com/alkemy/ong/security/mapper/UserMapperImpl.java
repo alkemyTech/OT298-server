@@ -3,6 +3,7 @@ package com.alkemy.ong.security.mapper;
 import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.RoleGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
+import com.alkemy.ong.security.dto.UserInformationDto;
 import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.security.model.Role;
 import com.alkemy.ong.security.model.User;
@@ -15,11 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-<<<<<<< HEAD
-    date = "2022-10-04T00:14:12-0300",
-=======
-    date = "2022-10-04T00:26:58-0300",
->>>>>>> b4fef73cb7eea0a5d2a5b2fc4a78cf5d02acef65
+    date = "2022-10-06T16:17:24-0300",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.15 (Private Build)"
 )
 @Component
@@ -98,6 +95,22 @@ public class UserMapperImpl implements UserMapper {
         auxUserGetDto.setRoles( roleSetToRoleGetDtoSet( user.getRoles() ) );
 
         return auxUserGetDto;
+    }
+
+    @Override
+    public UserInformationDto userToUserInformationDto(User user) {
+        if ( user == null ) {
+            return null;
+        }
+
+        UserInformationDto userInformationDto = new UserInformationDto();
+
+        userInformationDto.setEmail( user.getEmail() );
+        userInformationDto.setFirstName( user.getFirstName() );
+        userInformationDto.setLastName( user.getLastName() );
+        userInformationDto.setPhoto( user.getPhoto() );
+
+        return userInformationDto;
     }
 
     protected RoleGetDto roleToRoleGetDto(Role role) {

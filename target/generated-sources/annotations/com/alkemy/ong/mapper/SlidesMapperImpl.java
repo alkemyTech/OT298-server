@@ -10,30 +10,30 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-10-04T00:14:13-0300",
+    date = "2022-10-06T16:17:24-0300",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.15 (Private Build)"
 )
 @Component
 public class SlidesMapperImpl implements SlidesMapper {
 
     @Override
-    public Slides slidesDTOToSlides(SlidesDTO slidesDTO) {
-        if ( slidesDTO == null ) {
+    public Slides slidesDtoToSlides(SlidesDTO slidesDto) {
+        if ( slidesDto == null ) {
             return null;
         }
 
         Slides slides = new Slides();
 
-        slides.setId( slidesDTO.getId() );
-        slides.setImage( slidesDTO.getImage() );
-        slides.setText( slidesDTO.getText() );
-        slides.setPosition( slidesDTO.getPosition() );
+        slides.setId( slidesDto.getId() );
+        slides.setImage( slidesDto.getImage() );
+        slides.setText( slidesDto.getText() );
+        slides.setPosition( slidesDto.getPosition() );
 
         return slides;
     }
 
     @Override
-    public SlidesDTO slidesToSlidesDTO(Slides slides) {
+    public SlidesDTO slidesToSlidesDto(Slides slides) {
         if ( slides == null ) {
             return null;
         }
@@ -56,10 +56,32 @@ public class SlidesMapperImpl implements SlidesMapper {
 
         List<SlidesDTO> list = new ArrayList<SlidesDTO>( slides.size() );
         for ( Slides slides1 : slides ) {
-            list.add( slidesToSlidesDTO( slides1 ) );
+            list.add( slidesToSlidesDto( slides1 ) );
         }
 
         return list;
+    }
+
+    @Override
+    public Slides updateSlidesFromSlidesDto(SlidesDTO slidesDto, Slides slides) {
+        if ( slidesDto == null ) {
+            return null;
+        }
+
+        if ( slidesDto.getId() != null ) {
+            slides.setId( slidesDto.getId() );
+        }
+        if ( slidesDto.getImage() != null ) {
+            slides.setImage( slidesDto.getImage() );
+        }
+        if ( slidesDto.getText() != null ) {
+            slides.setText( slidesDto.getText() );
+        }
+        if ( slidesDto.getPosition() != null ) {
+            slides.setPosition( slidesDto.getPosition() );
+        }
+
+        return slides;
     }
 
     @Override
@@ -70,7 +92,7 @@ public class SlidesMapperImpl implements SlidesMapper {
 
         LinkedList<SlidesDTO> linkedList = new LinkedList<SlidesDTO>();
         for ( Slides slides : slidesList ) {
-            linkedList.add( slidesToSlidesDTO( slides ) );
+            linkedList.add( slidesToSlidesDto( slides ) );
         }
 
         return linkedList;

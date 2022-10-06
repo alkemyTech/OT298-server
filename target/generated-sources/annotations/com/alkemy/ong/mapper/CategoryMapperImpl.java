@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-10-04T00:14:12-0300",
+    date = "2022-10-06T16:17:24-0300",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.15 (Private Build)"
 )
 @Component
@@ -72,6 +72,28 @@ public class CategoryMapperImpl implements CategoryMapper {
         category.setName( dto.getName() );
         category.setDescription( dto.getDescription() );
         category.setImage( dto.getImage() );
+
+        return category;
+    }
+
+    @Override
+    public Category updateCategoryFromDto(CategoryDTO dto, Category category) {
+        if ( dto == null ) {
+            return null;
+        }
+
+        if ( dto.getId() != null ) {
+            category.setId( dto.getId() );
+        }
+        if ( dto.getName() != null ) {
+            category.setName( dto.getName() );
+        }
+        if ( dto.getDescription() != null ) {
+            category.setDescription( dto.getDescription() );
+        }
+        if ( dto.getImage() != null ) {
+            category.setImage( dto.getImage() );
+        }
 
         return category;
     }
