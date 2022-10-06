@@ -3,7 +3,6 @@ package com.alkemy.ong.controller;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.service.INewsService;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,5 +31,11 @@ public class NewsController {
     public ResponseEntity<NewsDto> updateNews(@PathVariable Long id, @Valid @RequestBody NewsDto newsDto){
         NewsDto news = newsService.update(id, newsDto);
         return new ResponseEntity<NewsDto>(news, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNews(@PathVariable Long id){
+        newsService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

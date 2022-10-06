@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+
 import com.alkemy.ong.dto.ActivityDTO;
 import com.alkemy.ong.service.IActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ public class ActivityController {
     @Autowired
     private IActivityService activityService;
 
-    //TODO: @RolesAllowed("ADMIN")
     @PostMapping
     public ResponseEntity<ActivityDTO> saveActivity (@Valid @RequestBody ActivityDTO dto){
         ActivityDTO savedActivity = activityService.save(dto);
