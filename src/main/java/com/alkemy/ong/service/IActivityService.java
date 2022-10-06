@@ -9,4 +9,8 @@ public interface IActivityService {
     ActivityDTO save (ActivityDTO dto);
 
     List<ActivityDTO> getAll();
+
+    ActivityDTO getId(Long id);
+
+    ActivityDTO update (Long id, ActivityDTO dto);
 }
