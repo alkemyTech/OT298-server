@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,8 +109,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
-
-
     @ExceptionHandler(value = {ThereAreNoCategories.class})
     protected ResponseEntity<Object> handleThereAreNoCategories (ThereAreNoCategories ex, WebRequest request){
         ErrorMessage message = new ErrorMessage(
@@ -131,5 +131,53 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(value = {IOException.class})
+    protected ResponseEntity<ErrorMessage> handleIOExceptionException (IOException ex,
+                                                                            WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.NOT_FOUND.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    }
     
+    @ExceptionHandler(value = {InvalidTokenException.class})
+    protected ResponseEntity<ErrorMessage> handleInvalidTokenException(InvalidTokenException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+         return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+    }
+    
+    @ExceptionHandler(value = {NoAuthorizationProvidedException.class})
+    protected ResponseEntity<ErrorMessage> handleNoAuthorizationProvidedException(NoAuthorizationProvidedException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.UNAUTHORIZED.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+            return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(value = {EntityNotFoundException.class})
+    protected ResponseEntity<ErrorMessage> handleEntityNotFoundException (EntityNotFoundException ex,
+                                                                            WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.NOT_FOUND.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    }
+
+
+
+
+
 }

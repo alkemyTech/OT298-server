@@ -8,4 +8,6 @@ public interface IMemberService {
     MemberDTO save(MemberDTO dto);
     
     List<MemberDTO> getAll();
+
+    MemberDTO update(Long id,MemberDTO dto);
 }

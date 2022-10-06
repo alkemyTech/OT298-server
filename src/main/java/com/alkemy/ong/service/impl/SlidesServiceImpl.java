@@ -1,19 +1,18 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.MediaBasicDTO;
 import com.alkemy.ong.dto.SlidesDTO;
+import com.alkemy.ong.exception.ThereAreNoSlides;
+import com.alkemy.ong.dto.MediaBasicDTO;
 import com.alkemy.ong.mapper.SlidesMapper;
 import com.alkemy.ong.model.Slides;
 import com.alkemy.ong.repository.SlidesRepository;
 import com.alkemy.ong.service.ISlidesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import org.springframework.context.MessageSource;
-
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.util.*;
 
@@ -22,23 +21,28 @@ public class SlidesServiceImpl implements ISlidesService {
 
     @Autowired
     private SlidesRepository slidesRepository;
-
     @Autowired
     private SlidesMapper slidesMapper;
-
     @Autowired
     private AmazonS3ServiceImpl amazonS3Service;
-
     @Autowired
     private MediaBasicDTO mediaBasicDTO;
-
     @Autowired
     private MessageSource message;
+
+    public List<SlidesDTO> getAllSlides(){
+        List<Slides> slides = slidesRepository.findAll();
+        if(slides.isEmpty()){
+            throw new ThereAreNoSlides("{slides.empty}");
+        }
+        List<SlidesDTO> dtos = slidesMapper.listSlidesToDtos(slides);
+        return dtos;
+    }
 
     @Override
     public SlidesDTO save(SlidesDTO slidesDTO) {
 
-        Slides slides = slidesMapper.slidesDTOToSlides(slidesDTO);
+        Slides slides = slidesMapper.slidesDtoToSlides(slidesDTO);
 
         listOrderPosition(slides);
 
@@ -56,7 +60,7 @@ public class SlidesServiceImpl implements ISlidesService {
         Slides slideSave = slidesRepository.save(slides);
 
 
-        SlidesDTO result = slidesMapper.slidesToSlidesDTO(slideSave);
+        SlidesDTO result = slidesMapper.slidesToSlidesDto(slideSave);
 
         return result;
 
@@ -76,7 +80,7 @@ public class SlidesServiceImpl implements ISlidesService {
         LinkedList<Slides> slidesList = (LinkedList<Slides>) slidesRepository.findAll();
         for(SlidesDTO dto : slidesDTOList){
             if(dto.getPosition() == null){
-                slidesList.addLast(slidesMapper.slidesDTOToSlides(dto));
+                slidesList.addLast(slidesMapper.slidesDtoToSlides(dto));
             }
         }
         return slidesMapper.listSlide2listSlideDTO(slidesList);
@@ -84,11 +88,20 @@ public class SlidesServiceImpl implements ISlidesService {
     }
 
     @Override
+    public SlidesDTO getById(Long id) {
+        Optional slides = slidesRepository.findById(id);
+        if(!slides.isPresent()) {
+            throw new ResourceNotFoundException(message.getMessage("slides.notFound",null, Locale.US));
+        }
+        return slidesMapper.slidesToSlidesDto((Slides)slides.get());
+    }
+
+    @Override
     public SlidesDTO delete(Long id){
         if(!slidesRepository.existsById(id)){
             throw new ResourceNotFoundException(message.getMessage("id.invalid", null, Locale.US));
         }
-        SlidesDTO dto = slidesMapper.slidesToSlidesDTO(slidesRepository.findById(id).get());
+        SlidesDTO dto = slidesMapper.slidesToSlidesDto(slidesRepository.findById(id).get());
 
         slidesRepository.deleteById(id);
 
@@ -96,4 +109,5 @@ public class SlidesServiceImpl implements ISlidesService {
     }
 
 }
+
 
