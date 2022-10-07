@@ -16,8 +16,4 @@ public interface ActivityMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Activity updateActivityToDTO(ActivityDTO dto, @MappingTarget Activity activity);
-<<<<<<< HEAD
-
-=======
->>>>>>> 67dd049ad8eb1e48236022154ba401827a39e6f9
 }
