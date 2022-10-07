@@ -24,4 +24,10 @@ public class ActivityController {
         ActivityDTO savedActivity = activityService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedActivity);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ActivityDTO> updateCategory(@PathVariable Long id, @Valid @RequestBody ActivityDTO dto) {
+        ActivityDTO activityDTO = activityService.update(id, dto);
+        return ResponseEntity.ok().body(activityDTO);
+    }
 }
