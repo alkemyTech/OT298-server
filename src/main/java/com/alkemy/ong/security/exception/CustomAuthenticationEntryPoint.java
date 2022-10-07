@@ -2,6 +2,7 @@ package com.alkemy.ong.security.exception;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
         response.addHeader("access_denied_reason", "authentication_required");
-        response.sendError(403, messageSource.getMessage("access.denied", null, Locale.US));
+        response.sendError(HttpStatus.FORBIDDEN.value(), messageSource.getMessage("access.denied", null, Locale.US));
     }
 }
