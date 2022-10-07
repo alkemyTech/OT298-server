@@ -89,11 +89,11 @@ public class SlidesServiceImpl implements ISlidesService {
 
     @Override
     public SlidesDTO getById(Long id) {
-        Optional slides = slidesRepository.findById(id);
+        Optional<Slides> slides = slidesRepository.findById(id);
         if(!slides.isPresent()) {
             throw new ResourceNotFoundException(message.getMessage("slides.notFound",null, Locale.US));
         }
-        return slidesMapper.slidesToSlidesDTO((Slides)slides.get());
+        return slidesMapper.slidesToSlidesDto(slides.get());
     }
 
     @Override

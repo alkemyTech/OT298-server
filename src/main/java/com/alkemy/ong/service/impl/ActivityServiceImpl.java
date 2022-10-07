@@ -49,6 +49,7 @@ public class ActivityServiceImpl implements IActivityService {
         return dtoList;
     }
 
+<<<<<<< HEAD
     @Transactional
     @Override
     public ActivityDTO update (Long id, ActivityDTO dto){
@@ -62,3 +63,29 @@ public class ActivityServiceImpl implements IActivityService {
     }
 
 }
+=======
+    @Override
+    public ActivityDTO getId(Long id) {
+        Optional<Activity> activity = activityRepository.findById(id);
+        if(!activity.isPresent()){
+            throw new ResourceNotFoundException(message.getMessage("activity.notFound", null, Locale.US));
+        }
+        return activityMapper.activityToActivityDTO(activity.get());
+    }
+
+    @Transactional
+    @Override
+    public ActivityDTO update (Long id, ActivityDTO dto) {
+        Optional<Activity> activityId = activityRepository.findById(id);
+        if (!activityId.isPresent()) {
+            throw new ResourceNotFoundException(message.getMessage("activity.notFound", null, Locale.US));
+        } else {
+            Activity result = activityRepository.save(activityMapper.updateActivityToDTO(dto, activityId.get()));
+            return activityMapper.activityToActivityDTO(result);
+        }
+
+    }
+
+
+    }
+>>>>>>> 67dd049ad8eb1e48236022154ba401827a39e6f9
