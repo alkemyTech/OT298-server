@@ -1,5 +1,7 @@
 package com.alkemy.ong.security.config;
 
+import com.alkemy.ong.exception.CustomAccessDeniedHandler;
+import com.alkemy.ong.exception.CustomAuthenticationEntryPoint;
 import com.alkemy.ong.security.filter.JwtRequestFilter;
 import com.alkemy.ong.security.service.impl.UserServiceImpl;
 
@@ -18,6 +20,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.Filter;
@@ -70,7 +74,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/testimonials/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/comments").hasAnyAuthority(ROLE_ADMIN)
                 .anyRequest().authenticated()
-                .and().exceptionHandling()
+                .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).authenticationEntryPoint(authenticationEntryPoint())
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -91,5 +95,15 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return new CustomAuthenticationEntryPoint();
     }
 }
