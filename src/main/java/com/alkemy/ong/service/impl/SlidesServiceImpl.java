@@ -119,18 +119,9 @@ public class SlidesServiceImpl implements ISlidesService {
             throw new ResourceNotFoundException(message.getMessage("slides.notFound", null, Locale.US));
         }
 
-        Slides slidesToUpdate = (Slides) currentSlides.get();
-
-        if (slides.getImage() != null && slides.getImage() != "") {
-            slidesToUpdate.setImage(slides.getImage());
-        }
-        if (slides.getPosition() != null && slides.getPosition() > 0) {
-            slidesToUpdate.setPosition(slides.getPosition());
-        }
-        if (slides.getText() != null && slides.getText() != "") {
-            slidesToUpdate.setText(slides.getText());
-        }
+        Slides slidesToUpdate = slidesMapper.updateSlidesFromSlidesDto(slides, (Slides) currentSlides.get());
         return slidesMapper.slidesToSlidesDto(slidesRepository.save(slidesToUpdate));
+
     }
 }
 
