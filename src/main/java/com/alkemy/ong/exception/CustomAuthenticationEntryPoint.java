@@ -1,4 +1,4 @@
-package com.alkemy.ong.security.exception;
+package com.alkemy.ong.exception;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

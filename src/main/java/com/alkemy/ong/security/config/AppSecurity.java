@@ -1,7 +1,7 @@
 package com.alkemy.ong.security.config;
 
-import com.alkemy.ong.security.exception.CustomAccessDeniedHandler;
-import com.alkemy.ong.security.exception.CustomAuthenticationEntryPoint;
+import com.alkemy.ong.exception.CustomAccessDeniedHandler;
+import com.alkemy.ong.exception.CustomAuthenticationEntryPoint;
 import com.alkemy.ong.security.filter.JwtRequestFilter;
 import com.alkemy.ong.security.service.impl.UserServiceImpl;
 
