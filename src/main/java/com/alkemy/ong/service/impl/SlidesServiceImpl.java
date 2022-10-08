@@ -9,10 +9,13 @@ import com.alkemy.ong.repository.SlidesRepository;
 import com.alkemy.ong.service.ISlidesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import org.springframework.context.MessageSource;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.util.*;
 
@@ -30,9 +33,9 @@ public class SlidesServiceImpl implements ISlidesService {
     @Autowired
     private MessageSource message;
 
-    public List<SlidesDTO> getAllSlides(){
+    public List<SlidesDTO> getAllSlides() {
         List<Slides> slides = slidesRepository.findAll();
-        if(slides.isEmpty()){
+        if (slides.isEmpty()) {
             throw new ThereAreNoSlides("{slides.empty}");
         }
         List<SlidesDTO> dtos = slidesMapper.listSlidesToDtos(slides);
@@ -52,7 +55,7 @@ public class SlidesServiceImpl implements ISlidesService {
 
         File file = new File(String.valueOf(decodeImg));
 
-        mediaBasicDTO  = amazonS3Service.uploadFile((MultipartFile) file);
+        mediaBasicDTO = amazonS3Service.uploadFile((MultipartFile) file);
 
 
         slides.setImage(mediaBasicDTO.getUrl());
@@ -68,8 +71,8 @@ public class SlidesServiceImpl implements ISlidesService {
 
     public void listOrderPosition(Slides slides) {
         LinkedList<Slides> slidesList = new LinkedList<>();
-        for(Slides slide : slidesList){
-            if(slides.getPosition() == null){
+        for (Slides slide : slidesList) {
+            if (slides.getPosition() == null) {
                 slidesList.addLast(slide);
             }
         }
@@ -78,8 +81,8 @@ public class SlidesServiceImpl implements ISlidesService {
     @Override
     public LinkedList<SlidesDTO> listSlides(LinkedList<SlidesDTO> slidesDTOList) {
         LinkedList<Slides> slidesList = (LinkedList<Slides>) slidesRepository.findAll();
-        for(SlidesDTO dto : slidesDTOList){
-            if(dto.getPosition() == null){
+        for (SlidesDTO dto : slidesDTOList) {
+            if (dto.getPosition() == null) {
                 slidesList.addLast(slidesMapper.slidesDtoToSlides(dto));
             }
         }
@@ -90,15 +93,15 @@ public class SlidesServiceImpl implements ISlidesService {
     @Override
     public SlidesDTO getById(Long id) {
         Optional slides = slidesRepository.findById(id);
-        if(!slides.isPresent()) {
-            throw new ResourceNotFoundException(message.getMessage("slides.notFound",null, Locale.US));
+        if (!slides.isPresent()) {
+            throw new ResourceNotFoundException(message.getMessage("slides.notFound", null, Locale.US));
         }
-        return slidesMapper.slidesToSlidesDTO((Slides)slides.get());
+        return slidesMapper.slidesToSlidesDto((Slides) slides.get());
     }
 
     @Override
-    public SlidesDTO delete(Long id){
-        if(!slidesRepository.existsById(id)){
+    public SlidesDTO delete(Long id) {
+        if (!slidesRepository.existsById(id)) {
             throw new ResourceNotFoundException(message.getMessage("id.invalid", null, Locale.US));
         }
         SlidesDTO dto = slidesMapper.slidesToSlidesDto(slidesRepository.findById(id).get());
@@ -108,6 +111,17 @@ public class SlidesServiceImpl implements ISlidesService {
         return dto;
     }
 
-}
+    @Override
+    public SlidesDTO update(Long id, SlidesDTO slides) {
 
+        Optional currentSlides = slidesRepository.findById(id);
+        if (!currentSlides.isPresent()) {
+            throw new ResourceNotFoundException(message.getMessage("slides.notFound", null, Locale.US));
+        }
+
+        Slides slidesToUpdate = slidesMapper.updateSlidesFromSlidesDto(slides, (Slides) currentSlides.get());
+        return slidesMapper.slidesToSlidesDto(slidesRepository.save(slidesToUpdate));
+
+    }
+}
 
