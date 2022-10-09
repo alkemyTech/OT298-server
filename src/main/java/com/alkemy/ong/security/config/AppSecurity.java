@@ -62,6 +62,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.GET, "/news**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/categories/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PUT, "/categories/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/categories/{id}").hasAnyAuthority(ROLE_ADMIN)
