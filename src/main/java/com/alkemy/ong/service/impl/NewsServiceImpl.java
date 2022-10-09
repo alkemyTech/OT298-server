@@ -1,6 +1,6 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.exception.ThereAreNoCommentsByNew;
 import com.alkemy.ong.mapper.CommentMapper;
@@ -36,12 +36,12 @@ public class NewsServiceImpl implements INewsService {
     private MessageSource message;
 
     @Override
-    public List<CommentDto> getAllCommentsByNewsId(Long id) {
+    public List<CommentBasicDTO> getAllCommentsByNewsId(Long id) {
         List<Comment> comments = repo.findCommentsByNewsId(id);
         if(comments.isEmpty()){
             throw new ThereAreNoCommentsByNew(message.getMessage("new.commentsThereAreNo", null, Locale.US));
         }
-        List<CommentDto> commentsDtos = mapperComment.listCommentsToListDtos(comments);
+        List<CommentBasicDTO> commentsDtos = mapperComment.listCommentsToListDtos(comments);
         return commentsDtos;
     }
 

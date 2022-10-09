@@ -69,16 +69,11 @@ public class CommentMapper {
         return dto;
     }
 
-    public List<CommentDto> listCommentsToListDtos(List<Comment> comments){
-        List<CommentDto> commentsDtos = new ArrayList<>();
+    public List<CommentBasicDTO> listCommentsToListDtos(List<Comment> comments){
+        List<CommentBasicDTO> commentsDtos = new ArrayList<>();
         for(Comment comment : comments){
-            CommentDto dto = new CommentDto();
-            dto.setId(comment.getId());
+            CommentBasicDTO dto = new CommentBasicDTO();
             dto.setBody(comment.getBody());
-            dto.setUserId(comment.getUser().getId());
-            dto.setNewsId(comment.getNews().getId());
-            dto.setCreationDate(comment.getCreationDate());
-            dto.setUpdateDate(comment.getUpdateDate());
             commentsDtos.add(dto);
         }
         return commentsDtos;

@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.service.INewsService;
@@ -31,9 +32,9 @@ public class NewsController {
     }
 
     @GetMapping("/{id}/comments")
-    public ResponseEntity<List<CommentDto>> getCommentsByNew(@PathVariable Long id){
-        List<CommentDto> comments = newsService.getAllCommentsByNewsId(id);
-        return new ResponseEntity<List<CommentDto>>(comments, HttpStatus.OK);
+    public ResponseEntity<List<CommentBasicDTO>> getCommentsByNew(@PathVariable Long id){
+        List<CommentBasicDTO> comments = newsService.getAllCommentsByNewsId(id);
+        return new ResponseEntity<List<CommentBasicDTO>>(comments, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
