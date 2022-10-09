@@ -1,20 +1,24 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.NewsPaginationDto;
+import com.alkemy.ong.exception.InvalidPaginationParamsException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
+import com.alkemy.ong.util.Pagination;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.INewsService;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.dto.NewsDto;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -69,5 +73,33 @@ public class NewsServiceImpl implements INewsService {
         }else{
             throw new ResourceNotFoundException(message.getMessage("news.notFound", null, Locale.US));
         }
+    }
+
+    @Override
+    public NewsPaginationDto getPaginated(Pageable pageable, HttpServletRequest request, UriComponentsBuilder uriBuilder) {
+        int pageNumber = pageable.getPageNumber();
+
+        int pageSize =  pageable.getPageSize();
+
+        Page<News> resultPage = repo.findAll(pageable);
+        int totalPages = resultPage.getTotalPages();
+
+        if (pageNumber < 0 || pageNumber >= totalPages) {
+            throw new InvalidPaginationParamsException(message.getMessage("pagination.invalidArgs", null, Locale.US));
+        }
+
+        uriBuilder.path(request.getRequestURI());
+        Map<String, String> links = new LinkedHashMap<>();
+
+        if (resultPage.hasPrevious()) {
+            links.put(message.getMessage("pagination.previous", null, Locale.US),
+                    Pagination.constructPreviousPageUri(uriBuilder, pageNumber, pageSize));
+        }
+        if (resultPage.hasNext()) {
+            links.put(message.getMessage("pagination.next", null, Locale.US),
+                    Pagination.constructNextPageUri(uriBuilder, pageNumber, pageSize));
+        }
+
+        return new NewsPaginationDto(resultPage.getContent(), links);
     }
 }
