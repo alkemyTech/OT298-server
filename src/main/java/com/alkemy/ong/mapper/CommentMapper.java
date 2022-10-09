@@ -12,6 +12,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @Component
@@ -51,7 +53,10 @@ public class CommentMapper {
 
         comment.setBody( commentDto.getBody() );
         comment.setUser( user );
+
         comment.setNews( news );
+        news.getComments().add(comment);
+
         comment.setCreationDate( commentDto.getCreationDate() );
         comment.setUpdateDate( commentDto.getUpdateDate() );
 
@@ -62,5 +67,20 @@ public class CommentMapper {
         CommentBasicDTO dto = new CommentBasicDTO();
         dto.setBody(comment.getBody());
         return dto;
+    }
+
+    public List<CommentDto> listCommentsToListDtos(List<Comment> comments){
+        List<CommentDto> commentsDtos = new ArrayList<>();
+        for(Comment comment : comments){
+            CommentDto dto = new CommentDto();
+            dto.setId(comment.getId());
+            dto.setBody(comment.getBody());
+            dto.setUserId(comment.getUser().getId());
+            dto.setNewsId(comment.getNews().getId());
+            dto.setCreationDate(comment.getCreationDate());
+            dto.setUpdateDate(comment.getUpdateDate());
+            commentsDtos.add(dto);
+        }
+        return commentsDtos;
     }
 }

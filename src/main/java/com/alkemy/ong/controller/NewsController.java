@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.service.INewsService;
 
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/news")
@@ -25,6 +28,12 @@ public class NewsController {
     public ResponseEntity<NewsDto> getById(@PathVariable Long id){
         NewsDto newsDto = newsService.getById(id);
         return ResponseEntity.ok().body(newsDto);
+    }
+
+    @GetMapping("/{id}/comments")
+    public ResponseEntity<List<CommentDto>> getCommentsByNew(@PathVariable Long id){
+        List<CommentDto> comments = newsService.getAllCommentsByNewsId(id);
+        return new ResponseEntity<List<CommentDto>>(comments, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

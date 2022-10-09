@@ -120,6 +120,17 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    @ExceptionHandler(value = {ThereAreNoCommentsByNew.class})
+    protected ResponseEntity<Object> handleThereAreCommentsByNew (ThereAreNoCommentsByNew ex, WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.OK.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
     @ExceptionHandler(value = {FileConversionException.class})
     protected ResponseEntity<ErrorMessage> handleFileConversionException (FileConversionException ex,
                                                                             WebRequest request){
