@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.exception.InvalidPageNumber;
 import com.alkemy.ong.exception.PageNotFound;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.exception.ThereAreNoTestimonials;
@@ -21,7 +22,7 @@ import com.alkemy.ong.dto.TestimonialDTO;
 import java.net.URI;
 import java.util.*;
 
-import static com.alkemy.ong.util.Constants.URI_PAGE;
+import static com.alkemy.ong.util.Constants.*;
 
 @Service
 @Transactional
@@ -69,12 +70,25 @@ public class TestimonialServiceImpl implements ITestimonialService {
     }
 
     @Override
-    public Page<Testimonial> getTestimonialPage(Integer numberPage, Pageable pageable) {
-        if(repository.findAll().isEmpty()){
+    public List<TestimonialDTO> getAllTestimonial() {
+        List<Testimonial> testimonials = repository.findAll();
+        if (testimonials.isEmpty()){
             throw new ThereAreNoTestimonials(message.getMessage("testimonial.thereAreNo", null, Locale.US));
         }
+        List<TestimonialDTO> testimonialDtos = mapper.listTestimonialsToListDtos(testimonials);
+        return testimonialDtos;
+    }
 
-        pageable = PageRequest.of(numberPage, 10);
+    @Override
+    public Page<Testimonial> getTestimonialPage(Integer numberPage, Pageable pageable) {
+
+        this.getAllTestimonial();
+
+        if(numberPage<FIRST_PAGE_INTEGER){
+            throw new InvalidPageNumber(message.getMessage("invalid.Page", null, Locale.US));
+        }
+
+        pageable = PageRequest.of(numberPage, PAGE_SIZE);
         Page<Testimonial> testimonialPage = repository.findAll(pageable);
 
         if(numberPage>=testimonialPage.getTotalPages()) {
@@ -95,14 +109,16 @@ public class TestimonialServiceImpl implements ITestimonialService {
 
         Integer lastPageNumber = testimonialPage.getPageable().previousOrFirst().getPageNumber();
         if(testimonialPage.hasPrevious()){
-            response.put("lastPage", URI.create(URI_PAGE + lastPageNumber));
+            response.put("lastPage", URI.create(URI_PAGE_TESTIMONIAL + lastPageNumber));
         }
 
         Integer nextPageNumber = testimonialPage.getPageable().next().getPageNumber();
         if(testimonialPage.hasNext()){
-            response.put("nextPage", URI.create(URI_PAGE + nextPageNumber));
+            response.put("nextPage", URI.create(URI_PAGE_TESTIMONIAL + nextPageNumber));
         }
+
         response.put("testimonials", testimonialDtos);
+        response.put("currentPage", testimonialPage.getNumber());
         response.put("totalElements", testimonialPage.getTotalElements());
         response.put("totalPages", testimonialPage.getTotalPages());
 

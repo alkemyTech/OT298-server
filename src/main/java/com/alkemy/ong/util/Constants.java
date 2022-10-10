@@ -5,11 +5,13 @@ public class Constants {
     public static final String ROLE_USER = "ROLE_USER";
     public static final String[] ALL_ROLES = {ROLE_ADMIN, ROLE_USER};
 
-    public static final String URI_PAGE = "/testimonials/page?numberPage=";
+    public static final String URI_PAGE_TESTIMONIAL = "/testimonials/page?numberPage=";
 
     public static final Integer PAGE_SIZE = 10;
 
     public static final String FIRST_PAGE = "0";
+
+    public static final Integer FIRST_PAGE_INTEGER = 0;
 
     public static abstract class Endpoints {
         public static final String USER = "/users";

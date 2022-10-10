@@ -19,6 +19,8 @@ public interface ITestimonialService {
 
     void delete(Long id);
 
+    List<TestimonialDTO> getAllTestimonial();
+
     Page<Testimonial> getTestimonialPage(Integer numberPage, Pageable pageable);
 
     Map<String, Object> responseTestimonialPage(Integer numberPage, Pageable pageable);
