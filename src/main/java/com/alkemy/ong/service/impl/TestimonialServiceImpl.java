@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.transaction.Transactional;
-import javax.validation.constraints.Size;
 
 import com.alkemy.ong.repository.TestimonialRepository;
 import com.alkemy.ong.service.ITestimonialService;

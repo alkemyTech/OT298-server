@@ -2,30 +2,20 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.TestimonialDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
-import com.alkemy.ong.model.Testimonial;
 import com.alkemy.ong.service.ITestimonialService;
 
-import javax.print.DocFlavor;
 import javax.validation.Valid;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static com.alkemy.ong.util.Constants.Endpoints.*;
 
-@Slf4j
 @RestController
 @RequestMapping(TESTIMONIAL)
 public class TestimonialController {
