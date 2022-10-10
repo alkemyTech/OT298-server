@@ -7,6 +7,10 @@ public class Constants {
 
     public static final String URI_PAGE = "/testimonials/page?numberPage=";
 
+    public static final Integer PAGE_SIZE = 10;
+
+    public static final String FIRST_PAGE = "0";
+
     public static abstract class Endpoints {
         public static final String USER = "/users";
         public static final String USER_UPDATE = USER + "/{id}";
