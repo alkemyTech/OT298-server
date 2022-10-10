@@ -24,8 +24,8 @@ public class TestimonialController {
     private ITestimonialService service;
 
     @GetMapping(TESTIMONIAL_PAGE)
-    public ResponseEntity<Map<String, Object>> getTestimonialPage(@RequestParam(value = "numberPage", defaultValue = "0") Integer numberPage, Pageable pageable) {
-        Map<String, Object> response = service.responseTestimonialPage(numberPage, pageable);
+    public ResponseEntity<Map<String, Object>> getTestimonialPage(@RequestParam(value = "page", defaultValue = "0") Integer page, Pageable pageable) {
+        Map<String, Object> response = service.responseTestimonialPage(page, pageable);
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
 
