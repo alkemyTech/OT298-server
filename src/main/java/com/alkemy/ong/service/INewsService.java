@@ -1,5 +1,6 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.model.News;
 
@@ -14,4 +15,5 @@ public interface INewsService {
     Optional<News> findById(Long id);
     Optional<List> findAll();
     NewsDto getById(Long id);
+    List<CommentBasicDTO> getAllCommentsByNewsId(Long id);
 }

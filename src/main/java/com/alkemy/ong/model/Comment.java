@@ -1,6 +1,7 @@
 package com.alkemy.ong.model;
 
 import com.alkemy.ong.security.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,12 +30,13 @@ public class Comment {
     private String body;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id",insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", updatable = false)
     private User user;
 
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "news_id",insertable = false, updatable = false)
+    @JoinColumn(name = "news_id", updatable = false)
+    @JsonIgnoreProperties("comments")
     private News news;
 
     @Column(name = "creation_date")

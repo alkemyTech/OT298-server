@@ -1,6 +1,10 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
+import com.alkemy.ong.exception.ThereAreNoCommentsByNew;
+import com.alkemy.ong.mapper.CommentMapper;
+import com.alkemy.ong.model.Comment;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +30,20 @@ public class NewsServiceImpl implements INewsService {
     private NewsMapper mapper;
 
     @Autowired
+    private CommentMapper mapperComment;
+
+    @Autowired
     private MessageSource message;
+
+    @Override
+    public List<CommentBasicDTO> getAllCommentsByNewsId(Long id) {
+        List<Comment> comments = repo.findCommentsByNewsId(id);
+        if(comments.isEmpty()){
+            throw new ThereAreNoCommentsByNew(message.getMessage("new.commentsThereAreNo", null, Locale.US));
+        }
+        List<CommentBasicDTO> commentsDtos = mapperComment.listCommentsToListDtos(comments);
+        return commentsDtos;
+    }
 
     public NewsDto save(NewsDto dto){
         News news = repo.save(mapper.toEntity(dto));
