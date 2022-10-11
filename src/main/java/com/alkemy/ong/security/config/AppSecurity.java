@@ -6,8 +6,8 @@ import com.alkemy.ong.security.filter.JwtRequestFilter;
 import com.alkemy.ong.security.service.impl.UserServiceImpl;
 
 import static com.alkemy.ong.util.Constants.ALL_ROLES;
+import static com.alkemy.ong.util.Constants.Endpoints.*;
 import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
-import static com.alkemy.ong.util.Constants.Endpoints.USER_UPDATE;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +46,8 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
+                .antMatchers(API_UI_ANTMATCHER, API_DESCRIPTION_ANTMATCHER).permitAll()
+                .and().authorizeRequests()
                 .antMatchers("/auth/*").permitAll()
                 .antMatchers("/users/{id}").hasAnyAuthority(ALL_ROLES)
                 .antMatchers(HttpMethod.PUT, "/news/{id}").hasAuthority(ROLE_ADMIN)
@@ -78,6 +80,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).authenticationEntryPoint(authenticationEntryPoint())
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 
         httpSecurity.addFilterBefore((Filter) jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
