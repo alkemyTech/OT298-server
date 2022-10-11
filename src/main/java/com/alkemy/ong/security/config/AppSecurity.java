@@ -5,6 +5,7 @@ import com.alkemy.ong.exception.CustomAuthenticationEntryPoint;
 import com.alkemy.ong.security.filter.JwtRequestFilter;
 import com.alkemy.ong.security.service.impl.UserServiceImpl;
 
+import static com.alkemy.ong.util.Constants.ROLE_USER;
 import static com.alkemy.ong.util.Constants.ALL_ROLES;
 import static com.alkemy.ong.util.Constants.Endpoints.*;
 import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
@@ -25,7 +26,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.Filter;
-
 import org.springframework.http.HttpMethod;
 
 
@@ -50,6 +50,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 .antMatchers("/auth/*").permitAll()
                 .antMatchers("/users/{id}").hasAnyAuthority(ALL_ROLES)
+//                .antMatchers("/media/upload**").hasAuthority("ROLE_ADMIN")/*To be defined*/
                 .antMatchers(HttpMethod.PUT, "/news/{id}").hasAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/news/{id}").hasAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/categories/{id}").hasAuthority(ROLE_ADMIN)
@@ -61,6 +62,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/slides/{id}").hasAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/**").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, USER_UPDATE).hasAnyAuthority(ALL_ROLES)
+                .antMatchers(HttpMethod.DELETE, "/users/{id}").hasAnyAuthority(ROLE_USER)
                 .antMatchers(HttpMethod.PUT, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
