@@ -2,6 +2,7 @@ package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.repository.NewsRepository;
@@ -74,5 +75,13 @@ public class CommentMapper {
         List<CommentBasicDTO> commentsDtos =
                 comments.stream().map(comment -> commentBodyToCommentBasicDTO(comment)).collect(Collectors.toList());
         return commentsDtos;
+    }
+
+    public Comment updateCommentDtoToComment (String body, Comment comment){
+        if (body != null){
+            comment.setBody(body);
+            return comment;
+        }
+        return null;
     }
 }
