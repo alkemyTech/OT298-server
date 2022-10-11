@@ -4,6 +4,8 @@ import com.alkemy.ong.dto.OrganizationBasicDTO;
 import com.alkemy.ong.dto.OrganizationFullDTO;
 import com.alkemy.ong.dto.SlidesDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
+import com.alkemy.ong.dto.OrganizationUpdateDTO;
+import com.alkemy.ong.exception.ParameterNotFound;
 import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.mapper.SlidesMapper;
 import com.alkemy.ong.model.Organization;
@@ -14,8 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.transaction.Transactional;
 import java.util.Locale;
+import java.util.Optional;
+
+import java.util.List;
 
 @Service
 public class OrganizationServiceImpl implements IOrganizationService {
@@ -56,5 +61,17 @@ public class OrganizationServiceImpl implements IOrganizationService {
         } else {
             throw new ResourceNotFoundException(message.getMessage("{organization.notFound}", null, Locale.US));
         }
+    }
+
+    @Transactional
+    @Override
+    public OrganizationUpdateDTO updateOrganization(Long id, OrganizationUpdateDTO updateDTO) {
+        Optional<Organization> organization = organizationRepository.findById(id);
+        if(!organization.isPresent()){
+            throw new ResourceNotFoundException(message.getMessage("org.not.found", null, Locale.US));
+        }
+        organizationMapper.organizationToUpdateDTO(organization.get());
+        Organization updated = organizationMapper.updateDTOToOrganization(updateDTO);
+        return organizationMapper.organizationToUpdateDTO(organizationRepository.save(updated));
     }
 }
