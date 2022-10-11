@@ -3,14 +3,13 @@ package com.alkemy.ong.service.impl;
 import com.alkemy.ong.dto.MemberDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.exception.EntityNotSavedException;
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.model.Member;
 import com.alkemy.ong.repository.MemberRepository;
 import com.alkemy.ong.service.IMemberService;
-import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -111,6 +110,17 @@ public class MemberServiceImpl implements IMemberService {
         }
     }
 
+    public MemberDTO delete(Long id){
+        
+        if (!memberRepository.existsById(id)){
+            throw new ResourceNotFoundException(message.getMessage("member.notFound", null, Locale.US));
+        }
+        Member member = memberRepository.getById(id);
+        memberRepository.deleteById(id);
+        
+        return memberMapper.memberToMemberDTO(member);
+    }
+    
     private Member getMemberEntityById(Long id) {
         Optional<Member> member = memberRepository.findById(id);
         if (!member.isPresent()) {

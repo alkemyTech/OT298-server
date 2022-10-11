@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.MemberDTO;
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.service.IMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,9 @@ public class MemberController {
         return ResponseEntity.ok().body(memberdtoupdated);
 
 
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> detele(@PathVariable Long id) throws ResourceNotFoundException{
+        return new ResponseEntity<>(memberService.delete(id), HttpStatus.OK);
     }
 }

@@ -10,4 +10,6 @@ public interface IMemberService {
     List<MemberDTO> getAll();
 
     MemberDTO update(Long id,MemberDTO dto);
+    
+    MemberDTO delete(Long id);
 }
