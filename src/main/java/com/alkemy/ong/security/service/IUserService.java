@@ -27,5 +27,7 @@ public interface IUserService {
     
     AuxUserGetDto update(Long id, UserPostDto dto) throws ResourceNotFoundException;
 
+    void deleteUser(Long id);
+
     UserInformationDto getCurrentAuthenticatedUser(Authentication authentication);
 }
