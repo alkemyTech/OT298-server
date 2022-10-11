@@ -131,6 +131,17 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
     }
 
+    @ExceptionHandler(value = {ThereAreNoTestimonials.class})
+    protected ResponseEntity<Object> handleThereAreNoTestimonials (ThereAreNoTestimonials ex, WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.NO_CONTENT.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
+    }
+
     @ExceptionHandler(value = {FileConversionException.class})
     protected ResponseEntity<ErrorMessage> handleFileConversionException (FileConversionException ex,
                                                                             WebRequest request){
@@ -154,7 +165,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
-    
+
     @ExceptionHandler(value = {InvalidTokenException.class})
     protected ResponseEntity<ErrorMessage> handleInvalidTokenException(InvalidTokenException ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
