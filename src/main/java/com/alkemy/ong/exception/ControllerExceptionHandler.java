@@ -207,6 +207,30 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 request.getDescription(false));
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(value = {MismatchException.class})
+    protected ResponseEntity<ErrorMessage> handleMismatchException (MismatchException ex,
+                                                                            WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(value = {ParameterNotFound.class})
+    protected ResponseEntity<ErrorMessage> handleParamNotFound (ParameterNotFound ex,
+                                                                    WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.NOT_FOUND.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    }
+
 
 
 }
