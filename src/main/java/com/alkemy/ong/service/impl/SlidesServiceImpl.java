@@ -120,6 +120,7 @@ public class SlidesServiceImpl implements ISlidesService {
         }
 
         Slides slidesToUpdate = slidesMapper.updateSlidesFromSlidesDto(slides, (Slides) currentSlides.get());
+        
         return slidesMapper.slidesToSlidesDto(slidesRepository.save(slidesToUpdate));
 
     }

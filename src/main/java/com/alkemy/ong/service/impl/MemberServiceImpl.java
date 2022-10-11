@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.MemberDTO;
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.exception.EntityNotSavedException;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.model.Member;
@@ -17,6 +18,9 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.Locale;
 import java.util.Optional;
+
+import java.util.List;
+import java.util.Locale;
 
 @Service
 public class MemberServiceImpl implements IMemberService {
@@ -35,6 +39,13 @@ public class MemberServiceImpl implements IMemberService {
         Member member = memberMapper.memberDTOToMember(dto);
         Member savedMember = memberRepository.save(member);
         return memberMapper.memberToMemberDTO(savedMember);
+    }
+    public List<MemberDTO> getAll(){
+        List<Member> list = memberRepository.findAll();
+        if (list.isEmpty()){
+            throw new ResourceNotFoundException(message.getMessage("member.empty_list", null, Locale.US));
+        }
+        return memberMapper.toDtoList(list);
     }
 
     @Override

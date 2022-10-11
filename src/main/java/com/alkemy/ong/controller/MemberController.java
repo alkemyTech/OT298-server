@@ -5,12 +5,13 @@ import com.alkemy.ong.service.IMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import static com.alkemy.ong.util.Constants.Endpoints;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("members")
+@RequestMapping(Endpoints.MEMBER)
 public class MemberController {
 
     @Autowired
@@ -20,6 +21,10 @@ public class MemberController {
     public ResponseEntity<MemberDTO> save(@Valid @RequestBody MemberDTO dto){
         MemberDTO savedMember = memberService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMember);
+    }
+    @GetMapping
+    public ResponseEntity<?> getAll(){
+        return new ResponseEntity<>(memberService.getAll(), HttpStatus.OK);
     }
     @PutMapping("/{id}")
     public ResponseEntity<MemberDTO> update(@Valid @PathVariable("id") Long id, @RequestBody MemberDTO dto) {

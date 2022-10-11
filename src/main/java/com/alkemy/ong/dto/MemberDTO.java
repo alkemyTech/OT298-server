@@ -21,7 +21,7 @@ public class MemberDTO {
 
     private String linkedinUrl;
 
-    @NotNull(message = "image is required")
+    //@NotNull(message = "image is required")
     private String image;
 
     private String description;
