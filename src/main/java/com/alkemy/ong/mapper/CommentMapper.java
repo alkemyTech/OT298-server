@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Component
 public class CommentMapper {
@@ -70,12 +71,8 @@ public class CommentMapper {
     }
 
     public List<CommentBasicDTO> listCommentsToListDtos(List<Comment> comments){
-        List<CommentBasicDTO> commentsDtos = new ArrayList<>();
-        for(Comment comment : comments){
-            CommentBasicDTO dto = new CommentBasicDTO();
-            dto.setBody(comment.getBody());
-            commentsDtos.add(dto);
-        }
+        List<CommentBasicDTO> commentsDtos =
+                comments.stream().map(comment -> commentBodyToCommentBasicDTO(comment)).collect(Collectors.toList());
         return commentsDtos;
     }
 }
