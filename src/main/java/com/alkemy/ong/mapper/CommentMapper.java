@@ -2,7 +2,6 @@ package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.dto.CommentDto;
-import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.repository.NewsRepository;
@@ -13,7 +12,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -77,11 +75,10 @@ public class CommentMapper {
         return commentsDtos;
     }
 
-    public Comment updateCommentDtoToComment (String body, Comment comment){
-        if (body != null){
-            comment.setBody(body);
-            return comment;
+    public Comment updateCommentBody (CommentBasicDTO dto, Comment comment){
+        if (dto.getBody() != null){
+            comment.setBody(dto.getBody());
         }
-        return null;
+        return comment;
     }
 }
