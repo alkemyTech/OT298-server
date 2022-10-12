@@ -28,7 +28,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpStatus status,
                                                                   WebRequest request) {
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) ->{
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
 
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
@@ -37,9 +37,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value={AlreadyExistsException.class})
+    @ExceptionHandler(value = {AlreadyExistsException.class})
     protected ResponseEntity<Object> handleAlreadyExistException(AlreadyExistsException ex,
-                                                                 WebRequest request){
+                                                                 WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),
@@ -50,8 +50,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = {ResourceNotFoundException.class})
-    protected ResponseEntity<ErrorMessage> handleResourceNotFoundException (ResourceNotFoundException ex,
-                                                                           WebRequest request){
+    protected ResponseEntity<ErrorMessage> handleResourceNotFoundException(ResourceNotFoundException ex,
+                                                                           WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
                 new Date(),
@@ -74,7 +74,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = {Exception.class})
-    protected ResponseEntity<ErrorMessage> handleGlobalException (Exception ex,WebRequest request) {
+    protected ResponseEntity<ErrorMessage> handleGlobalException(Exception ex, WebRequest request) {
 
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -86,7 +86,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = {EntityNotSavedException.class})
-    protected ResponseEntity<ErrorMessage> handleGlobalException (EntityNotSavedException ense,WebRequest request) {
+    protected ResponseEntity<ErrorMessage> handleGlobalException(EntityNotSavedException ense, WebRequest request) {
 
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -98,43 +98,65 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = {UsernameNotFoundException.class})
-    protected ResponseEntity<ErrorMessage> handleUsernameNotFoundException (UsernameNotFoundException ex,
-                                                                            WebRequest request){
+    protected ResponseEntity<ErrorMessage> handleUsernameNotFoundException(UsernameNotFoundException ex,
+                                                                           WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-                
+
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = {ThereAreNoCategories.class})
-    protected ResponseEntity<Object> handleThereAreNoCategories (ThereAreNoCategories ex, WebRequest request){
+    protected ResponseEntity<Object> handleThereAreNoCategories(ThereAreNoCategories ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.OK.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-                
+
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    @ExceptionHandler(value = {ThereAreNoCommentsByNew.class})
+    protected ResponseEntity<Object> handleThereAreCommentsByNew(ThereAreNoCommentsByNew ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.NO_CONTENT.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler(value = {ThereAreNoTestimonials.class})
+    protected ResponseEntity<Object> handleThereAreNoTestimonials(ThereAreNoTestimonials ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.NO_CONTENT.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
+    }
+
     @ExceptionHandler(value = {FileConversionException.class})
-    protected ResponseEntity<ErrorMessage> handleFileConversionException (FileConversionException ex,
-                                                                            WebRequest request){
+    protected ResponseEntity<ErrorMessage> handleFileConversionException(FileConversionException ex,
+                                                                         WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-               new Date(),
+                new Date(),
                 ex.getMessage(),
-               request.getDescription(false));
-    
+                request.getDescription(false));
+
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(value = {IOException.class})
-    protected ResponseEntity<ErrorMessage> handleIOExceptionException (IOException ex,
-                                                                            WebRequest request){
+    protected ResponseEntity<ErrorMessage> handleIOExceptionException(IOException ex,
+                                                                      WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
                 new Date(),
@@ -143,7 +165,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
-    
+
     @ExceptionHandler(value = {InvalidTokenException.class})
     protected ResponseEntity<ErrorMessage> handleInvalidTokenException(InvalidTokenException ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
@@ -151,9 +173,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-         return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
     }
-    
+
     @ExceptionHandler(value = {NoAuthorizationProvidedException.class})
     protected ResponseEntity<ErrorMessage> handleNoAuthorizationProvidedException(NoAuthorizationProvidedException ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
@@ -161,12 +183,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-            return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(value = {EntityNotFoundException.class})
-    protected ResponseEntity<ErrorMessage> handleEntityNotFoundException (EntityNotFoundException ex,
-                                                                            WebRequest request){
+    protected ResponseEntity<ErrorMessage> handleEntityNotFoundException(EntityNotFoundException ex,
+                                                                         WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
                 new Date(),
@@ -177,8 +199,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = {InvalidPaginationParamsException.class})
-    protected ResponseEntity<ErrorMessage> handleInvalidPaginationParamsException (InvalidPaginationParamsException ex,
-                                                                          WebRequest request){
+    protected ResponseEntity<ErrorMessage> handleInvalidPaginationParamsException(InvalidPaginationParamsException ex,
+                                                                                  WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),
@@ -188,7 +210,50 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = PageNotFound.class)
+    protected ResponseEntity<ErrorMessage> handlePageNotFoundException(PageNotFound ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.NOT_FOUND.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
 
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = InvalidPageNumber.class)
+    protected ResponseEntity<ErrorMessage> handleInvalidPageNumberException(InvalidPageNumber ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {MismatchException.class})
+    protected ResponseEntity<ErrorMessage> handleMismatchException(MismatchException ex,
+                                                                   WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(value = {ParameterNotFound.class})
+    protected ResponseEntity<ErrorMessage> handleParamNotFound(ParameterNotFound ex,
+                                                               WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.NOT_FOUND.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    }
 
 
 }

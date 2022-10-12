@@ -1,12 +1,16 @@
 package com.alkemy.ong.security.service.impl;
 
-import com.alkemy.ong.exception.*;
 import com.alkemy.ong.util.Constants;
+import com.alkemy.ong.exception.*;
 import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
 import com.alkemy.ong.security.model.Role;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
+import com.alkemy.ong.exception.AlreadyExistsException;
+import com.alkemy.ong.exception.ParameterNotFound;
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.service.*;
 import com.alkemy.ong.security.model.*;
@@ -156,6 +160,21 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         emailService.sendWelcomeEmail(user.getEmail());
 
         return userGetDto;
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()){
+            throw new ParameterNotFound(message.getMessage("id.invalid", null, Locale.US));
+        }
+        String target = user.get().getEmail();
+        String logged = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!logged.equals(target)){
+            throw new MismatchException(message.getMessage("mismatch.users",null,Locale.US));
+        }
+        userRepository.deleteById(id);
     }
 
     @Override

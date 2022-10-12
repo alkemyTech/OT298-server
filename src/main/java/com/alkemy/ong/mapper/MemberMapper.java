@@ -4,6 +4,8 @@ import com.alkemy.ong.dto.MemberDTO;
 import com.alkemy.ong.model.Member;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
 
@@ -11,4 +13,5 @@ public interface MemberMapper {
 
     MemberDTO memberToMemberDTO(Member member);
 
+    List<MemberDTO> toDtoList(List<Member> members);
 }

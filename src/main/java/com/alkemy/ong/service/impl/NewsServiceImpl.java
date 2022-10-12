@@ -4,13 +4,19 @@ import com.alkemy.ong.dto.NewsPaginationDto;
 import com.alkemy.ong.exception.InvalidPaginationParamsException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.util.Pagination;
+import com.alkemy.ong.dto.CommentBasicDTO;
+import com.alkemy.ong.exception.ThereAreNoCommentsByNew;
+import com.alkemy.ong.mapper.CommentMapper;
+import com.alkemy.ong.model.Comment;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.INewsService;
 import com.alkemy.ong.mapper.NewsMapper;
@@ -30,16 +36,29 @@ public class NewsServiceImpl implements INewsService {
     private NewsMapper mapper;
 
     @Autowired
+    private CommentMapper mapperComment;
+
+    @Autowired
     private MessageSource message;
 
-    public NewsDto save(NewsDto dto){
+    @Override
+    public List<CommentBasicDTO> getAllCommentsByNewsId(Long id) {
+        List<Comment> comments = repo.findCommentsByNewsId(id);
+        if (comments.isEmpty()) {
+            throw new ThereAreNoCommentsByNew(message.getMessage("new.commentsThereAreNo", null, Locale.US));
+        }
+        List<CommentBasicDTO> commentsDtos = mapperComment.listCommentsToListDtos(comments);
+        return commentsDtos;
+    }
+
+    public NewsDto save(NewsDto dto) {
         News news = repo.save(mapper.toEntity(dto));
         return mapper.toDto(news);
     }
 
     @Override
     public NewsDto update(Long id, NewsDto dto) {
-        if(!findById(id).isPresent()){
+        if (!findById(id).isPresent()) {
             throw new ResourceNotFoundException(message.getMessage("news.notFound", null, Locale.US));
         }
         News newsEntity = repo.findById(id).get();
@@ -49,28 +68,30 @@ public class NewsServiceImpl implements INewsService {
     }
 
     @Override
-    public void deleteById(Long id){
-        if(!findById(id).isPresent()){
+    public void deleteById(Long id) {
+        if (!findById(id).isPresent()) {
             throw new ResourceNotFoundException(message.getMessage("news.notFound", null, Locale.US));
         }
         repo.deleteById(id);
     }
 
-    public boolean existsById(Long id){
+    public boolean existsById(Long id) {
         return repo.existsById(id);
     }
-    public Optional<News> findById(Long id){
+
+    public Optional<News> findById(Long id) {
         return repo.findById(id);
     }
-    public Optional<List> findAll(){
+
+    public Optional<List> findAll() {
         return Optional.of(repo.findAll());
     }
 
-    public NewsDto getById(Long id){
-        if(findById(id).isPresent()){
+    public NewsDto getById(Long id) {
+        if (findById(id).isPresent()) {
             News news = findById(id).get();
             return mapper.toDto(news);
-        }else{
+        } else {
             throw new ResourceNotFoundException(message.getMessage("news.notFound", null, Locale.US));
         }
     }
@@ -79,9 +100,10 @@ public class NewsServiceImpl implements INewsService {
     public NewsPaginationDto getPaginated(Pageable pageable, HttpServletRequest request, UriComponentsBuilder uriBuilder) {
         int pageNumber = pageable.getPageNumber();
 
-        int pageSize =  pageable.getPageSize();
+        int pageSize = pageable.getPageSize();
 
         Page<News> resultPage = repo.findAll(pageable);
+
         int totalPages = resultPage.getTotalPages();
 
         if (pageNumber < 0 || pageNumber >= totalPages) {
@@ -89,6 +111,7 @@ public class NewsServiceImpl implements INewsService {
         }
 
         uriBuilder.path(request.getRequestURI());
+
         Map<String, String> links = new LinkedHashMap<>();
 
         if (resultPage.hasPrevious()) {

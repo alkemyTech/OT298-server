@@ -5,9 +5,10 @@ import com.alkemy.ong.exception.CustomAuthenticationEntryPoint;
 import com.alkemy.ong.security.filter.JwtRequestFilter;
 import com.alkemy.ong.security.service.impl.UserServiceImpl;
 
+import static com.alkemy.ong.util.Constants.ROLE_USER;
 import static com.alkemy.ong.util.Constants.ALL_ROLES;
+import static com.alkemy.ong.util.Constants.Endpoints.*;
 import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
-import static com.alkemy.ong.util.Constants.Endpoints.USER_UPDATE;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +26,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.Filter;
-
 import org.springframework.http.HttpMethod;
 
 
@@ -46,19 +46,13 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
+                .antMatchers(API_UI_ANTMATCHER, API_DESCRIPTION_ANTMATCHER).permitAll()
+                .and().authorizeRequests()
+                .antMatchers("/v2/api-docs", "/v3/api-docs","/swagger-ui.html", "api/docs").permitAll()
                 .antMatchers("/auth/*").permitAll()
-                .antMatchers("/users/{id}").hasAnyAuthority(ALL_ROLES)
-                .antMatchers(HttpMethod.PUT, "/news/{id}").hasAuthority(ROLE_ADMIN)
-                .antMatchers(HttpMethod.DELETE, "/news/{id}").hasAuthority(ROLE_ADMIN)
-                .antMatchers(HttpMethod.DELETE, "/categories/{id}").hasAuthority(ROLE_ADMIN)
-                .antMatchers(HttpMethod.GET, "/news/{id}").hasAuthority(ROLE_ADMIN)
-                .antMatchers(HttpMethod.PUT, "/categories/{id}").hasAuthority(ROLE_ADMIN)
-                .antMatchers(HttpMethod.GET, "/organization/public").hasAnyAuthority(ALL_ROLES)
-                .antMatchers(HttpMethod.GET, "/slides").hasAuthority(ROLE_ADMIN)
-                .antMatchers(HttpMethod.GET, "/slides/{id}").hasAuthority(ROLE_ADMIN)
-                .antMatchers(HttpMethod.PUT, "/slides/{id}").hasAuthority(ROLE_ADMIN)
-                .antMatchers(HttpMethod.GET, "/**").hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.GET, USER).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, USER_UPDATE).hasAnyAuthority(ALL_ROLES)
+                .antMatchers(HttpMethod.DELETE, USER_UPDATE).hasAnyAuthority(ROLE_USER)
                 .antMatchers(HttpMethod.PUT, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/news/{id}").hasAnyAuthority(ROLE_ADMIN)
@@ -66,6 +60,9 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/categories/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PUT, "/categories/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/categories/{id}").hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.GET, SLIDE).hasAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.GET, SLIDE_UPDATE).hasAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.PUT, SLIDE_UPDATE).hasAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/organization/public").hasAnyAuthority(ALL_ROLES)
                 .antMatchers(HttpMethod.PUT, "/testimonials/{id}").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/contacts").hasAnyAuthority(ROLE_ADMIN)
@@ -74,11 +71,16 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/activities").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.POST, "/categories").hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/testimonials/{id}").hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.GET, MEMBER).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/comments").hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.GET, "/testimonials/page").hasAnyAuthority(ALL_ROLES)
+                .antMatchers(HttpMethod.DELETE, MEMBER_UPDATE).hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.GET, "/news/{id}/comment").hasAnyAuthority(ALL_ROLES)
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).authenticationEntryPoint(authenticationEntryPoint())
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 
         httpSecurity.addFilterBefore((Filter) jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
