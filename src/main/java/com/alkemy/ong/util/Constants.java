@@ -27,4 +27,21 @@ public class Constants {
         public static final String TESTIMONIAL_ID = "/{id}";
         public static final String TESTIMONIAL_PAGE = "/page";
     }
+
+    public static abstract class httpCodes{
+        public static final String STATUS_OK = "200";
+        public static final String STATUS_NO_CONTENT = "204";
+        public static final String STATUS_NOT_FOUND = "400";
+        public static final String STATUS_FORBIDDEN = "403";
+        public static final String STATUS_BAD_REQUEST = "404";
+    }
+
+    public static abstract class messagesForDocs{
+        public static final String GET_CATEGORIES_SUCCESSFUL = "Get all categories successfully";
+        public static final String INVALID_PAGE = "Invalid page number";
+        public static final String PAGE_NOT_FOUND = "Page not found";
+        public static final String NO_CATEGORIES = "There are no categories";
+        public static final String FORBIDDEN = "Action forbidden";
+
+    }
 }
