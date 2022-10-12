@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.documentation.ITestimonialController;
 import com.alkemy.ong.dto.TestimonialDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.service.ITestimonialService;
@@ -18,7 +19,7 @@ import static com.alkemy.ong.util.Constants.Endpoints.*;
 
 @RestController
 @RequestMapping(TESTIMONIAL)
-public class TestimonialController {
+public class TestimonialController implements ITestimonialController{
     
     @Autowired
     private ITestimonialService service;

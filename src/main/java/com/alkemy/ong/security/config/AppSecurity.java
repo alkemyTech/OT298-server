@@ -48,6 +48,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(API_UI_ANTMATCHER, API_DESCRIPTION_ANTMATCHER).permitAll()
                 .and().authorizeRequests()
+                .antMatchers("/v2/api-docs", "/v3/api-docs","/swagger-ui.html", "api/docs").permitAll()
                 .antMatchers("/auth/*").permitAll()
                 .antMatchers(HttpMethod.GET, USER).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, USER_UPDATE).hasAnyAuthority(ALL_ROLES)
