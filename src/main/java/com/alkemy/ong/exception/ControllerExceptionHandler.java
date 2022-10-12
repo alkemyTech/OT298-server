@@ -61,11 +61,11 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = {UnauthorizedException.class})
-    protected ResponseEntity<ErrorMessage> handleUnauthorizedException (UnauthorizedException ex,
-                                                                            WebRequest request){
+    @ExceptionHandler(value = {PermissionDeniedException.class})
+    protected ResponseEntity<ErrorMessage> handleUnauthorizedException (PermissionDeniedException ex,
+                                                                        WebRequest request){
         ErrorMessage message = new ErrorMessage(
-                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.FORBIDDEN.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));

@@ -4,7 +4,7 @@ import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.exception.EntityNotSavedException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
-import com.alkemy.ong.exception.UnauthorizedException;
+import com.alkemy.ong.exception.PermissionDeniedException;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
@@ -79,7 +79,7 @@ public class CommentServiceImpl implements ICommentService {
             Comment savedComment = commentRepository.save(updatedComment);
             return commentMapper.commentEntityToDto(savedComment);
         }else{
-            throw new UnauthorizedException(message.getMessage("unauthorized.comment", null, Locale.US));
+            throw new PermissionDeniedException(message.getMessage("permissionDenied.comment", null, Locale.US));
         }
     }
 }
