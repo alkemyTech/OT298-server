@@ -46,12 +46,10 @@ public class CategoryController implements CategoryDoc {
         return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
-    @PostMapping
-    public ResponseEntity<CategoryDTO> saveCategory (@Valid @RequestBody CategoryDTO dto){
-
+    @Override
+    public ResponseEntity<CategoryDTO> saveCategory (CategoryDTO dto){
         CategoryDTO savedCategory = categoryService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
-
     }
 
     @DeleteMapping("/{id}")

@@ -30,10 +30,11 @@ public class Constants {
 
     public static abstract class httpCodes{
         public static final String STATUS_OK = "200";
+        public static final String STATUS_CREATED = "201";
         public static final String STATUS_NO_CONTENT = "204";
-        public static final String STATUS_NOT_FOUND = "400";
+        public static final String STATUS_BAD_REQUEST = "400";
         public static final String STATUS_FORBIDDEN = "403";
-        public static final String STATUS_BAD_REQUEST = "404";
+        public static final String STATUS_NOT_FOUND = "404";
     }
 
     public static abstract class messagesForDocs{
@@ -48,6 +49,9 @@ public class Constants {
         public static final String GET_CATEGORY_ID = "Get category by id";
         public static final String CATEGORY_NOT_FOUND = "Category not found";
         public static final String GET_CATEGORY_SUCCESSFUL = "Get category successfully";
+        public static final String ADD_CATEGORY = "Add new category";
+        public static final String CATEGORY_CREATED = "Category added successfully";
+        public static final String BAD_REQUEST = "Bad request";
 
 
     }
