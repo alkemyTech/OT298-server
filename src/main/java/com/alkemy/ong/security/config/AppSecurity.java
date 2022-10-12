@@ -76,6 +76,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/testimonials/page").hasAnyAuthority(ALL_ROLES)
                 .antMatchers(HttpMethod.DELETE, MEMBER_UPDATE).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, "/news/{id}/comment").hasAnyAuthority(ALL_ROLES)
+                .antMatchers(HttpMethod.PATCH, "/comments/{id}").hasAnyAuthority(ALL_ROLES)
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).authenticationEntryPoint(authenticationEntryPoint())
                 .and().sessionManagement()

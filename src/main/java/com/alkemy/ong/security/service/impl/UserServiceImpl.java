@@ -1,6 +1,5 @@
 package com.alkemy.ong.security.service.impl;
 
-import com.alkemy.ong.util.Constants;
 import com.alkemy.ong.exception.*;
 import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
@@ -25,7 +24,6 @@ import org.springframework.security.core.Authentication;
 
 import com.alkemy.ong.security.dto.UserPostDto;
 import com.alkemy.ong.security.mapper.UserMapper;
-import com.alkemy.ong.security.model.Role;
 
 import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
 import static com.alkemy.ong.util.Constants.ROLE_USER;
@@ -97,7 +95,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             );
             userDetails = (UserDetails) auth.getPrincipal();
         } catch (BadCredentialsException e) {
-            throw new ParameterNotFound(message.getMessage("credencials.incorrect", null, Locale.US));
+            throw new ParameterNotFound(message.getMessage("credentials.incorrect", null, Locale.US));
         }
         final String jwt = jwtUtils.generateToken(userDetails);
         return new AuthResponse(jwt);
@@ -194,7 +192,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         User user = userRepository.findByEmail(email);
         if (user == null) {
 
-            throw new UsernameNotFoundException(message.getMessage("email.notfound", null, Locale.US));
+            throw new UsernameNotFoundException(message.getMessage("email.notFound", null, Locale.US));
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
 

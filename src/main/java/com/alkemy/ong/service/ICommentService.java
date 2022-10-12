@@ -10,4 +10,6 @@ public interface ICommentService {
     CommentDto save(CommentDto commentDto);
 
     List<CommentBasicDTO> getAllComments();
+
+    CommentDto updateComment(Long id, CommentBasicDTO dto);
 }
