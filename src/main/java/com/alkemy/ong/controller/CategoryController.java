@@ -5,8 +5,6 @@ import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.exception.InvalidPageNumber;
 import com.alkemy.ong.service.ICategoryService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.PageRequest;
@@ -20,8 +18,6 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
-import static com.alkemy.ong.util.Constants.FIRST_PAGE;
 import static com.alkemy.ong.util.Constants.PAGE_SIZE;
 
 @RestController
@@ -34,9 +30,6 @@ public class CategoryController implements ICategoryController {
     @Autowired
     private MessageSource message;
 
-    //@Operation(summary = "Get all categories")
-    //@SecurityRequirement(name = "Bearer Authentication")
-    //@GetMapping
     @Override
     public ResponseEntity<Map<String, Object>> getAllCategories(Integer page){
         if(page<0){
