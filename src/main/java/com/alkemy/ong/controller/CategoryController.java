@@ -1,6 +1,6 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.controller.docs.ICategoryController;
+import com.alkemy.ong.documentation.CategoryDoc;
 import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.exception.InvalidPageNumber;
@@ -22,7 +22,7 @@ import static com.alkemy.ong.util.Constants.PAGE_SIZE;
 
 @RestController
 @RequestMapping("/categories")
-public class CategoryController implements ICategoryController {
+public class CategoryController implements CategoryDoc {
 
     @Autowired
     private ICategoryService categoryService;

@@ -1,5 +1,6 @@
-package com.alkemy.ong.controller.docs;
+package com.alkemy.ong.documentation;
 
+import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
