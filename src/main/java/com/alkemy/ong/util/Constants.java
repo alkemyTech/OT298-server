@@ -49,9 +49,14 @@ public class Constants {
         public static final String GET_CATEGORY_ID = "Get category by id";
         public static final String CATEGORY_NOT_FOUND = "Category not found";
         public static final String GET_CATEGORY_SUCCESSFUL = "Get category successfully";
-        public static final String ADD_CATEGORY = "Add new category";
+        public static final String ADD_CATEGORY = "Add a new category";
         public static final String CATEGORY_CREATED = "Category added successfully";
         public static final String BAD_REQUEST = "Bad request";
+        public static final String DELETE_CATEGORY = "Delete a category";
+        public static final String UPDATE_CATEGORY = "Update a category";
+        public static final String CATEGORY_DELETED = "Category deleted successfully";
+        public static final String CATEGORY_UPDATED = "Category updated successfully";
+
 
 
     }

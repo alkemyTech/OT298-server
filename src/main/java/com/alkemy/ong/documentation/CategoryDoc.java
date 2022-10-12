@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import static com.alkemy.ong.util.Constants.httpCodes.*;
 import static com.alkemy.ong.util.Constants.messagesForDocs.*;
 
 @RequestMapping("categories")
+@Tag(name = "Categories", description = "View, add, update and delete categories")
 public interface CategoryDoc {
 
     @Operation(summary = GET_CATEGORIES)
@@ -53,5 +55,28 @@ public interface CategoryDoc {
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CategoryDTO> saveCategory (@Valid @RequestBody CategoryDTO dto);
-}
+    ResponseEntity<CategoryDTO> saveCategory (@Valid @RequestBody CategoryDTO dto);
+
+    @Operation(summary = DELETE_CATEGORY)
+    @SecurityRequirement(name = BEARER_AUTH)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = STATUS_NO_CONTENT, description = CATEGORY_DELETED, content = @Content),
+            @ApiResponse(responseCode = STATUS_NOT_FOUND, description = CATEGORY_NOT_FOUND, content = @Content),
+            @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> deleteCategory(@PathVariable Long id);
+
+    @Operation(summary = UPDATE_CATEGORY)
+    @SecurityRequirement(name = BEARER_AUTH)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = STATUS_OK, description = CATEGORY_UPDATED, content = @Content),
+            @ApiResponse(responseCode = STATUS_NOT_FOUND, description = CATEGORY_NOT_FOUND, content = @Content),
+            @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = BAD_REQUEST, content = @Content),
+            @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
+    })
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id,
+                                                      @Valid @RequestBody CategoryDTO dto);
+    }

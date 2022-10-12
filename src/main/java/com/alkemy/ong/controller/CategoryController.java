@@ -16,8 +16,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import static com.alkemy.ong.util.Constants.PAGE_SIZE;
 
 @RestController
@@ -52,14 +50,14 @@ public class CategoryController implements CategoryDoc {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    @Override
+    public ResponseEntity<Void> deleteCategory(Long id) {
         categoryService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryDTO dto){
+    @Override
+    public ResponseEntity<CategoryDTO> updateCategory(Long id, CategoryDTO dto){
         CategoryDTO categoryUpdated = categoryService.update(id, dto);
         return ResponseEntity.ok().body(categoryUpdated);
     }
