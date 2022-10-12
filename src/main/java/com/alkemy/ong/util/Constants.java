@@ -37,11 +37,18 @@ public class Constants {
     }
 
     public static abstract class messagesForDocs{
+
+        public static final String BEARER_AUTH = "Bearer Authentication";
+        public static final String GET_CATEGORIES = "Get all categories";
         public static final String GET_CATEGORIES_SUCCESSFUL = "Get all categories successfully";
         public static final String INVALID_PAGE = "Invalid page number";
         public static final String PAGE_NOT_FOUND = "Page not found";
         public static final String NO_CATEGORIES = "There are no categories";
         public static final String FORBIDDEN = "Action forbidden";
+        public static final String GET_CATEGORY_ID = "Get category by id";
+        public static final String CATEGORY_NOT_FOUND = "Category not found";
+        public static final String GET_CATEGORY_SUCCESSFUL = "Get category successfully";
+
 
     }
 }

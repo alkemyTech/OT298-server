@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,10 +19,10 @@ import static com.alkemy.ong.util.Constants.httpCodes.*;
 import static com.alkemy.ong.util.Constants.messagesForDocs.*;
 
 @RequestMapping("categories")
-public interface ICategoryController {
+public interface CategoryDoc {
 
-    @Operation(summary = "Get all categories")
-    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = GET_CATEGORIES)
+    @SecurityRequirement(name = BEARER_AUTH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_OK, description = GET_CATEGORIES_SUCCESSFUL, content = @Content),
             @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = INVALID_PAGE, content = @Content),
@@ -32,4 +33,14 @@ public interface ICategoryController {
     @GetMapping(params = "page")
     ResponseEntity<Map<String, Object>> getAllCategories(
             @RequestParam(defaultValue = FIRST_PAGE, required = false) Integer page);
+
+    @Operation(summary = GET_CATEGORY_ID)
+    @SecurityRequirement(name = BEARER_AUTH)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = STATUS_OK, description = GET_CATEGORY_SUCCESSFUL, content = @Content),
+            @ApiResponse(responseCode = STATUS_NOT_FOUND, description = CATEGORY_NOT_FOUND, content = @Content),
+            @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
+    })
+    @GetMapping("/{id}")
+    ResponseEntity<CategoryCompleteGetDto> getCategoryById(@PathVariable Long id);
 }

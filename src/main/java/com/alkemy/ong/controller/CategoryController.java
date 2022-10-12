@@ -40,8 +40,8 @@ public class CategoryController implements CategoryDoc {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CategoryCompleteGetDto> getCategoryById(@PathVariable Long id){
+    @Override
+    public ResponseEntity<CategoryCompleteGetDto> getCategoryById(Long id){
         CategoryCompleteGetDto category = categoryService.getCategoryById(id);
         return ResponseEntity.status(HttpStatus.OK).body(category);
     }
