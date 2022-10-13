@@ -1,10 +1,8 @@
 package com.alkemy.ong.security.service.impl;
 
-import com.alkemy.ong.util.Constants;
 import com.alkemy.ong.exception.*;
 import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
-import com.alkemy.ong.security.model.Role;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -164,7 +162,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void deleteUser(Long id) {
+    public AuxUserGetDto deleteUser(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (!user.isPresent()){
             throw new ParameterNotFound(message.getMessage("id.invalid", null, Locale.US));
@@ -175,6 +173,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             throw new MismatchException(message.getMessage("mismatch.users",null,Locale.US));
         }
         userRepository.deleteById(id);
+        return userMapper.toAuxDto(user.get());
     }
 
     @Override
