@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,6 @@ import static com.alkemy.ong.util.Constants.FIRST_PAGE;
 import static com.alkemy.ong.util.Constants.httpCodes.*;
 import static com.alkemy.ong.util.Constants.messagesForDocs.*;
 
-@RequestMapping("categories")
 @Tag(name = "Categories", description = "View, add, update and delete categories")
 public interface ICategoryController {
 
@@ -32,7 +30,6 @@ public interface ICategoryController {
             @ApiResponse(responseCode = STATUS_NO_CONTENT, description = NO_CATEGORIES, content = @Content),
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
     })
-    @GetMapping(params = "page")
     ResponseEntity<Map<String, Object>> getAllCategories(
             @RequestParam(defaultValue = FIRST_PAGE, required = false) Integer page);
 
@@ -43,7 +40,6 @@ public interface ICategoryController {
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = CATEGORY_NOT_FOUND, content = @Content),
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
     })
-    @GetMapping("/{id}")
     ResponseEntity<CategoryCompleteGetDto> getCategoryById(@PathVariable Long id);
 
 
@@ -54,7 +50,6 @@ public interface ICategoryController {
             @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = BAD_REQUEST, content = @Content),
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
     })
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<CategoryDTO> saveCategory (@Valid @RequestBody CategoryDTO dto);
 
     @Operation(summary = DELETE_CATEGORY)
@@ -64,7 +59,6 @@ public interface ICategoryController {
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = CATEGORY_NOT_FOUND, content = @Content),
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
     })
-    @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteCategory(@PathVariable Long id);
 
     @Operation(summary = UPDATE_CATEGORY)
@@ -75,8 +69,6 @@ public interface ICategoryController {
             @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = BAD_REQUEST, content = @Content),
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
     })
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id,
                                                       @Valid @RequestBody CategoryDTO dto);
     }

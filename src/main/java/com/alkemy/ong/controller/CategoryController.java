@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Pageable;
 
@@ -29,6 +30,7 @@ public class CategoryController implements ICategoryController {
     private MessageSource message;
 
     @Override
+    @GetMapping(params = "page")
     public ResponseEntity<Map<String, Object>> getAllCategories(Integer page){
         if(page<0){
             throw new InvalidPageNumber(message.getMessage("invalid.Page", null, Locale.US));
@@ -39,24 +41,29 @@ public class CategoryController implements ICategoryController {
     }
 
     @Override
+    @GetMapping("/{id}")
     public ResponseEntity<CategoryCompleteGetDto> getCategoryById(Long id){
         CategoryCompleteGetDto category = categoryService.getCategoryById(id);
         return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
     @Override
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryDTO> saveCategory (CategoryDTO dto){
         CategoryDTO savedCategory = categoryService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
     }
 
     @Override
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(Long id) {
         categoryService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryDTO> updateCategory(Long id, CategoryDTO dto){
         CategoryDTO categoryUpdated = categoryService.update(id, dto);
         return ResponseEntity.ok().body(categoryUpdated);
