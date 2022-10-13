@@ -21,7 +21,7 @@ import static com.alkemy.ong.util.Constants.messagesForDocs.*;
 
 @RequestMapping("categories")
 @Tag(name = "Categories", description = "View, add, update and delete categories")
-public interface CategoryDoc {
+public interface ICategoryController {
 
     @Operation(summary = GET_CATEGORIES)
     @SecurityRequirement(name = BEARER_AUTH)
