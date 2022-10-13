@@ -12,7 +12,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -74,5 +73,12 @@ public class CommentMapper {
         List<CommentBasicDTO> commentsDtos =
                 comments.stream().map(comment -> commentBodyToCommentBasicDTO(comment)).collect(Collectors.toList());
         return commentsDtos;
+    }
+
+    public Comment updateCommentBody (CommentBasicDTO dto, Comment comment){
+        if (dto.getBody() != null){
+            comment.setBody(dto.getBody());
+        }
+        return comment;
     }
 }
