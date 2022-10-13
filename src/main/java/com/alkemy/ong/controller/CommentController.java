@@ -30,4 +30,10 @@ public class CommentController {
         List<CommentBasicDTO> comments = commentService.getAllComments();
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(comments);
     }
+
+    @PatchMapping ("/{id}")
+    public ResponseEntity<CommentDto> updateComment (@PathVariable Long id, @RequestBody CommentBasicDTO dto){
+        CommentDto updatedComment = commentService.updateComment(id, dto);
+        return ResponseEntity.accepted().body(updatedComment);
+    }
 }
