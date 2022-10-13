@@ -24,6 +24,7 @@ public class Constants {
         public static final String ORGANIZATION = "/organization/public";
         public static final String ORGANIZATION_ID = ORGANIZATION + ID;
         public static final String COMMENT = "/comments";
+        public static final String COMMENT_ID = COMMENT + ID;
         public static final String NEWS = "/news";
         public static final String NEWS_ID = NEWS + ID;
         public static final String NEWS_ID_COMMENT = NEWS + ID + COMMENT;
