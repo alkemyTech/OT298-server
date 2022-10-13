@@ -1,18 +1,26 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.MemberDTO;
+import com.alkemy.ong.dto.MemberPaginationDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.service.IMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import static com.alkemy.ong.util.Constants.Endpoints;
-import org.springframework.web.bind.annotation.*;
+import static com.alkemy.ong.util.Constants.Endpoints.*;
+import static com.alkemy.ong.util.Pagination.INITIAL_PAGE;
+import static com.alkemy.ong.util.Pagination.PAGE_SIZE;
 
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(Endpoints.MEMBER)
+@RequestMapping(MEMBER)
 public class MemberController {
 
     @Autowired
@@ -23,21 +31,27 @@ public class MemberController {
         MemberDTO savedMember = memberService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMember);
     }
-    @GetMapping
+
+    @GetMapping("/all")
     public ResponseEntity<?> getAll(){
         return new ResponseEntity<>(memberService.getAll(), HttpStatus.OK);
     }
-    @PutMapping("/{id}")
+
+    @PutMapping(ID)
     public ResponseEntity<MemberDTO> update(@Valid @PathVariable("id") Long id, @RequestBody MemberDTO dto) {
-
-        MemberDTO memberdtoupdated = memberService.update(id,dto);
-
-        return ResponseEntity.ok().body(memberdtoupdated);
-
-
+        MemberDTO updatedMemberDTO = memberService.update(id,dto);
+        return ResponseEntity.ok().body(updatedMemberDTO);
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> detele(@PathVariable Long id) throws ResourceNotFoundException{
+    @DeleteMapping(ID)
+    public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException{
         return new ResponseEntity<>(memberService.delete(id), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<MemberPaginationDTO> getPaginated(
+            @Valid @PageableDefault(page = INITIAL_PAGE, size = PAGE_SIZE) Pageable pageable,
+            HttpServletRequest request,
+            UriComponentsBuilder uriBuilder) {
+        return ResponseEntity.ok(memberService.getPaginated(pageable, request, uriBuilder));
     }
 }
