@@ -16,7 +16,6 @@ public class Constants {
     public static abstract class Endpoints {
         public static final String ID = "/{id}";
         public static final String PAGE = "/page";
-        public static final String PAGE_QUERY = "?page=*";
         public static final String USER = "/users";
         public static final String USER_ID = USER + ID;
         public static final String SLIDE = "/slides";
@@ -33,7 +32,8 @@ public class Constants {
         public static final String CATEGORY_ID = CATEGORY + ID;
         public static final String MEMBER = "/members";
         public static final String MEMBER_ID = MEMBER + ID;
-        public static final String MEMBER_PAGE = MEMBER + PAGE_QUERY;
+        public static final String MEMBER_PAGES = MEMBER + "**";
+        public static final String MEMBER_ALL = MEMBER + "/all";
         public static final String API_UI_ANTMATCHER = "/api/**";
         public static final String API_DESCRIPTION_ANTMATCHER = "/v3/**";
         public static final String TESTIMONIAL ="/testimonials";
