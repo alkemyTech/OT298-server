@@ -41,5 +41,38 @@ public class Constants {
         public static final String TESTIMONIAL_ID = TESTIMONIAL + ID;
         public static final String TESTIMONIAL_PAGE = TESTIMONIAL + PAGE;
     }
+
+    public static abstract class httpCodes{
+        public static final String STATUS_OK = "200";
+        public static final String STATUS_CREATED = "201";
+        public static final String STATUS_NO_CONTENT = "204";
+        public static final String STATUS_BAD_REQUEST = "400";
+        public static final String STATUS_FORBIDDEN = "403";
+        public static final String STATUS_NOT_FOUND = "404";
+    }
+
+    public static abstract class messagesForDocs{
+
+        public static final String BEARER_AUTH = "Bearer Authentication";
+        public static final String GET_CATEGORIES = "Get all categories";
+        public static final String GET_CATEGORIES_SUCCESSFUL = "Get all categories successfully";
+        public static final String INVALID_PAGE = "Invalid page number";
+        public static final String PAGE_NOT_FOUND = "Page not found";
+        public static final String NO_CATEGORIES = "There are no categories";
+        public static final String FORBIDDEN = "Action forbidden";
+        public static final String GET_CATEGORY_ID = "Get category by id";
+        public static final String CATEGORY_NOT_FOUND = "Category not found";
+        public static final String GET_CATEGORY_SUCCESSFUL = "Get category successfully";
+        public static final String ADD_CATEGORY = "Add a new category";
+        public static final String CATEGORY_CREATED = "Category added successfully";
+        public static final String BAD_REQUEST = "Bad request";
+        public static final String DELETE_CATEGORY = "Delete a category";
+        public static final String UPDATE_CATEGORY = "Update a category";
+        public static final String CATEGORY_DELETED = "Category deleted successfully";
+        public static final String CATEGORY_UPDATED = "Category updated successfully";
+
+
+
+    }
 }
 
