@@ -16,16 +16,32 @@ public class Constants {
     public static abstract class Endpoints {
         public static final String USER = "/users";
         public static final String USER_ID = USER + "/{id}";
+        
         public static final String SLIDE = "/slides";
         public static final String SLIDE_ID = SLIDE + "{/id}";
+        
         public static final String MEMBER = "/members";
         public static final String MEMBER_ID = MEMBER + "/{id}";
+        
         public static final String API_UI_ANTMATCHER = "/api/**";
         public static final String API_DESCRIPTION_ANTMATCHER = "/v3/**";
 
         public static final String TESTIMONIAL ="/testimonials";
         public static final String TESTIMONIAL_ID = "/{id}";
         public static final String TESTIMONIAL_PAGE = "/page";
+        
+        public static final String AUTH = "/auth";
+        public static final String AUTH_ALL = AUTH + "/**";
+        
+        public static final String NEWS = "/news";
+        public static final String NEWS_ALL = NEWS + "**";
+        public static final String NEWS_ID = NEWS + "/{id}";
+        
+        public static final String CATEGORY = "/categories";
+        public static final String CATEGORY_ID = CATEGORY + "/{id}";
+        
+        
+        public static final String[] DOCS = {"/v2/api-docs", "/v3/api-docs", "/swagger-ui.html", "api/docs"};
     }
 
     public static abstract class httpCodes{
