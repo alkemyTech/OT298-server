@@ -28,4 +28,6 @@ public interface IUserService {
     AuxUserGetDto update(Long id, UserPostDto dto) throws ResourceNotFoundException;
 
     UserInformationDto getCurrentAuthenticatedUser(Authentication authentication);
+
+    User getUserAuthenticated(Authentication authentication);
 }
