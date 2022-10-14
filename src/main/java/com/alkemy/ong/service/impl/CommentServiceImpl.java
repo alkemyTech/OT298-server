@@ -88,7 +88,7 @@ public class CommentServiceImpl implements ICommentService {
 
     }
 
-    private boolean CommentDeletedByUser(Long id, Authentication authentication, Comment comment) {
+    private boolean commentDeletedByUser(Long id, Authentication authentication, Comment comment) {
         User user= userService.getUserAuthenticated(authentication);
 
 
