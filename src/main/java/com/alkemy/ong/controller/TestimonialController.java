@@ -24,7 +24,7 @@ public class TestimonialController implements ITestimonialController{
     @Autowired
     private ITestimonialService service;
 
-    @GetMapping(TESTIMONIAL_PAGE)
+    @GetMapping(PAGE)
     public ResponseEntity<Map<String, Object>> getTestimonialPage(@RequestParam(value = "page", defaultValue = "0") Integer page, Pageable pageable) {
         Map<String, Object> response = service.responseTestimonialPage(page, pageable);
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
@@ -35,13 +35,13 @@ public class TestimonialController implements ITestimonialController{
         return new ResponseEntity<>(service.save(dto), HttpStatus.OK);
     }
 
-    @PutMapping(TESTIMONIAL_ID)
+    @PutMapping(ID)
     public ResponseEntity<TestimonialDTO> updateTestimonial(@PathVariable Long id, @Valid @RequestBody TestimonialDTO dto){
         TestimonialDTO testimonialDTO = service.update(id, dto);
         return new ResponseEntity<TestimonialDTO>(testimonialDTO, HttpStatus.OK);
     }
     
-    @DeleteMapping(TESTIMONIAL_ID)
+    @DeleteMapping(ID)
     public ResponseEntity<Void> delete (@PathVariable Long id) throws ResourceNotFoundException {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
