@@ -135,7 +135,7 @@ public class ActivityControllerTest {
     }
 
     @Test
-    @DisplayName("A existent activity can be updated")
+    @DisplayName("An existent activity can be updated")
     @WithMockUser(username = "user", authorities = ROLE_ADMIN)
     public void anExistentActivityCanBeUpdated() throws Exception {
         ActivityDTO activity = new ActivityDTO(1L,
