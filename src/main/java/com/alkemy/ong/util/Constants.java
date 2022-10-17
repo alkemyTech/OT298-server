@@ -49,6 +49,7 @@ public class Constants {
         public static final String STATUS_BAD_REQUEST = "400";
         public static final String STATUS_FORBIDDEN = "403";
         public static final String STATUS_NOT_FOUND = "404";
+        public static final String STATUS_INTERNAL_SERVER_ERROR = "500";
     }
 
     public static abstract class messagesForDocs{
@@ -86,6 +87,8 @@ public class Constants {
         public static final String ERROR_SERVER = "Error of the server";
         public static final String NO_AUTHORIZATION = "Access denied, needed authorization to access";
         public static final String THERE_ARE_NO_MEMBER = "There are no saved members";
+        public static final String ERROR_SERVER_ADD = "Server error adding member";
+        public static final String ERROR_SERVER_UPDATE = "Server error updating member";
 
         public static final String SUMARY_ADD = "Add a member";
         public static final String SUMARY_UPDATE = "Update a member";

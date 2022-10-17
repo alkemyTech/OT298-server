@@ -35,7 +35,8 @@ public interface IMemberController {
             @ApiResponse(responseCode = STATUS_OK, description = SUCCESS, content = {
                     @Content(schema = @Schema(implementation = MemberDTO.class))}),
             @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = INVALID_DATA, content = {@Content}),
-            @ApiResponse(responseCode = STATUS_FORBIDDEN, description = NO_AUTHORIZATION, content = {@Content})
+            @ApiResponse(responseCode = STATUS_FORBIDDEN, description = NO_AUTHORIZATION, content = {@Content}),
+            @ApiResponse(responseCode = STATUS_INTERNAL_SERVER_ERROR, description = ERROR_SERVER_ADD, content = {@Content})
     })
     ResponseEntity<MemberDTO> save(@Parameter(description = PARAMETER_MEMBER_ADD) @Valid @RequestBody MemberDTO dto);
 
@@ -45,7 +46,8 @@ public interface IMemberController {
                     @Content(schema = @Schema(implementation = MemberDTO.class))}),
             @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = INVALID_DATA, content = {@Content}),
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = NOT_FOUND_MEMBER, content = {@Content}),
-            @ApiResponse(responseCode = STATUS_FORBIDDEN, description = NO_AUTHORIZATION, content = {@Content})
+            @ApiResponse(responseCode = STATUS_FORBIDDEN, description = NO_AUTHORIZATION, content = {@Content}),
+            @ApiResponse(responseCode = STATUS_INTERNAL_SERVER_ERROR, description = ERROR_SERVER_UPDATE, content = {@Content})
     })
     ResponseEntity<MemberDTO> update(@Parameter(description = PARAMETER_ID) @PathVariable("id") Long id,
                                      @Parameter(description = PARAMETER_MEMBER_UPDATE) @Valid @RequestBody MemberDTO dto);
@@ -63,7 +65,7 @@ public interface IMemberController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_OK, description = SUCCESS, content = {
                     @Content(schema = @Schema(implementation = MemberDTO.class))}),
-            @ApiResponse(responseCode = STATUS_NO_CONTENT, description = THERE_ARE_NO_MEMBER, content = {@Content}),
+            @ApiResponse(responseCode = STATUS_NOT_FOUND, description = THERE_ARE_NO_MEMBER, content = {@Content}),
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = NO_AUTHORIZATION, content = {@Content})
     })
     ResponseEntity<?> getAll();
