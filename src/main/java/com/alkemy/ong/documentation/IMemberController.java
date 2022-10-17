@@ -54,8 +54,7 @@ public interface IMemberController {
 
     @Operation(summary = SUMARY_DELETE, description = DESCRIPTION_DELETE)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = STATUS_OK, description = SUCCESS, content = {
-                    @Content(schema = @Schema(implementation = MemberDTO.class))}),
+            @ApiResponse(responseCode = STATUS_OK, description = SUCCESS, content = {@Content}),
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = NOT_FOUND_MEMBER, content = {@Content}),
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = NO_AUTHORIZATION, content = {@Content})
     })
