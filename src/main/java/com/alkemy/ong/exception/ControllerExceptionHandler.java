@@ -128,9 +128,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-                
+      
         return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
-
     }
 
     @ExceptionHandler(value = {ThereAreNoCommentsByNew.class})
