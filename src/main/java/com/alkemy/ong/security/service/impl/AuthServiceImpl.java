@@ -29,15 +29,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
+@org.springframework.transaction.annotation.Transactional
 public class AuthServiceImpl implements IAuthService {
 
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private IUserService userService;
-    
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -52,7 +55,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Autowired
     private UserMapper userMapper;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -111,21 +114,28 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public UserInformationDto getCurrentAuthenticatedUser(Authentication authentication) {
         try {
-            if (authentication == null) {
-                throw new NoAuthorizationProvidedException(message.getMessage("request.authorizationNotProvided", null, Locale.US));
-            }
-            if (!authentication.isAuthenticated()) {
-                throw new BadCredentialsException(message.getMessage("user.notAuthenticated", null, Locale.US));
-            }
-            User user = userRepository.findByEmail((String) authentication.getPrincipal());
 
-            if (user == null) {
-                throw new UsernameNotFoundException(message.getMessage("email.notFound", null, Locale.US));
-            }
+            User user = getUserAuthenticated(authentication);
+
             return userMapper.userToUserInformationDto(user);
+
         } catch (io.jsonwebtoken.SignatureException e) {
             throw new InvalidTokenException(message.getMessage("invalid.token", null, Locale.US));
         }
     }
 
+    public User getUserAuthenticated(Authentication authentication) {
+        if (authentication == null) {
+            throw new NoAuthorizationProvidedException(message.getMessage("request.authorizationNotProvided", null, Locale.US));
+        }
+        if (!authentication.isAuthenticated()) {
+            throw new BadCredentialsException(message.getMessage("user.notAuthenticated", null, Locale.US));
+        }
+        User user = userRepository.findByEmail((String) authentication.getPrincipal());
+
+        if (user == null) {
+            throw new UsernameNotFoundException(message.getMessage("email.notFound", null, Locale.US));
+        }
+        return user;
+    }
 }

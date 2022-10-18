@@ -128,9 +128,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-                
+      
         return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
-
     }
 
     @ExceptionHandler(value = {ThereAreNoCommentsByNew.class})
@@ -247,6 +246,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {MismatchException.class})
     protected ResponseEntity<ErrorMessage> handleMismatchException(MismatchException ex,
                                                                    WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+                
+               return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+    }
+
+
+    @ExceptionHandler(value = { NotOriginalUserException.class})
+    protected ResponseEntity<ErrorMessage> handleNotOriginalUserException(NotOriginalUserException ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.FORBIDDEN.value(),
                 new Date(),

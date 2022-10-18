@@ -138,5 +138,4 @@ public class UserServiceImpl implements IUserService {
 
         return userMapper.toAuxDto(userRepository.save(user));
     }
-
 }

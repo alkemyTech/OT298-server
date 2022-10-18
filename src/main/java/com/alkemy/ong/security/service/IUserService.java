@@ -19,5 +19,4 @@ public interface IUserService {
     AuxUserGetDto update(Long id, UserPostDto dto) throws ResourceNotFoundException;
 
     AuxUserGetDto deleteUser(Long id);
-
 }

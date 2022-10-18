@@ -1,11 +1,11 @@
 package com.alkemy.ong.security.controller;
 
+import com.alkemy.ong.documentation.IAuthController;
 import com.alkemy.ong.security.dto.*;
 import org.springframework.http.HttpStatus;
 import com.alkemy.ong.security.dto.AuthRequest;
 import com.alkemy.ong.security.dto.AuthResponse;
 import com.alkemy.ong.security.service.IAuthService;
-import com.alkemy.ong.util.Constants.Endpoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,8 +15,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(Endpoints.AUTH)
-public class AuthController {
+@RequestMapping("/auth")
+public class AuthController implements IAuthController {
 
     @Autowired
     private IAuthService authService;
