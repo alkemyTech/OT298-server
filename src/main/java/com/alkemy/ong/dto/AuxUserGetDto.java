@@ -5,9 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Set;
+import lombok.AllArgsConstructor;
 
 @Setter
 @Getter
+@AllArgsConstructor
 public class AuxUserGetDto {
 
     private String firstName;
