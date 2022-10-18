@@ -50,6 +50,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 .antMatchers("/v2/api-docs", "/v3/api-docs","/swagger-ui.html", "api/docs").permitAll()
                 .antMatchers("/auth/*").permitAll()
+
                 .antMatchers(HttpMethod.GET, USER).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, USER_ID).hasAnyAuthority(ALL_ROLES)
                 .antMatchers(HttpMethod.DELETE, USER_ID).hasAnyAuthority(ROLE_USER)
@@ -77,6 +78,8 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, MEMBER_ID).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, COMMENT).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, COMMENT_ID).hasAnyAuthority(ALL_ROLES)
+                .antMatchers(HttpMethod.DELETE, COMMENT_ID).hasAnyAuthority(ALL_ROLES)
+
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).authenticationEntryPoint(authenticationEntryPoint())
                 .and().sessionManagement()

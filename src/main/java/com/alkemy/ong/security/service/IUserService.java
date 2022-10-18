@@ -30,4 +30,6 @@ public interface IUserService {
     void deleteUser(Long id);
 
     UserInformationDto getCurrentAuthenticatedUser(Authentication authentication);
+
+    User getUserAuthenticated(Authentication authentication);
 }
