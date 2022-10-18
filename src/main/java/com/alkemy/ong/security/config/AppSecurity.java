@@ -57,6 +57,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, SLIDE).hasAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, SLIDE_ID).hasAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PUT, SLIDE_ID).hasAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.DELETE, SLIDE_ID).hasAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, ORGANIZATION).hasAnyAuthority(ALL_ROLES)
                 .antMatchers(HttpMethod.PATCH, ORGANIZATION_ID).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, ORGANIZATION).hasAnyAuthority(ROLE_ADMIN)
