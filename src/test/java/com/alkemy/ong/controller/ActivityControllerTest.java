@@ -6,6 +6,7 @@ import com.alkemy.ong.security.service.impl.UserServiceImpl;
 import com.alkemy.ong.service.impl.ActivityServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
 import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
@@ -41,38 +41,38 @@ public class ActivityControllerTest {
     @MockBean
     private UserServiceImpl service;
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    ObjectWriter objectWriter = objectMapper.writer();
-
     @Mock
     private ActivityServiceImpl activityService;
 
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    private ObjectWriter objectWriter = objectMapper.writer();
+
+    private ActivityDTO activity;
+
+    @BeforeEach
+    private void init() {
+        activity = new ActivityDTO(1L,
+                "activity name",
+                "activity content",
+                "activity.jpg");
+    }
+
     @Test
     @DisplayName("Cannot access /activities without credentials")
-    public void activityCreationWithoutAuthorizationIsForbidden() throws Exception {
-        mockMvc.perform(post("/activities")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden())
-                .andDo(print());
+    public void Activity_creation_without_authorization_is_forbidden() throws Exception {
+        postingIsForbidden("/activities");
     }
 
     @Test
     @DisplayName("An admin user can create an activity")
     @WithMockUser(username = "user", authorities = ROLE_ADMIN)
-    public void activityCreationWithAuthenticationIsSuccessful() throws Exception {
-        ActivityDTO activity = new ActivityDTO(1L,
-                "activity name",
-                "activity content",
-                "activity.jpg");
-
+    public void Activity_creation_with_authentication_is_successful() throws Exception {
         Mockito.when(activityService.save(activity)).thenReturn(activity);
 
         String content = objectWriter.writeValueAsString(activity);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/activities")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(content);
+        MockHttpServletRequestBuilder mockRequest = buildPostRequest("/activities", content);
 
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated()).andDo(print());
@@ -81,25 +81,21 @@ public class ActivityControllerTest {
     @Test
     @DisplayName("A regular user cannot create an activity")
     @WithMockUser(username = "user", authorities = ROLE_USER)
-    public void activityCreationWithoutAuthoritiesIsForbidden() throws Exception {
-        mockMvc.perform(post("/activities"))
-                .andExpect(status().isForbidden()).andDo(print());
+    public void Activity_creation_without_authorities_is_forbidden() throws Exception {
+        postingIsForbidden("/activities");
     }
 
     @Test
     @DisplayName("An invalid activity is not created")
     @WithMockUser(username = "user", authorities = ROLE_ADMIN)
-    public void anInvalidActivityIsNotCreated() throws Exception {
-        ActivityDTO activity = new ActivityDTO();
+    public void An_invalid_activity_is_not_created() throws Exception {
+        ActivityDTO emptyActivity = new ActivityDTO();
 
-        Mockito.when(activityService.save(activity)).thenReturn(activity);
+        Mockito.when(activityService.save(emptyActivity)).thenReturn(emptyActivity);
 
-        String content = objectWriter.writeValueAsString(activity);
+        String content = objectWriter.writeValueAsString(emptyActivity);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/activities")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(content);
+        MockHttpServletRequestBuilder mockRequest = buildPostRequest("/activities", content);
 
         mockMvc.perform(mockRequest)
                 .andExpect(status().isBadRequest()).andDo(print());
@@ -108,52 +104,57 @@ public class ActivityControllerTest {
 
     @Test
     @DisplayName("Cannot access /activities/{id} without credentials")
-    public void activityUpdateWithoutAuthorizationIsForbidden() throws Exception {
-        mockMvc.perform(put("/activities/1")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden())
-                .andDo(print());
+    public void Activity_update_without_authorization_is_forbidden() throws Exception {
+        mockMvc.perform(buildPutRequest("/activities/1", ""));
     }
 
     @Test
     @DisplayName("A non existent activity cannot be updated")
     @WithMockUser(username = "user", authorities = ROLE_ADMIN)
-    public void aNonExistentActivityCannotBeUpdated() throws Exception {
-        ActivityDTO activity = new ActivityDTO();
+    public void A_non_existent_activity_cannot_be_updated() throws Exception {
+        ActivityDTO nonExistentActivity = new ActivityDTO();
 
-        Mockito.when(activityService.update(1L, activity)).thenThrow(ResourceNotFoundException.class);
+        Mockito.when(activityService.update(1L, nonExistentActivity)).thenThrow(ResourceNotFoundException.class);
 
-        String content = objectWriter.writeValueAsString(activity);
+        String content = objectWriter.writeValueAsString(nonExistentActivity);
 
-        MockHttpServletRequestBuilder mockRequest = put("/activities/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(content);
+        MockHttpServletRequestBuilder mockRequest = buildPutRequest("/activities/1", content);
 
         mockMvc.perform(mockRequest)
                 .andExpect(status().isBadRequest()).andDo(print());
     }
 
     @Test
-    @DisplayName("An existent activity can be updated")
+    @DisplayName("An existing activity can be updated")
     @WithMockUser(username = "user", authorities = ROLE_ADMIN)
-    public void anExistentActivityCanBeUpdated() throws Exception {
-        ActivityDTO activity = new ActivityDTO(1L,
-                "the name 3",
-                "the content",
-                "the image.jpg");
-
+    public void An_existing_activity_can_be_updated() throws Exception {
         Mockito.when(activityService.update(1L, activity)).thenReturn(activity);
 
         String content = objectWriter.writeValueAsString(activity);
 
-        MockHttpServletRequestBuilder mockRequest = put("/activities/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(content);
+        MockHttpServletRequestBuilder mockRequest = buildPutRequest("/activities/1", content);
+
 
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk()).andDo(print());
     }
 
+    private void postingIsForbidden(String endpoint) throws Exception {
+        mockMvc.perform(post(endpoint))
+                .andExpect(status().isForbidden()).andDo(print());
+    }
+
+    private MockHttpServletRequestBuilder buildPutRequest(String endpoint, String content) {
+        return put(endpoint)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(content);
+    }
+
+    private MockHttpServletRequestBuilder buildPostRequest(String endpoint, String content) {
+        return post(endpoint)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(content);
+    }
 }
