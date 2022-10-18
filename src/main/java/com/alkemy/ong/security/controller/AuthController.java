@@ -1,5 +1,6 @@
 package com.alkemy.ong.security.controller;
 
+import com.alkemy.ong.documentation.IAuthController;
 import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.service.IUserService;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController implements IAuthController {
 
     @Autowired
     private IUserService userService;

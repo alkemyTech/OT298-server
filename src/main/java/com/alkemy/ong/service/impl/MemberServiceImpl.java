@@ -1,24 +1,28 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.MemberDTO;
+import com.alkemy.ong.dto.MemberPaginationDTO;
+import com.alkemy.ong.exception.InvalidPaginationParamsException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.exception.EntityNotSavedException;
-import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.model.Member;
 import com.alkemy.ong.repository.MemberRepository;
 import com.alkemy.ong.service.IMemberService;
+import com.alkemy.ong.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
-import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -50,26 +54,14 @@ public class MemberServiceImpl implements IMemberService {
     @Override
     public MemberDTO update(Long id, MemberDTO dto) {
             Member member = getMemberEntityById(id);
-
         try {
-
             verifiedNullData(dto, member);
-
-
             memberRepository.save(member);
-
         } catch (EntityNotSavedException ense) {
-
             throw new EntityNotSavedException(message.getMessage("member.notSaved", null, Locale.US));
-
         }
-
-
         return memberMapper.memberToMemberDTO(member);
     }
-
-    /*Comprueba que los datos que se van a actualizar no pisen a los que no se actualizan,si no, los va retorna nulos
-     o no actualiza nada en la base de datos*/
 
     private static void verifiedNullData(MemberDTO dto, Member member) {
         if(!StringUtils.hasLength(dto.getName())){
@@ -77,7 +69,6 @@ public class MemberServiceImpl implements IMemberService {
         }else{
             member.setName(dto.getName());
         }
-
 
         if(!StringUtils.hasLength(dto.getImage())){
             member.setImage(member.getImage());
@@ -111,13 +102,11 @@ public class MemberServiceImpl implements IMemberService {
     }
 
     public MemberDTO delete(Long id){
-        
         if (!memberRepository.existsById(id)){
             throw new ResourceNotFoundException(message.getMessage("member.notFound", null, Locale.US));
         }
         Member member = memberRepository.getById(id);
         memberRepository.deleteById(id);
-        
         return memberMapper.memberToMemberDTO(member);
     }
     
@@ -126,8 +115,32 @@ public class MemberServiceImpl implements IMemberService {
         if (!member.isPresent()) {
             throw new EntityNotFoundException(message.getMessage("member.notFound", null, Locale.US));
         }
-
         return member.get();
     }
 
+    @Override
+    public MemberPaginationDTO getPaginated(Pageable pageable,
+                                            HttpServletRequest request,
+                                            UriComponentsBuilder uriBuilder) {
+        int pageNumber = pageable.getPageNumber();
+        int pageSize = pageable.getPageSize();
+        Page<Member> resultPage = memberRepository.findAll(pageable);
+        int totalPages = resultPage.getTotalPages();
+
+        if (pageNumber < 0 || pageNumber >= totalPages) {
+            throw new InvalidPaginationParamsException(message.getMessage("pagination.invalidArgs", null, Locale.US));
+        }
+        uriBuilder.path(request.getRequestURI());
+        Map<String, String> links = new LinkedHashMap<>();
+
+        if (resultPage.hasPrevious()) {
+            links.put(message.getMessage("pagination.previous", null, Locale.US),
+                    Pagination.constructPreviousPageUri(uriBuilder, pageNumber, pageSize));
+        }
+        if (resultPage.hasNext()) {
+            links.put(message.getMessage("pagination.next", null, Locale.US),
+                    Pagination.constructNextPageUri(uriBuilder, pageNumber, pageSize));
+        }
+        return new MemberPaginationDTO(resultPage.getContent(), links);
+    }
 }
