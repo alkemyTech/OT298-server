@@ -49,6 +49,7 @@ public class Constants {
         public static final String STATUS_BAD_REQUEST = "400";
         public static final String STATUS_FORBIDDEN = "403";
         public static final String STATUS_NOT_FOUND = "404";
+        public static final String STATUS_INTERNAL_SERVER_ERROR = "500";
     }
 
     public static abstract class messagesForDocs{
@@ -72,6 +73,39 @@ public class Constants {
         public static final String CATEGORY_UPDATED = "Category updated successfully";
 
 
+
+    }
+
+    public static abstract class MemberApi{
+
+        public static final String TAG_NAME = "Member";
+        public static final String TAG_DESCRIPTION = "The member API";
+
+        public static final String SUCCESS = "This operation was succesful";
+        public static final String INVALID_DATA = "The data entered is invalid";
+        public static final String NOT_FOUND_MEMBER = "The member was not found with the indicated ID";
+        public static final String ERROR_SERVER = "Error of the server";
+        public static final String NO_AUTHORIZATION = "Access denied, needed authorization to access";
+        public static final String THERE_ARE_NO_MEMBER = "There are no saved members";
+        public static final String ERROR_SERVER_ADD = "Server error adding member";
+        public static final String ERROR_SERVER_UPDATE = "Server error updating member";
+
+        public static final String SUMARY_ADD = "Add a member";
+        public static final String SUMARY_UPDATE = "Update a member";
+        public static final String SUMARY_DELETE = "Delete a member";
+        public static final String SUMARY_GET_ALL = "Get all members";
+        public static final String SUMARY_PAGINATION = "Get member page";
+
+        public static final String DESCRIPTION_ADD = "This endpoint is used to add a member";
+        public static final String DESCRIPTION_UPDATE = "This endpoint is used to update a member";
+        public static final String DESCRIPTION_DELETE = "This endpoint is used to delete a member by ID";
+        public static final String DESCRIPTION_GET_ALL = "This endpoint is used to get all members";
+        public static final String DESCRIPTION_PAGINATION = "This endpoint is used to get member page";
+
+        public static final String PARAMETER_ID = "Id of the member";
+        public static final String PARAMETER_MEMBER_ADD = "Member to add";
+        public static final String PARAMETER_MEMBER_UPDATE = "Member to update";
+        public static final String PARAMETER_MEMBER_PAGE = "Number page, size page and sort";
 
     }
 }
