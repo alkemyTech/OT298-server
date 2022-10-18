@@ -2,10 +2,10 @@ package com.alkemy.ong.security.controller;
 
 import com.alkemy.ong.documentation.IAuthController;
 import com.alkemy.ong.security.dto.*;
-import com.alkemy.ong.security.service.IUserService;
 import org.springframework.http.HttpStatus;
 import com.alkemy.ong.security.dto.AuthRequest;
 import com.alkemy.ong.security.dto.AuthResponse;
+import com.alkemy.ong.security.service.IAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,17 +19,17 @@ import java.io.IOException;
 public class AuthController implements IAuthController {
 
     @Autowired
-    private IUserService userService;
+    private IAuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<UserGetDto> register(@Valid @RequestBody UserPostDto dto) throws IOException {
-        UserGetDto userGetDto = userService.registerUser(dto);
+        UserGetDto userGetDto = authService.registerUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userGetDto);
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> signIn(@Valid @RequestBody AuthRequest request) throws Exception {
-        AuthResponse response = userService.authenticate(request);
+        AuthResponse response = authService.authenticate(request);
 
         return ResponseEntity.ok(response);
 
@@ -37,7 +37,7 @@ public class AuthController implements IAuthController {
 
     @GetMapping("/me")
     public ResponseEntity<UserInformationDto> userInformation(@Valid Authentication authentication) {
-        return ResponseEntity.ok(userService.getCurrentAuthenticatedUser(authentication));
+        return ResponseEntity.ok(authService.getCurrentAuthenticatedUser(authentication));
     }
 
 }

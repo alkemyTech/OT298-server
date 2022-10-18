@@ -3,12 +3,11 @@ package com.alkemy.ong.security.config;
 import com.alkemy.ong.exception.CustomAccessDeniedHandler;
 import com.alkemy.ong.exception.CustomAuthenticationEntryPoint;
 import com.alkemy.ong.security.filter.JwtRequestFilter;
-import com.alkemy.ong.security.service.impl.UserServiceImpl;
-
-import static com.alkemy.ong.util.Constants.ROLE_USER;
+import com.alkemy.ong.security.service.impl.UserDetailsCustomServiceImpl;
 import static com.alkemy.ong.util.Constants.ALL_ROLES;
 import static com.alkemy.ong.util.Constants.Endpoints.*;
 import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
+import static com.alkemy.ong.util.Constants.ROLE_USER;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,17 +26,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.Filter;
 import org.springframework.http.HttpMethod;
-
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class AppSecurity extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private UserServiceImpl userDetailsCustomService;
-
-    @Autowired
-    private PasswordEncoder encoder;
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
@@ -64,6 +57,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, SLIDE).hasAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, SLIDE_ID).hasAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PUT, SLIDE_ID).hasAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.DELETE, SLIDE_ID).hasAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, ORGANIZATION).hasAnyAuthority(ALL_ROLES)
                 .antMatchers(HttpMethod.PATCH, ORGANIZATION_ID).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, ORGANIZATION).hasAnyAuthority(ROLE_ADMIN)
@@ -85,13 +79,12 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-
         httpSecurity.addFilterBefore((Filter) jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsCustomService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -113,5 +106,10 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return new CustomAuthenticationEntryPoint();
+    }
+    
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return new UserDetailsCustomServiceImpl();
     }
 }

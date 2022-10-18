@@ -8,7 +8,7 @@ import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
 import com.alkemy.ong.security.model.User;
-import com.alkemy.ong.security.service.IUserService;
+import com.alkemy.ong.security.service.IAuthService;
 import com.alkemy.ong.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -37,7 +37,7 @@ public class CommentServiceImpl implements ICommentService {
     private MessageSource message;
 
     @Autowired
-    private IUserService userService;
+    private IAuthService authService;
 
     @Override
     public CommentDto save(CommentDto commentDto) {
@@ -106,7 +106,7 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     private boolean commentDeletedByUser(Long id, Authentication authentication, Comment comment) {
-        User user = userService.getUserAuthenticated(authentication);
+        User user = authService.getUserAuthenticated(authentication);
 
         if (comment.getUser().equals(user)) {
             commentRepository.deleteById(id);

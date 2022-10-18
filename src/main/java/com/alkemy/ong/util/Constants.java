@@ -1,6 +1,7 @@
 package com.alkemy.ong.util;
 
 public class Constants {
+
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_USER = "ROLE_USER";
     public static final String[] ALL_ROLES = {ROLE_ADMIN, ROLE_USER};
@@ -14,6 +15,7 @@ public class Constants {
     public static final Integer FIRST_PAGE_INTEGER = 0;
 
     public static abstract class Endpoints {
+
         public static final String ID = "/{id}";
         public static final String PAGE = "/page";
         public static final String USER = "/users";
@@ -37,12 +39,13 @@ public class Constants {
         public static final String MEMBER_ALL = MEMBER + "/all";
         public static final String API_UI_ANTMATCHER = "/api/**";
         public static final String API_DESCRIPTION_ANTMATCHER = "/v3/**";
-        public static final String TESTIMONIAL ="/testimonials";
+        public static final String TESTIMONIAL = "/testimonials";
         public static final String TESTIMONIAL_ID = TESTIMONIAL + ID;
         public static final String TESTIMONIAL_PAGE = TESTIMONIAL + PAGE;
     }
 
-    public static abstract class httpCodes{
+    public static abstract class httpCodes {
+
         public static final String STATUS_OK = "200";
         public static final String STATUS_CREATED = "201";
         public static final String STATUS_NO_CONTENT = "204";
@@ -52,7 +55,7 @@ public class Constants {
         public static final String STATUS_INTERNAL_SERVER_ERROR = "500";
     }
 
-    public static abstract class messagesForDocs{
+    public static abstract class messagesForDocs {
 
         public static final String BEARER_AUTH = "Bearer Authentication";
         public static final String GET_CATEGORIES = "Get all categories";
@@ -72,11 +75,9 @@ public class Constants {
         public static final String CATEGORY_DELETED = "Category deleted successfully";
         public static final String CATEGORY_UPDATED = "Category updated successfully";
 
-
-
     }
 
-    public static abstract class MemberApi{
+    public static abstract class MemberApi {
 
         public static final String TAG_NAME = "Member";
         public static final String TAG_DESCRIPTION = "The member API";
@@ -109,4 +110,3 @@ public class Constants {
 
     }
 }
-
