@@ -1,5 +1,6 @@
 package com.alkemy.ong.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,8 +10,8 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name= "news")
@@ -48,4 +49,8 @@ public class News {
     private LocalDateTime updateDate;
 
     private boolean deleted = Boolean.FALSE;
+
+    @OneToMany(mappedBy = "news")
+    @JsonIgnoreProperties("news")
+    private List<Comment> comments;
 }

@@ -3,6 +3,8 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryGetDto;
+import com.alkemy.ong.exception.InvalidPageNumber;
+import com.alkemy.ong.exception.PageNotFound;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.exception.ThereAreNoCategories;
 import com.alkemy.ong.dto.CategoryDTO;
@@ -13,11 +15,11 @@ import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
@@ -35,13 +37,45 @@ public class CategoryServiceImpl implements ICategoryService {
     private MessageSource message;
 
     @Override
-    public List<CategoryGetDto> getAllCategories() {
-        List<Category> categories = categoryRepository.findAll();
-        if(categories.isEmpty()){
-            throw new ThereAreNoCategories(message.getMessage("category.thereAreNo", null, Locale.US));
+    public Map<String, Object> getAllCategories(Pageable pageable) {
+
+        if(categoryRepository.findAll().isEmpty()){
+            throw new ThereAreNoCategories(
+                    message.getMessage("category.thereAreNo", null, Locale.US));
         }
+
+        Page<Category> pageCategories = categoryRepository.findAll(pageable);
+
+        if(pageable.getPageNumber()>=pageCategories.getTotalPages()){
+            throw new PageNotFound(
+                    message.getMessage("page.NotFound", null, Locale.US)
+                    + ". Total pages: " + pageCategories.getTotalPages()
+            );
+        }
+
+        List<Category> categories = pageCategories.getContent();
         List<CategoryGetDto> listDtosCategories = categoryMapper.listCategoriesToListDtos(categories);
-        return listDtosCategories;
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("categories", listDtosCategories);
+
+        if(pageCategories.getPageable().next().getPageNumber() < pageCategories.getTotalPages()) {
+            String nextPage = String.format("http://localhost:8080/cateogires?page=%s",
+                    String.valueOf(pageCategories.getPageable().next().getPageNumber()));
+            response.put("next page", nextPage);
+        }else {
+            response.put("next page", null);
+        }
+
+        if(pageable.hasPrevious()) {
+            String previousPage = String.format("http://localhost:8080/cateogires?page=%s",
+                    String.valueOf(pageable.previousOrFirst().getPageNumber()));
+            response.put("previous page", previousPage);
+        }else{
+            response.put("previous page", null);
+        }
+
+        return response;
     }
 
     @Override

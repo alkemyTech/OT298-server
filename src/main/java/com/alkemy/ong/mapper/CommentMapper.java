@@ -12,7 +12,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Component
 public class CommentMapper {
@@ -51,7 +53,10 @@ public class CommentMapper {
 
         comment.setBody( commentDto.getBody() );
         comment.setUser( user );
+
         comment.setNews( news );
+        news.getComments().add(comment);
+
         comment.setCreationDate( commentDto.getCreationDate() );
         comment.setUpdateDate( commentDto.getUpdateDate() );
 
@@ -62,5 +67,18 @@ public class CommentMapper {
         CommentBasicDTO dto = new CommentBasicDTO();
         dto.setBody(comment.getBody());
         return dto;
+    }
+
+    public List<CommentBasicDTO> listCommentsToListDtos(List<Comment> comments){
+        List<CommentBasicDTO> commentsDtos =
+                comments.stream().map(comment -> commentBodyToCommentBasicDTO(comment)).collect(Collectors.toList());
+        return commentsDtos;
+    }
+
+    public Comment updateCommentBody (CommentBasicDTO dto, Comment comment){
+        if (dto.getBody() != null){
+            comment.setBody(dto.getBody());
+        }
+        return comment;
     }
 }

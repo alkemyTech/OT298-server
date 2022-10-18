@@ -14,5 +14,9 @@ public interface ICommentService {
 
     List<CommentBasicDTO> getAllComments();
 
+
     void delete(Long id, Authentication authentication) ;
+
+    CommentDto updateComment(Long id, CommentBasicDTO dto);
+
 }

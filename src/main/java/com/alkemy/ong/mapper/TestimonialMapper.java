@@ -5,6 +5,8 @@ import org.mapstruct.*;
 import com.alkemy.ong.model.Testimonial;
 import com.alkemy.ong.dto.TestimonialDTO;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface TestimonialMapper {
     TestimonialDTO toDto(Testimonial entity);
@@ -17,4 +19,6 @@ public interface TestimonialMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Testimonial updateTestimonialFromDto(TestimonialDTO dto, @MappingTarget Testimonial testimonial);
+
+    List<TestimonialDTO> listTestimonialsToListDtos (List<Testimonial> testimonials);
 }
