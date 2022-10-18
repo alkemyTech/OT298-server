@@ -37,9 +37,8 @@ public class CommentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@Valid @PathVariable Long id, Authentication authentication)  {
         commentService.delete(id,authentication);
-
-
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 
 
     @PatchMapping ("/{id}")
