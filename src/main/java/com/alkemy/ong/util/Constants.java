@@ -26,6 +26,7 @@ public class Constants {
         public static final String COMMENT = "/comments";
         public static final String COMMENT_ID = COMMENT + ID;
         public static final String NEWS = "/news";
+        public static final String NEWS_PAGINATED = NEWS + "**";
         public static final String NEWS_ID = NEWS + ID;
         public static final String NEWS_ID_COMMENT = NEWS + ID + COMMENT;
         public static final String ACTIVITY = "/activities";
@@ -35,8 +36,12 @@ public class Constants {
         public static final String MEMBER_ID = MEMBER + ID;
         public static final String MEMBER_PAGES = MEMBER + "**";
         public static final String MEMBER_ALL = MEMBER + "/all";
-        public static final String API_UI_ANTMATCHER = "/api/**";
-        public static final String API_DESCRIPTION_ANTMATCHER = "/v3/**";
+        public static final String API_DOCUMENTATION = "/api/docs";
+        public static final String API_UI = "/api/**";
+        public static final String API_DESCRIPTION = "/v3/**";
+        public static final String API_V2_DESCRIPTION_DOCUMENTATION = "/v2/api-docs";
+        public static final String API_V3_DESCRIPTION_DOCUMENTATION = "/v3/api-docs";
+        public static final String API_SWAGGER_UI = "/swagger-ui.html";
         public static final String TESTIMONIAL ="/testimonials";
         public static final String TESTIMONIAL_ID = TESTIMONIAL + ID;
         public static final String TESTIMONIAL_PAGE = TESTIMONIAL + PAGE;
