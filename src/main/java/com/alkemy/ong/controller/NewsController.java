@@ -28,9 +28,6 @@ public class NewsController {
 
     @Autowired
     private INewsService newsService;
-
-    @Autowired
-    private NewsRepository newsRepository;
     
     @PostMapping
     public ResponseEntity<?> saveNews(@Valid @RequestBody NewsDto newsDto) throws Exception {

@@ -43,10 +43,15 @@ public class NewsServiceImpl implements INewsService {
 
     @Override
     public List<CommentBasicDTO> getAllCommentsByNewsId(Long id) {
+        if(!findById(id).isPresent()){
+            throw new ResourceNotFoundException(message.getMessage("news.notFound", null, Locale.US));
+        }
+
         List<Comment> comments = repo.findCommentsByNewsId(id);
         if (comments.isEmpty()) {
             throw new ThereAreNoCommentsByNew(message.getMessage("new.commentsThereAreNo", null, Locale.US));
         }
+
         List<CommentBasicDTO> commentsDtos = mapperComment.listCommentsToListDtos(comments);
         return commentsDtos;
     }

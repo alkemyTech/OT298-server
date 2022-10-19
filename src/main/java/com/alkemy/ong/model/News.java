@@ -53,4 +53,19 @@ public class News {
     @OneToMany(mappedBy = "news")
     @JsonIgnoreProperties("news")
     private List<Comment> comments;
+
+    public News(){
+
+    }
+
+    public News(Long id, String name, String content, String image, Long categoryId, LocalDateTime creationDate, LocalDateTime updateDate, boolean deleted) {
+        this.id = id;
+        this.name = name;
+        this.content = content;
+        this.image = image;
+        this.categoryId = categoryId;
+        this.creationDate = creationDate;
+        this.updateDate = updateDate;
+        this.deleted = deleted;
+    }
 }
