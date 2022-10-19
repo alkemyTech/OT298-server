@@ -77,7 +77,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "ADMIN", authorities = ROLE_ADMIN)
-    public void Add_member_with_authorization_is_possible() throws Exception{
+    public void Add_news_with_authorization_is_possible() throws Exception{
 
         when(newsService.save(any(NewsDto.class))).thenReturn(correctDto);
 
@@ -97,7 +97,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "ADMIN", authorities = ROLE_ADMIN)
-    public void Add_member_without_valid_date_is_not_possible() throws Exception{
+    public void Add_news_without_valid_date_is_not_possible() throws Exception{
 
         ResultActions result = mockMvc.perform(post(NEWS)
                 .accept(MediaType.APPLICATION_JSON)
@@ -111,7 +111,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "USER", authorities = ROLE_USER)
-    public void Add_member_without_authorization_is_forbidden() throws Exception{
+    public void Add_news_without_authorization_is_forbidden() throws Exception{
 
         ResultActions result = mockMvc.perform(post(NEWS)
                 .accept(MediaType.APPLICATION_JSON)
@@ -126,7 +126,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "ADMIN", authorities = ROLE_ADMIN)
-    public void Update_member_with_authorization_is_possible() throws Exception{
+    public void Update_news_with_authorization_is_possible() throws Exception{
 
         when(newsService.update(anyLong(), any(NewsDto.class))).thenReturn(correctDto);
 
@@ -146,7 +146,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "ADMIN", authorities = ROLE_ADMIN)
-    public void Update_member_without_valid_data_is_not_possible() throws Exception{
+    public void Update_news_without_valid_data_is_not_possible() throws Exception{
 
         ResultActions result = mockMvc.perform(put(NEWS.concat("/1"))
                 .accept(MediaType.APPLICATION_JSON)
@@ -160,7 +160,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "ADMIN", authorities = ROLE_ADMIN)
-    public void Update_member_without_found_is_not_possible() throws Exception{
+    public void Update_news_without_found_is_not_possible() throws Exception{
 
         when(newsService.update(anyLong(), any(NewsDto.class))).thenThrow(ResourceNotFoundException.class);
 
@@ -180,7 +180,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "USER", authorities = ROLE_USER)
-    public void Update_member_without_authorization_is_forbidden() throws Exception{
+    public void Update_news_without_authorization_is_forbidden() throws Exception{
 
         ResultActions result = mockMvc.perform(put(NEWS.concat("/1"))
                 .accept(MediaType.APPLICATION_JSON)
@@ -195,7 +195,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "ADMIN", authorities = ROLE_ADMIN)
-    public void Delete_member_with_authorization_is_possible() throws Exception{
+    public void Delete_news_with_authorization_is_possible() throws Exception{
 
         ResultActions result = mockMvc.perform(delete(NEWS.concat("/1")));
 
@@ -205,7 +205,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "ADMIN", authorities = ROLE_ADMIN)
-    public void Delete_member_without_found_is_not_possible() throws Exception{
+    public void Delete_news_without_found_is_not_possible() throws Exception{
 
         doThrow(ResourceNotFoundException.class).when(newsService).deleteById(anyLong());
 
@@ -219,7 +219,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "USER", authorities = ROLE_USER)
-    public void Delete_member_without_authorization_is_forbidden() throws Exception{
+    public void Delete_news_without_authorization_is_forbidden() throws Exception{
 
         ResultActions result = mockMvc.perform(delete(NEWS.concat("/1")));
 
@@ -231,7 +231,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "ADMIN", authorities = ROLE_ADMIN)
-    public void Get_member_by_id_with_authorization_is_possible() throws Exception{
+    public void Get_news_by_id_with_authorization_is_possible() throws Exception{
         when(newsService.getById(anyLong())).thenReturn(correctDto);
 
         ResultActions result = mockMvc.perform(get(NEWS.concat("/1"))
@@ -248,7 +248,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "ADMIN", authorities = ROLE_ADMIN)
-    public void Get_member_by_id_without_found_is_not_possible() throws Exception{
+    public void Get_news_by_id_without_found_is_not_possible() throws Exception{
         when(newsService.getById(anyLong())).thenThrow(ResourceNotFoundException.class);
 
         ResultActions result = mockMvc.perform(get(NEWS.concat("/1"))
@@ -264,7 +264,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "USER", authorities = ROLE_USER)
-    public void Get_member_by_id_without_authorization_is_forbidden() throws Exception{
+    public void Get_news_by_id_without_authorization_is_forbidden() throws Exception{
 
         ResultActions result = mockMvc.perform(get(NEWS.concat("/1"))
                 .accept(MediaType.APPLICATION_JSON));
@@ -325,7 +325,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "ALL_ROLES", authorities = {ROLE_USER, ROLE_ADMIN})
-    public void Get_page_member_is_possible() throws Exception{
+    public void Get_page_news_is_possible() throws Exception{
 
         when(newsService.getPaginated(any(), any(), any())).thenReturn(paginationDto);
 
@@ -339,7 +339,7 @@ public class NewsControllerTest {
 
     @Test
     @WithMockUser(username = "ALL_ROLES", authorities = {ROLE_USER, ROLE_ADMIN})
-    public void Get_page_member_without_valid_date_is_not_possible() throws Exception{
+    public void Get_page_news_without_valid_date_is_not_possible() throws Exception{
 
         when(newsService.getPaginated(any(), any(), any())).thenThrow(InvalidPaginationParamsException.class);
 
