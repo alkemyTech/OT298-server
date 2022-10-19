@@ -46,9 +46,9 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(API_UI_ANTMATCHER, API_DESCRIPTION_ANTMATCHER).permitAll()
+                .antMatchers(API_UI, API_DESCRIPTION).permitAll()
                 .and().authorizeRequests()
-                .antMatchers("/v2/api-docs", "/v3/api-docs","/swagger-ui.html", "api/docs").permitAll()
+                .antMatchers(API_V2_DESCRIPTION_DOCUMENTATION, API_V3_DESCRIPTION_DOCUMENTATION, API_SWAGGER_UI, API_DOCUMENTATION).permitAll()
                 .antMatchers("/auth/*").permitAll()
                 .antMatchers(HttpMethod.GET, USER).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, USER_ID).hasAnyAuthority(ALL_ROLES)
@@ -58,6 +58,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, NEWS_ID).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.POST, NEWS).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, NEWS_ID).hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(HttpMethod.GET, NEWS_PAGINATED).permitAll()
                 .antMatchers(HttpMethod.GET, CATEGORY_ID).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PUT, CATEGORY_ID).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, CATEGORY_ID).hasAnyAuthority(ROLE_ADMIN)
@@ -78,6 +79,8 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, MEMBER_ID).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.GET, COMMENT).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, COMMENT_ID).hasAnyAuthority(ALL_ROLES)
+                .antMatchers(HttpMethod.DELETE, COMMENT_ID).hasAnyAuthority(ALL_ROLES)
+
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).authenticationEntryPoint(authenticationEntryPoint())
                 .and().sessionManagement()

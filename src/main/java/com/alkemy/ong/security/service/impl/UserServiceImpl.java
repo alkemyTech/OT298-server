@@ -3,7 +3,6 @@ package com.alkemy.ong.security.service.impl;
 import com.alkemy.ong.exception.*;
 import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
-import com.alkemy.ong.security.model.Role;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -36,6 +35,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.*;
 import java.io.IOException;
 
@@ -162,7 +162,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void deleteUser(Long id) {
+    public AuxUserGetDto deleteUser(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (!user.isPresent()){
             throw new ParameterNotFound(message.getMessage("id.invalid", null, Locale.US));
@@ -173,6 +173,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             throw new MismatchException(message.getMessage("mismatch.users",null,Locale.US));
         }
         userRepository.deleteById(id);
+        return userMapper.toAuxDto(user.get());
     }
 
     @Override
@@ -233,20 +234,30 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Override
     public UserInformationDto getCurrentAuthenticatedUser(Authentication authentication) {
         try {
-            if (authentication == null) {
-                throw new NoAuthorizationProvidedException(message.getMessage("request.authorizationNotProvided", null, Locale.US));
-            }
-            if (!authentication.isAuthenticated()) {
-                throw new BadCredentialsException(message.getMessage("user.notAuthenticated", null, Locale.US));
-            }
-            User user = userRepository.findByEmail((String) authentication.getPrincipal());
 
-            if (user == null) {
-                throw new UsernameNotFoundException(message.getMessage("email.notFound", null, Locale.US));
-            }
+            User user= getUserAuthenticated(authentication);
+
             return userMapper.userToUserInformationDto(user);
+
         } catch (io.jsonwebtoken.SignatureException e) {
             throw new InvalidTokenException(message.getMessage("invalid.token", null, Locale.US));
         }
+    }
+
+
+
+    public User getUserAuthenticated(Authentication authentication) {
+        if (authentication == null) {
+            throw new NoAuthorizationProvidedException(message.getMessage("request.authorizationNotProvided", null, Locale.US));
+        }
+        if (!authentication.isAuthenticated()) {
+            throw new BadCredentialsException(message.getMessage("user.notAuthenticated", null, Locale.US));
+        }
+        User user = userRepository.findByEmail((String) authentication.getPrincipal());
+
+        if (user == null) {
+            throw new UsernameNotFoundException(message.getMessage("email.notFound", null, Locale.US));
+        }
+        return user;
     }
 }
