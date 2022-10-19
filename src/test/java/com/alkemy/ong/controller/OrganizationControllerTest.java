@@ -119,7 +119,47 @@ class OrganizationControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    @WithMockUser(username = "admin", authorities = ROLE_ADMIN)
+    void updateOrganizationWrongFacebookUrlFormat() throws Exception {
+        organizationUpdateDTO.setUrlFacebook("facebook");
+        when(organizationService.updateOrganization(1L, organizationUpdateDTO)).
+                thenReturn(organizationUpdateDTO);
+        mockMvc.perform(patch("/organization/public/" + 1L)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(organizationUpdateDTO))
+                        .with(user("admin").roles("ADMIN"))
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
 
+    @Test
+    @WithMockUser(username = "admin", authorities = ROLE_ADMIN)
+    void updateOrganizationWrongInstagramUrlFormat() throws Exception {
+        organizationUpdateDTO.setUrlInstagram("instagram");
+        when(organizationService.updateOrganization(1L, organizationUpdateDTO)).
+                thenReturn(organizationUpdateDTO);
+        mockMvc.perform(patch("/organization/public/" + 1L)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(organizationUpdateDTO))
+                        .with(user("admin").roles("ADMIN"))
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = ROLE_ADMIN)
+    void updateOrganizationWrongLinkedinUrlFormat() throws Exception {
+        organizationUpdateDTO.setUrlLinkedin("linkedin");
+        when(organizationService.updateOrganization(1L, organizationUpdateDTO)).
+                thenReturn(organizationUpdateDTO);
+        mockMvc.perform(patch("/organization/public/" + 1L)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(organizationUpdateDTO))
+                        .with(user("admin").roles("ADMIN"))
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
 
     @Test
     void updateOrganizationForbidden() throws Exception {
