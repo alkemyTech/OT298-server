@@ -61,6 +61,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(value = {PermissionDeniedException.class})
+    protected ResponseEntity<ErrorMessage> handleUnauthorizedException (PermissionDeniedException ex,
+                                                                        WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
+    }
+
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
@@ -112,12 +124,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {ThereAreNoCategories.class})
     protected ResponseEntity<Object> handleThereAreNoCategories(ThereAreNoCategories ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
-                HttpStatus.OK.value(),
+                HttpStatus.NO_CONTENT.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-
-        return new ResponseEntity<>(message, HttpStatus.OK);
+      
+        return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler(value = {ThereAreNoCommentsByNew.class})
@@ -234,6 +246,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {MismatchException.class})
     protected ResponseEntity<ErrorMessage> handleMismatchException(MismatchException ex,
                                                                    WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+                
+               return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+    }
+
+
+    @ExceptionHandler(value = { NotOriginalUserException.class})
+    protected ResponseEntity<ErrorMessage> handleNotOriginalUserException(NotOriginalUserException ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.FORBIDDEN.value(),
                 new Date(),

@@ -2,22 +2,26 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.dto.CommentDto;
-import com.alkemy.ong.exception.EntityNotSavedException;
-import com.alkemy.ong.exception.ResourceNotFoundException;
+
+import com.alkemy.ong.exception.*;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
+import com.alkemy.ong.security.model.User;
+import com.alkemy.ong.security.service.IUserService;
 import com.alkemy.ong.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import static com.alkemy.ong.util.Constants.ROLE_ADMIN;
 
 @Service
 @Transactional
@@ -30,8 +34,10 @@ public class CommentServiceImpl implements ICommentService {
     private CommentMapper commentMapper;
 
     @Autowired
-    private MessageSource messageSource;
+    private MessageSource message;
 
+    @Autowired
+    private IUserService userService;
 
     @Override
     public CommentDto save(CommentDto commentDto) {
@@ -40,21 +46,84 @@ public class CommentServiceImpl implements ICommentService {
             Comment savedEntity = commentRepository.save(commentEntity);
             return commentMapper.commentEntityToDto(savedEntity);
         } catch (EntityNotSavedException ense) {
-            throw new EntityNotSavedException(messageSource.getMessage("comment.notAdded", null, Locale.US));
+            throw new EntityNotSavedException(message.getMessage("comment.notAdded", null, Locale.US));
         }
     }
 
     @Override
     public List<CommentBasicDTO> getAllComments() {
         List<Comment> comments = commentRepository.getAllByOrderByCreationDateDesc();
-        if (!comments.isEmpty()){
+        if (!comments.isEmpty()) {
             List<CommentBasicDTO> dtoList = new ArrayList<>();
-            for(Comment comment : comments){
+            for (Comment comment : comments) {
                 dtoList.add(commentMapper.commentBodyToCommentBasicDTO(comment));
             }
             return dtoList;
         } else {
-            throw new ResourceNotFoundException(messageSource.getMessage("comments.notFound", null, Locale.US));
+            throw new ResourceNotFoundException(message.getMessage("comments.notFound", null, Locale.US));
         }
     }
+
+    @Override
+    public CommentDto updateComment(Long commentId, CommentBasicDTO dto) {
+        if (!commentRepository.existsById(commentId)) {
+            throw new ResourceNotFoundException(message.getMessage("comment.notFound", null, Locale.US));
+        }
+        if (dto.getBody() == null) {
+            throw new ResourceNotFoundException(message.getMessage("request.body", null, Locale.US));
+        }
+        Comment comment = commentRepository.getById(commentId);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (comment.getUser().getUsername().equals(auth.getName()) || auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals(ROLE_ADMIN))) {
+            Comment updatedComment = commentMapper.updateCommentBody(dto, comment);
+            Comment savedComment = commentRepository.save(updatedComment);
+            return commentMapper.commentEntityToDto(savedComment);
+        } else {
+            throw new PermissionDeniedException(message.getMessage("permissionDenied.comment", null, Locale.US));
+        }
+    }
+
+    @Override
+    public void delete(Long id, Authentication authentication) {
+
+        Comment comment = getCommentEntityById(id);
+
+        if ((authentication.getAuthorities()
+                .stream()
+                .anyMatch(a -> a.getAuthority()
+                .equals(ROLE_ADMIN)))) {
+
+            commentRepository.deleteById(id);
+
+        } else if (!commentDeletedByUser(id, authentication, comment)) {
+
+            throw new NotOriginalUserException(message.getMessage("comment.notDeleted", null, Locale.US));
+
+        }
+
+    }
+
+    private boolean commentDeletedByUser(Long id, Authentication authentication, Comment comment) {
+        User user = userService.getUserAuthenticated(authentication);
+
+        if (comment.getUser().equals(user)) {
+            commentRepository.deleteById(id);
+
+            return true;
+
+        }
+        return false;
+    }
+
+    private Comment getCommentEntityById(Long id) {
+        Optional<Comment> comment = commentRepository.findById(id);
+        if (!comment.isPresent()) {
+            throw new EntityNotFoundException(message.getMessage("comment.notFound", null, Locale.US));
+        }
+
+        return comment.get();
+    }
+
 }

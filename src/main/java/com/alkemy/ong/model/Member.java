@@ -23,7 +23,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "name is required")
+    @NotNull(message = "{request.name}")
     @Pattern(regexp = "^[a-zA-Z][ a-zA-Z]*$", message = "{member.name.pattern.error}")
     private String name;
 
@@ -36,7 +36,7 @@ public class Member {
     @Column(name = "linkedin_url")
     private String linkedinUrl;
 
-    @NotNull(message = "image is required")
+    @NotNull(message = "{request.image}")
     private String image;
 
     private String description;
