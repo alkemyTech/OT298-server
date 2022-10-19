@@ -88,6 +88,14 @@ class OrganizationControllerTest {
                         .with(csrf()))
                 .andExpect(status().isAccepted());
     }
+
+    @Test
+    void updateOrganizationForbidden() throws Exception {
+        mockMvc.perform(patch(ORGANIZATION + 1L)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
     @Test
     void getOrganizationForbidden() throws Exception {
 
