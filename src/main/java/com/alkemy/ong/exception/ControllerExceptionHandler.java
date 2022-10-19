@@ -251,6 +251,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
+                
+               return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+    }
+
+
+    @ExceptionHandler(value = { NotOriginalUserException.class})
+    protected ResponseEntity<ErrorMessage> handleNotOriginalUserException(NotOriginalUserException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
 
         return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
     }
