@@ -106,6 +106,22 @@ class OrganizationControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", authorities = ROLE_ADMIN)
+    void updateOrganizationWrongEmailFormat() throws Exception {
+        organizationUpdateDTO.setEmail("email");
+        when(organizationService.updateOrganization(1L, organizationUpdateDTO)).
+                thenReturn(organizationUpdateDTO);
+        mockMvc.perform(patch("/organization/public/" + 1L)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(organizationUpdateDTO))
+                        .with(user("admin").roles("ADMIN"))
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+
+
+    @Test
     void updateOrganizationForbidden() throws Exception {
         mockMvc.perform(patch(ORGANIZATION + 1L)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
