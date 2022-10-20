@@ -27,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = AuthController.class)
 @AutoConfigureMockMvc
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AuthControllerTest {
 
     @Autowired
@@ -64,7 +63,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(1)
     @DisplayName("Valid User Registration")
     void should_register_an_user() throws Exception {
 
@@ -76,7 +74,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("Incorrect name format")
     void incorrect_name_format() throws Exception {
 
@@ -93,7 +90,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(3)
     @DisplayName("Email must not be blank")
     void email_should_not_be_blank() throws Exception {
 
@@ -111,7 +107,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(4)
     @DisplayName("Incorrect password format")
     void incorrect_password_format() throws Exception {
 
@@ -128,7 +123,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(5)
     @DisplayName("Email already exists")
     void email_should_not_already_exists() throws Exception {
 
@@ -142,7 +136,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(6)
     @DisplayName("Login with a valid user")
      void should_sign_in_an_user() throws Exception {
 
@@ -154,7 +147,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(7)
     @DisplayName("Login with a empty username")
     void empty_username_login() throws Exception {
 
@@ -168,7 +160,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(8)
     @DisplayName("Login with a invalid password format")
     void invalid_password_format() throws Exception {
 
@@ -182,7 +173,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(9)
     @DisplayName("Username doesn't exist")
     void username_must_exist() throws Exception {
 
@@ -196,7 +186,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(10)
     @DisplayName("Login with invalid credentials")
     void credentials_must_be_valid() throws Exception {
         when(userService.authenticate(any(AuthRequest.class))).thenThrow(ParameterNotFound.class);
@@ -209,7 +198,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(11)
     @DisplayName("Get information from logged user")
     @WithMockUser(roles = {"USER","ADMIN"})
     void should_give_user_logged_information() throws Exception {
@@ -220,7 +208,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @Order(12)
     @DisplayName("User not authenticated")
     @WithAnonymousUser
     void user_must_be_authenticated() throws Exception {
