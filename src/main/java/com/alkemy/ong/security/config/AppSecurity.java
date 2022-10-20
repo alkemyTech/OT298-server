@@ -48,8 +48,11 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(API_UI, API_DESCRIPTION).permitAll()
                 .and().authorizeRequests()
-                .antMatchers(API_V2_DESCRIPTION_DOCUMENTATION, API_V3_DESCRIPTION_DOCUMENTATION, API_SWAGGER_UI, API_DOCUMENTATION).permitAll()
-                .antMatchers("/auth/*").permitAll()
+                .antMatchers(API_V2_DESCRIPTION_DOCUMENTATION,
+                        API_V3_DESCRIPTION_DOCUMENTATION,
+                        API_SWAGGER_UI, API_DOCUMENTATION).permitAll()
+                .antMatchers(REGISTER, LOGIN).permitAll()
+                .antMatchers(ME).hasAnyAuthority(ALL_ROLES)
                 .antMatchers(HttpMethod.GET, USER).hasAnyAuthority(ROLE_ADMIN)
                 .antMatchers(HttpMethod.PATCH, USER_ID).hasAnyAuthority(ALL_ROLES)
                 .antMatchers(HttpMethod.DELETE, USER_ID).hasAnyAuthority(ROLE_USER)
