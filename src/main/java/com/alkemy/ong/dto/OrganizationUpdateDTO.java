@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
 @Getter
@@ -27,4 +28,7 @@ public class OrganizationUpdateDTO {
 
     @Pattern(regexp = "^(?:https:\\/\\/)?(?:www\\.)?(instagram)\\.(com)\\/(?:[\\w\\-\\.]*[(a-zA-ZÀ-ÿ]*)$")
     private String urlInstagram;
+
+    @Email
+    private String email;
 }
