@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 
 @Entity
-@Table(name="user")
+@Table(name="users")
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
     private Long id;
 
     @NotBlank(message = "First name is required")

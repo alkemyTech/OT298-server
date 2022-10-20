@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.documentation.INewsController;
 import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.dto.NewsDto;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 
 import com.alkemy.ong.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -23,15 +25,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping("/news")
-public class NewsController {
+@RequestMapping("/news")@PropertySource("classpath:documentation/newsController.properties")
+public class NewsController implements INewsController {
 
     @Autowired
     private INewsService newsService;
 
     @Autowired
     private NewsRepository newsRepository;
-    
+
     @PostMapping
     public ResponseEntity<?> saveNews(@Valid @RequestBody NewsDto newsDto) throws Exception {
         return new ResponseEntity<>(newsService.save(newsDto), HttpStatus.OK);
@@ -44,7 +46,7 @@ public class NewsController {
     }
 
     @GetMapping("/{id}/comments")
-    public ResponseEntity<List<CommentBasicDTO>> getCommentsByNew(@PathVariable Long id){
+    public ResponseEntity<List<CommentBasicDTO>> getCommentsByNew(@PathVariable Long id) {
         List<CommentBasicDTO> comments = newsService.getAllCommentsByNewsId(id);
         return new ResponseEntity<List<CommentBasicDTO>>(comments, HttpStatus.OK);
     }
