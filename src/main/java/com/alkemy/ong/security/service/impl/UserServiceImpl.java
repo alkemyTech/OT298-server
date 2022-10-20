@@ -82,10 +82,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Override
     public AuthResponse authenticate(AuthRequest request) throws ParameterNotFound {
-
-        User user = userRepository.findByEmail(request.getUsername());
-
-        if (user == null) {
+        if(!userRepository.existsByEmail(request.getUsername())) {
             throw new UsernameNotFoundException("Username not found");
         }
         UserDetails userDetails;
@@ -105,7 +102,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Transactional
     public UserGetDto saveTestDataUser(UserPostDto dto) {
 
-        if (userRepository.existsByEmail(dto.getEmail())) {
+        if(userRepository.existsByEmail(dto.getEmail())) {
             throw new AlreadyExistsException(
                     message.getMessage("email.exists", null, Locale.US));
         }
@@ -133,7 +130,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Transactional
     public UserGetDto registerUser(UserPostDto dto) throws IOException {
 
-        if (userRepository.existsByEmail(dto.getEmail())) {
+        if(userRepository.existsByEmail(dto.getEmail())) {
             throw new AlreadyExistsException(
                     message.getMessage("email.exists", null, Locale.US));
         }
