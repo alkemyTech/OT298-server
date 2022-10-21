@@ -47,46 +47,20 @@ public class SlidesServiceImpl implements ISlidesService {
 
         Slides slides = slidesMapper.slidesDtoToSlides(slidesDTO);
 
-        /*listOrderPosition(slides);
-
-        String imageString = slides.getImage();
-        byte[] decodeImg = Base64.getDecoder().decode(imageString);
-
-        File file = new File(String.valueOf(decodeImg));
-        mediaBasicDTO = amazonS3Service.uploadFile((MultipartFile) file);
-        slides.setImage(mediaBasicDTO.getUrl());
-
-*/
+        if (slides.getPosition()==null) {
+            slides.setPosition(slidesRepository.orderPosition(slides.getOrganizationId().getId())+1);
+        }
 
         slides.setImage(amazonS3Service.uploadFile(slides.getImage(), slides.getText()));
+
         slides = slidesRepository.save(slides);
-        //Slides slideSave = slidesRepository.save(slides);
+
         SlidesDTO result = slidesMapper.slidesToSlidesDto(slides);
 
         return result;
 
     }
 
-    public void listOrderPosition(Slides slides) {
-        LinkedList<Slides> slidesList = new LinkedList<>();
-        for (Slides slide : slidesList) {
-            if (slides.getPosition() == null) {
-                slidesList.addLast(slide);
-            }
-        }
-    }
-
-    @Override
-    public LinkedList<SlidesDTO> listSlides(LinkedList<SlidesDTO> slidesDTOList) {
-        LinkedList<Slides> slidesList = (LinkedList<Slides>) slidesRepository.findAll();
-        for (SlidesDTO dto : slidesDTOList) {
-            if (dto.getPosition() == null) {
-                slidesList.addLast(slidesMapper.slidesDtoToSlides(dto));
-            }
-        }
-        return slidesMapper.listSlide2listSlideDTO(slidesList);
-
-    }
 
     @Override
     public SlidesDTO getById(Long id) {
@@ -96,6 +70,7 @@ public class SlidesServiceImpl implements ISlidesService {
         }
         return slidesMapper.slidesToSlidesDto((Slides) slides.get());
     }
+
 
     @Override
     public SlidesDTO delete(Long id) {

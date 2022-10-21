@@ -10,8 +10,6 @@ public interface ISlidesService {
 
     SlidesDTO save(SlidesDTO slidesDTO) throws Exception;
 
-    LinkedList<SlidesDTO> listSlides(LinkedList<SlidesDTO> slidesDTOlist);
-
     SlidesDTO getById(Long id);
 
     List<SlidesDTO> getAllSlides();
