@@ -1,7 +1,8 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CommentBasicDTO;
-import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentGetDto;
+import com.alkemy.ong.dto.CommentPostDto;
 
 import com.alkemy.ong.exception.*;
 import com.alkemy.ong.mapper.CommentMapper;
@@ -40,7 +41,7 @@ public class CommentServiceImpl implements ICommentService {
     private IUserService userService;
 
     @Override
-    public CommentDto save(CommentDto commentDto) {
+    public CommentGetDto save(CommentPostDto commentDto) {
         try {
             Comment commentEntity = commentMapper.commentDtoToEntity(commentDto);
             Comment savedEntity = commentRepository.save(commentEntity);
@@ -65,7 +66,7 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public CommentDto updateComment(Long commentId, CommentBasicDTO dto) {
+    public CommentGetDto updateComment(Long commentId, CommentBasicDTO dto) {
         if (!commentRepository.existsById(commentId)) {
             throw new ResourceNotFoundException(message.getMessage("comment.notFound", null, Locale.US));
         }
