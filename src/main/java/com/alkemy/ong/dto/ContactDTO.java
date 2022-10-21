@@ -1,7 +1,6 @@
 package com.alkemy.ong.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,12 +9,14 @@ import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ContactDTO {
 
     private Long id;
 
     @NotBlank
-    @Pattern(regexp = "^[A-Za-z]*$")
+    @Pattern(regexp = "^[A-Za-z\\s]*$")
     private String name;
 
     @NotBlank

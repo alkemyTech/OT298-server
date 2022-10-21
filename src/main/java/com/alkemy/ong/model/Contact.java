@@ -32,7 +32,7 @@ public class Contact {
     private Long id;
 
     @NotBlank(message = "Name is required")
-    @Pattern(regexp = "^[A-Za-z]*$")
+    @Pattern(regexp = "^[A-Za-z\\s]*$")
     private String name;
 
     @NotBlank(message = "Phone is required")
