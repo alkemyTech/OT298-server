@@ -56,7 +56,7 @@ public class SendGridEmailService implements IEmailService {
             request.setBody(mail.build());
             sendGridClient.api(request);
         } catch (IOException ex) {
-            throw new IOException(messageSource.getMessage("email.not.sent",null, Locale.US));
+            throw new IOException(messageSource.getMessage("email.wasNotSend",null, Locale.US));
         }
     }
     public void sendThanksContactEmail(String email) throws IOException {
