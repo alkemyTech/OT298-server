@@ -3,6 +3,9 @@ package com.alkemy.ong.service.impl;
 import com.alkemy.ong.dto.NewsPaginationDto;
 import com.alkemy.ong.exception.InvalidPaginationParamsException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
+import com.alkemy.ong.exception.ThereAreNoCategories;
+import com.alkemy.ong.model.Category;
+import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.util.Pagination;
 import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.exception.ThereAreNoCommentsByNew;
@@ -33,6 +36,9 @@ public class NewsServiceImpl implements INewsService {
     private NewsRepository repo;
 
     @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
     private NewsMapper mapper;
 
     @Autowired
@@ -57,6 +63,10 @@ public class NewsServiceImpl implements INewsService {
     }
 
     public NewsDto save(NewsDto dto) {
+        Optional<Category> category = categoryRepository.findById(dto.getCategoryId());
+        if(!category.isPresent()){
+            throw new ThereAreNoCategories(message.getMessage("category.notFound", null, Locale.US));
+        }
         News news = repo.save(mapper.toEntity(dto));
         return mapper.toDto(news);
     }
@@ -65,6 +75,10 @@ public class NewsServiceImpl implements INewsService {
     public NewsDto update(Long id, NewsDto dto) {
         if (!findById(id).isPresent()) {
             throw new ResourceNotFoundException(message.getMessage("news.notFound", null, Locale.US));
+        }
+        Optional<Category> category = categoryRepository.findById(dto.getCategoryId());
+        if(!category.isPresent()){
+            throw new ThereAreNoCategories(message.getMessage("category.notFound", null, Locale.US));
         }
         News newsEntity = repo.findById(id).get();
         News news = repo.save(mapper.updateNewsFromDto(dto, newsEntity));

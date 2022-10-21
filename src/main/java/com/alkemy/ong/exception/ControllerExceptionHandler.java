@@ -124,12 +124,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {ThereAreNoCategories.class})
     protected ResponseEntity<Object> handleThereAreNoCategories(ThereAreNoCategories ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
-                HttpStatus.NO_CONTENT.value(),
+                HttpStatus.NOT_FOUND.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
       
-        return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = {ThereAreNoCommentsByNew.class})

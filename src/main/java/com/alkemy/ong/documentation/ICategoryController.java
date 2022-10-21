@@ -26,7 +26,7 @@ public interface ICategoryController {
             @ApiResponse(responseCode = STATUS_OK, description = GET_CATEGORIES_SUCCESSFUL, content = @Content),
             @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = INVALID_PAGE, content = @Content),
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = PAGE_NOT_FOUND, content = @Content),
-            @ApiResponse(responseCode = STATUS_NO_CONTENT, description = NO_CATEGORIES, content = @Content),
+            @ApiResponse(responseCode = STATUS_NOT_FOUND, description = NO_CATEGORIES, content = @Content),
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
     })
     ResponseEntity<Map<String, Object>> getAllCategories(
