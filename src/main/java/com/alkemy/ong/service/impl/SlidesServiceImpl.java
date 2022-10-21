@@ -43,27 +43,25 @@ public class SlidesServiceImpl implements ISlidesService {
     }
 
     @Override
-    public SlidesDTO save(SlidesDTO slidesDTO) {
+    public SlidesDTO save(SlidesDTO slidesDTO) throws Exception {
 
         Slides slides = slidesMapper.slidesDtoToSlides(slidesDTO);
 
-        listOrderPosition(slides);
+        /*listOrderPosition(slides);
 
         String imageString = slides.getImage();
         byte[] decodeImg = Base64.getDecoder().decode(imageString);
 
-
         File file = new File(String.valueOf(decodeImg));
-
         mediaBasicDTO = amazonS3Service.uploadFile((MultipartFile) file);
-
-
         slides.setImage(mediaBasicDTO.getUrl());
 
-        Slides slideSave = slidesRepository.save(slides);
+*/
 
-
-        SlidesDTO result = slidesMapper.slidesToSlidesDto(slideSave);
+        slides.setImage(amazonS3Service.uploadFile(slides.getImage(), slides.getText()));
+        slides = slidesRepository.save(slides);
+        //Slides slideSave = slidesRepository.save(slides);
+        SlidesDTO result = slidesMapper.slidesToSlidesDto(slides);
 
         return result;
 
