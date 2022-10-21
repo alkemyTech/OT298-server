@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class CommentPostDto {
 
-    @NotBlank(message = "{body.empty}")
+    @NotBlank(message = "{request.body}")
     private String body;
 
     @Min(value = 1,message = "{id.zero}")
