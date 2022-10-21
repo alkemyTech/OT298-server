@@ -22,7 +22,6 @@ import static com.alkemy.ong.util.Constants.messagesForDocs.*;
 public interface ICategoryController {
 
     @Operation(summary = GET_CATEGORIES)
-    @SecurityRequirement(name = BEARER_AUTH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_OK, description = GET_CATEGORIES_SUCCESSFUL, content = @Content),
             @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = INVALID_PAGE, content = @Content),
@@ -34,7 +33,6 @@ public interface ICategoryController {
             @RequestParam(defaultValue = FIRST_PAGE, required = false) Integer page);
 
     @Operation(summary = GET_CATEGORY_ID)
-    @SecurityRequirement(name = BEARER_AUTH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_OK, description = GET_CATEGORY_SUCCESSFUL, content = @Content),
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = CATEGORY_NOT_FOUND, content = @Content),
@@ -44,7 +42,6 @@ public interface ICategoryController {
 
 
     @Operation(summary = ADD_CATEGORY)
-    @SecurityRequirement(name = BEARER_AUTH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_CREATED, description = CATEGORY_CREATED, content = @Content),
             @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = BAD_REQUEST, content = @Content),
@@ -53,7 +50,6 @@ public interface ICategoryController {
     ResponseEntity<CategoryDTO> saveCategory (@Valid @RequestBody CategoryDTO dto);
 
     @Operation(summary = DELETE_CATEGORY)
-    @SecurityRequirement(name = BEARER_AUTH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_NO_CONTENT, description = CATEGORY_DELETED, content = @Content),
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = CATEGORY_NOT_FOUND, content = @Content),
@@ -62,7 +58,6 @@ public interface ICategoryController {
     ResponseEntity<Void> deleteCategory(@PathVariable Long id);
 
     @Operation(summary = UPDATE_CATEGORY)
-    @SecurityRequirement(name = BEARER_AUTH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_OK, description = CATEGORY_UPDATED, content = @Content),
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = CATEGORY_NOT_FOUND, content = @Content),
