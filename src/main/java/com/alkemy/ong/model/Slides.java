@@ -16,7 +16,10 @@ public class Slides {
     private Integer position;
 
     @ManyToOne
-    @JoinColumn(name = "organization_id")
-    private Organization organizationId;
+    @JoinColumn(name = "organization_id", insertable = false, updatable = false)
+    private Organization organization;
+
+    @Column(name = "organization_id")
+    private Long organizationId;
 
 }

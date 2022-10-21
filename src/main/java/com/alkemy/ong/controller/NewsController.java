@@ -31,9 +31,6 @@ public class NewsController implements INewsController {
     @Autowired
     private INewsService newsService;
 
-    @Autowired
-    private NewsRepository newsRepository;
-
     @PostMapping
     public ResponseEntity<?> saveNews(@Valid @RequestBody NewsDto newsDto) throws Exception {
         return new ResponseEntity<>(newsService.save(newsDto), HttpStatus.OK);

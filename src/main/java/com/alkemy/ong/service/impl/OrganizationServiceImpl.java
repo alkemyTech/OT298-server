@@ -1,11 +1,9 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.OrganizationBasicDTO;
-import com.alkemy.ong.dto.OrganizationFullDTO;
 import com.alkemy.ong.dto.SlidesDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.dto.OrganizationUpdateDTO;
-import com.alkemy.ong.exception.ParameterNotFound;
 import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.mapper.SlidesMapper;
 import com.alkemy.ong.model.Organization;
@@ -51,18 +49,6 @@ public class OrganizationServiceImpl implements IOrganizationService {
         return organizationBasicDTO;
     }
 
-    @Override
-    public OrganizationFullDTO update (Long id, OrganizationFullDTO dto) {
-        if (organizationRepository.existsById(id)) {
-            Organization organization = organizationRepository.getById(id);
-            Organization updatedOrganization = organizationMapper.updateOrganizationFromDto(dto, organization);
-            Organization savedOrganization = organizationRepository.save(updatedOrganization);
-            return organizationMapper.organizationToOrganizationFullDTO(savedOrganization);
-        } else {
-            throw new ResourceNotFoundException(message.getMessage("{organization.notFound}", null, Locale.US));
-        }
-    }
-
     @Transactional
     @Override
     public OrganizationUpdateDTO updateOrganization(Long id, OrganizationUpdateDTO updateDTO) {
@@ -71,7 +57,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
             throw new ResourceNotFoundException(message.getMessage("org.not.found", null, Locale.US));
         }
         organizationMapper.organizationToUpdateDTO(organization.get());
-        Organization updated = organizationMapper.updateDTOToOrganization(updateDTO);
+        Organization updated = organizationMapper.updateDTOToOrganization(updateDTO, organization.get());
         return organizationMapper.organizationToUpdateDTO(organizationRepository.save(updated));
     }
 }

@@ -45,6 +45,9 @@ public class Constants {
         public static final String TESTIMONIAL ="/testimonials";
         public static final String TESTIMONIAL_ID = TESTIMONIAL + ID;
         public static final String TESTIMONIAL_PAGE = TESTIMONIAL + PAGE;
+        public static final String LOGIN = "/auth/login";
+        public static final String REGISTER = "/auth/register";
+        public static final String ME = "/auth/me";
     }
 
     public static abstract class httpCodes{
