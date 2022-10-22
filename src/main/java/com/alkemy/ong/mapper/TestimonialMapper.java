@@ -1,5 +1,6 @@
 package com.alkemy.ong.mapper;
 
+import com.alkemy.ong.dto.TestimonialBasicDTO;
 import org.mapstruct.*;
 
 import com.alkemy.ong.model.Testimonial;
@@ -18,7 +19,7 @@ public interface TestimonialMapper {
     Testimonial toEntity(TestimonialDTO dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Testimonial updateTestimonialFromDto(TestimonialDTO dto, @MappingTarget Testimonial testimonial);
+    Testimonial updateTestimonialFromDto(TestimonialBasicDTO dto, @MappingTarget Testimonial testimonial);
 
     List<TestimonialDTO> listTestimonialsToListDtos (List<Testimonial> testimonials);
 }

@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.documentation.ICategoryController;
+import com.alkemy.ong.dto.CategoryBasicDTO;
 import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.exception.InvalidPageNumber;
@@ -64,7 +65,7 @@ public class CategoryController implements ICategoryController {
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CategoryDTO> updateCategory(Long id, CategoryDTO dto){
+    public ResponseEntity<CategoryDTO> updateCategory(Long id, CategoryBasicDTO dto){
         CategoryDTO categoryUpdated = categoryService.update(id, dto);
         return ResponseEntity.ok().body(categoryUpdated);
     }

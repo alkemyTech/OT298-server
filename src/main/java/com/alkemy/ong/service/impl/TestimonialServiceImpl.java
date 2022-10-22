@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.TestimonialBasicDTO;
 import com.alkemy.ong.exception.InvalidPageNumber;
 import com.alkemy.ong.exception.PageNotFound;
 import com.alkemy.ong.exception.ResourceNotFoundException;
@@ -43,7 +44,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
     }
 
     @Override
-    public TestimonialDTO update(Long id, TestimonialDTO dto) {
+    public TestimonialDTO update(Long id, TestimonialBasicDTO dto) {
         if(!findById(id).isPresent()){
             throw new ResourceNotFoundException(message.getMessage("testimonial.notFound", null, Locale.US));
         }

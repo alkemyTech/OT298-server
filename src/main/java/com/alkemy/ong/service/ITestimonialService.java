@@ -1,5 +1,6 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.dto.TestimonialBasicDTO;
 import com.alkemy.ong.dto.TestimonialDTO;
 import com.alkemy.ong.model.Testimonial;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,7 @@ public interface ITestimonialService {
 
     TestimonialDTO save(TestimonialDTO dto);
 
-    TestimonialDTO update(Long id, TestimonialDTO dto);
+    TestimonialDTO update(Long id, TestimonialBasicDTO dto);
 
     Optional<Testimonial> findById(Long id);
 

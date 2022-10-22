@@ -1,6 +1,7 @@
 package com.alkemy.ong.security.service;
 
 import com.alkemy.ong.dto.AuxUserGetDto;
+import com.alkemy.ong.dto.UserPatchDTO;
 import com.alkemy.ong.exception.ParameterNotFound;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.security.dto.*;
@@ -25,7 +26,7 @@ public interface IUserService {
     
     List<AuxUserGetDto> getAllAuxUsers();
     
-    AuxUserGetDto update(Long id, UserPostDto dto) throws ResourceNotFoundException;
+    AuxUserGetDto update(Long id, UserPatchDTO dto) throws ResourceNotFoundException;
 
     AuxUserGetDto deleteUser(Long id);
 

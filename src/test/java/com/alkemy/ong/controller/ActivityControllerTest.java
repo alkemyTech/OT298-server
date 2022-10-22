@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.ActivityBasicDTO;
 import com.alkemy.ong.dto.ActivityDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.security.service.impl.UserServiceImpl;
@@ -50,9 +51,16 @@ public class ActivityControllerTest {
 
     private ActivityDTO activity;
 
+    private ActivityBasicDTO updateActivity;
+
     @BeforeEach
     private void init() {
-        activity = new ActivityDTO(1L,
+        activity = new ActivityDTO(
+                "activity name",
+                "activity content",
+                "activity.jpg");
+
+        updateActivity = new ActivityBasicDTO(
                 "activity name",
                 "activity content",
                 "activity.jpg");
@@ -112,7 +120,7 @@ public class ActivityControllerTest {
     @DisplayName("A non existent activity cannot be updated")
     @WithMockUser(username = "user", authorities = ROLE_ADMIN)
     public void A_non_existent_activity_cannot_be_updated() throws Exception {
-        ActivityDTO nonExistentActivity = new ActivityDTO();
+        ActivityBasicDTO nonExistentActivity = new ActivityBasicDTO();
 
         Mockito.when(activityService.update(1L, nonExistentActivity)).thenThrow(ResourceNotFoundException.class);
 
@@ -121,14 +129,14 @@ public class ActivityControllerTest {
         MockHttpServletRequestBuilder mockRequest = buildPutRequest("/activities/1", content);
 
         mockMvc.perform(mockRequest)
-                .andExpect(status().isBadRequest()).andDo(print());
+                .andExpect(status().isNotFound()).andDo(print());
     }
 
     @Test
     @DisplayName("An existing activity can be updated")
     @WithMockUser(username = "user", authorities = ROLE_ADMIN)
     public void An_existing_activity_can_be_updated() throws Exception {
-        Mockito.when(activityService.update(1L, activity)).thenReturn(activity);
+        Mockito.when(activityService.update(1L, updateActivity)).thenReturn(activity);
 
         String content = objectWriter.writeValueAsString(activity);
 
