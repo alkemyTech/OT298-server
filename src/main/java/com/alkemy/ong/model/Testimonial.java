@@ -1,5 +1,6 @@
 package com.alkemy.ong.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,7 @@ import java.sql.Timestamp;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @Table(name = "testimonials")
 @SQLDelete(sql = "UPDATE testimonials SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
