@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 
+import com.alkemy.ong.dto.CategoryBasicDTO;
 import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryGetDto;
 import com.alkemy.ong.exception.InvalidPageNumber;
@@ -106,7 +107,7 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Transactional
-    public CategoryDTO update (Long id, CategoryDTO dto){
+    public CategoryDTO update (Long id, CategoryBasicDTO dto){
         Optional<Category> response = categoryRepository.findById(id);
         if(response.isPresent()){
             Category category = response.get();

@@ -2,6 +2,7 @@
 package com.alkemy.ong.service.impl;
 
 
+import com.alkemy.ong.dto.ActivityBasicDTO;
 import com.alkemy.ong.dto.ActivityDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.mapper.ActivityMapper;
@@ -51,7 +52,7 @@ public class ActivityServiceImpl implements IActivityService {
 
     @Transactional
     @Override
-    public ActivityDTO update (Long id, ActivityDTO dto){
+    public ActivityDTO update (Long id, ActivityBasicDTO dto){
         Optional<Activity> activityId = activityRepository.findById(id);
         if(!activityId.isPresent()){
             throw new ResourceNotFoundException(message.getMessage("activity.notFound", null, Locale.US));

@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.documentation.ITestimonialController;
+import com.alkemy.ong.dto.TestimonialBasicDTO;
 import com.alkemy.ong.dto.TestimonialDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.service.ITestimonialService;
@@ -36,7 +37,7 @@ public class TestimonialController implements ITestimonialController{
     }
 
     @PutMapping(ID)
-    public ResponseEntity<TestimonialDTO> updateTestimonial(@PathVariable Long id, @Valid @RequestBody TestimonialDTO dto){
+    public ResponseEntity<TestimonialDTO> updateTestimonial(@PathVariable Long id, @Valid @RequestBody TestimonialBasicDTO dto){
         TestimonialDTO testimonialDTO = service.update(id, dto);
         return new ResponseEntity<TestimonialDTO>(testimonialDTO, HttpStatus.OK);
     }

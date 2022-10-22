@@ -1,5 +1,6 @@
 package com.alkemy.ong.documentation;
 
+import com.alkemy.ong.dto.CategoryBasicDTO;
 import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,5 +66,5 @@ public interface ICategoryController {
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
     })
     ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id,
-                                                      @Valid @RequestBody CategoryDTO dto);
+                                               @Valid @RequestBody CategoryBasicDTO dto);
     }

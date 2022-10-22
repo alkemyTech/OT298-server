@@ -1,5 +1,6 @@
 package com.alkemy.ong.documentation;
 
+import com.alkemy.ong.dto.TestimonialBasicDTO;
 import com.alkemy.ong.dto.TestimonialDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,7 +49,7 @@ public interface ITestimonialController {
         })
         ResponseEntity<TestimonialDTO> updateTestimonial(@Parameter(description = "Testimonial Id to update") Long id,
                                                          @Parameter(description = "Testimonial DTO to update testimonial data")
-                                                         TestimonialDTO dto);
+                                                         TestimonialBasicDTO dto);
 
         @Operation(summary = "Soft delete a testimonial" , description = "testimonial.delete.description")
         @ApiResponses(value = {
