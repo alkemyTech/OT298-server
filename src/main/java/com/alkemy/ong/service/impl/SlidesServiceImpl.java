@@ -11,13 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.*;
 
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import org.springframework.context.MessageSource;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.util.*;
 
 @Service
 public class SlidesServiceImpl implements ISlidesService {

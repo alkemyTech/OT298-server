@@ -52,6 +52,11 @@ public class AmazonS3ServiceImpl implements IAmazonS3Service {
     }
 
     @Override
+    public MediaBasicDTO uploadFile(MultipartFile file) {
+        return null;
+    }
+
+    @Override
     public String uploadFile(String base64File, String imageName) throws Exception {
         String fileUrl = "";
         try {
@@ -62,7 +67,6 @@ public class AmazonS3ServiceImpl implements IAmazonS3Service {
             s3Client.putObject(new PutObjectRequest(bucketName, key, file)
                     .withMetadata(objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
-            //file.delete();
             fileUrl =  urlBucket.concat("/") + bucketName + "/" + key;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -81,11 +85,6 @@ public class AmazonS3ServiceImpl implements IAmazonS3Service {
         f.write(bytes);
         f.close();
         return fileConvert;
-    }
-
-    @Override
-    public MediaBasicDTO uploadFile(MultipartFile file) {
-        return null;
     }
 
     public void deleteFile(String fileUrl) {
