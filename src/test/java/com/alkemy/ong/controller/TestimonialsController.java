@@ -108,7 +108,24 @@ public class TestimonialsController {
     }
 
 
-    // cannot test deletion
+    @Test
+    @DisplayName("Cannot delete a testimonial without admin authority")
+    @WithMockUser(username = "user", authorities = ROLE_USER)
+    public void Testimonial_deletion_without_proper_authority_is_successful() throws Exception {
+        when(testimonialService.findById(1L)).thenReturn(Optional.of(new Testimonial()));
+        deletingIsForbidden("/testimonials", 1L);
+    }
+
+    @Test
+    @DisplayName("Can delete a testimonial with admin authority")
+    @WithMockUser(username = "user", authorities = ROLE_ADMIN)
+    public void Testimonial_deletion_with_proper_authority_is_successful() throws Exception {
+        when(testimonialService.findById(1L)).thenReturn(Optional.of(new Testimonial()));
+        mockMvc.perform(delete("/testimonials" + "/" + 1L))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(print());
+    }
+
 
     // update
 
@@ -155,8 +172,9 @@ public class TestimonialsController {
 
 
     @Test
+    @DisplayName("Testimonials can be reached and returns a page of testimonials")
     @WithMockUser(username = "ALL_ROLES", authorities = {ROLE_USER, ROLE_ADMIN})
-    public void getNewsPaginated() throws Exception {
+    public void Testimonials_pagination_returns_a_page() throws Exception {
         Map<String, Object> response = testimonialsPageResponse(1, 20, 4);
         when(testimonialService.responseTestimonialPage(1, pageable)).thenReturn(response);
 
@@ -176,7 +194,7 @@ public class TestimonialsController {
 
     private void deletingIsForbidden(String endpoint, Long id) throws Exception {
 
-        mockMvc.perform(delete(endpoint + id))
+        mockMvc.perform(delete(endpoint + "/" + id))
                 .andExpect(status().isForbidden()).andDo(print());
     }
 
