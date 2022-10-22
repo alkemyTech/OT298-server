@@ -53,8 +53,10 @@ public class Constants {
     public static abstract class httpCodes{
         public static final String STATUS_OK = "200";
         public static final String STATUS_CREATED = "201";
+        public static final String STATUS_ACCEPTED = "202";
         public static final String STATUS_NO_CONTENT = "204";
         public static final String STATUS_BAD_REQUEST = "400";
+        public static final String STATUS_UNAUTHORIZED = "401";
         public static final String STATUS_FORBIDDEN = "403";
         public static final String STATUS_NOT_FOUND = "404";
         public static final String STATUS_INTERNAL_SERVER_ERROR = "500";
@@ -79,6 +81,22 @@ public class Constants {
         public static final String UPDATE_CATEGORY = "Update a category";
         public static final String CATEGORY_DELETED = "Category deleted successfully";
         public static final String CATEGORY_UPDATED = "Category updated successfully";
+        public static final String CREATE_COMMENT = "Create a comment";
+        public static final String COMMENT_CREATED = "Comment created successfully";
+
+        public static final String GET_COMMENTS = "Get all comments";
+        public static final String GET_COMMENTS_SUCCESSFUL = "Get all comments successfully";
+        public static final String NO_COMMENTS = "There are no comments";
+        public static final String DELETE_COMMENT = "A user can delete only a comment " +
+                "of their own and admin can delete any comment";
+        public static final String COMMENT_DELETED = "Comment deleted successfully";
+        public static final String COMMENT_NOT_FOUND = "Comment not found";
+        public static final String UPDATE_COMMENT = "A user can update only a comment " +
+                "of their own and admin can delete any comment";
+        public static final String COMMENT_UPDATED = "Comment updated successfully";
+        public static final String NEWS_NOT_FOUND = "News not found";
+        public static final String UPDATE_COMMENT_UNAUTHORIZED = "Update comment unauthorized";
+        public static final String DELETE_COMMENT_UNAUTHORIZED = "Delete comment unauthorized";
 
 
 

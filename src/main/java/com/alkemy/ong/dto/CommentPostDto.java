@@ -20,7 +20,7 @@ public class CommentPostDto {
     private Long userId;
 
     @Min(value = 1,message = "{id.zero}")
-    @NotNull(message = "{id.invalid}")
+    @NotNull(message = "{request.newsId}")
     private Long newsId;
 
 }

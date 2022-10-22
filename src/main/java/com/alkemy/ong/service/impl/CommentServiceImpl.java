@@ -42,7 +42,11 @@ public class CommentServiceImpl implements ICommentService {
 
     @Override
     public CommentGetDto save(CommentPostDto commentDto) {
+
         try {
+            if(commentDto == null){
+                throw new EntityNullException((message.getMessage("comment.notEmpty", null, Locale.US)));
+            }
             Comment commentEntity = commentMapper.commentDtoToEntity(commentDto);
             Comment savedEntity = commentRepository.save(commentEntity);
             return commentMapper.commentEntityToDto(savedEntity);
@@ -71,7 +75,7 @@ public class CommentServiceImpl implements ICommentService {
             throw new ResourceNotFoundException(message.getMessage("comment.notFound", null, Locale.US));
         }
         if (dto.getBody() == null) {
-            throw new ResourceNotFoundException(message.getMessage("request.body", null, Locale.US));
+            throw new EntityNullException(message.getMessage("request.body", null, Locale.US));
         }
         Comment comment = commentRepository.getById(commentId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

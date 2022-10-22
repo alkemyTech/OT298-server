@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.documentation.ICommentController;
 import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.dto.CommentGetDto;
 import com.alkemy.ong.dto.CommentPostDto;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("comments")
-public class CommentController {
+public class CommentController implements ICommentController {
 
     @Autowired
     private ICommentService commentService;
