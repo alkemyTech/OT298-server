@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.CategoryBasicDTO;
 import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
@@ -45,7 +46,7 @@ public class CategoryControllerTest {
 
     private CategoryDTO saveCategoryDTO;
 
-    private CategoryDTO updateCategoryDTO;
+    private CategoryBasicDTO updateCategoryDTO;
 
 
 
@@ -133,7 +134,7 @@ public class CategoryControllerTest {
     @DisplayName("update category Auth")
     @WithMockUser(username = "ADMIN", authorities = ROLE_ADMIN)
     public void updateCategoryAuth() throws Exception{
-        when(categoryService.update(1L,updateCategoryDTO)).thenReturn(updateCategoryDTO);
+        when(categoryService.update(1L,updateCategoryDTO)).thenReturn(saveCategoryDTO);
         mockMvc.perform(put(CATEGORY.concat("/1"))
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateCategoryDTO))
@@ -166,16 +167,14 @@ public class CategoryControllerTest {
 
     public static CategoryDTO saveCategoryDto(){
         CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setId(4L);
         categoryDTO.setName("save");
         categoryDTO.setImage("url/save");
         categoryDTO.setDescription("save");
         return  categoryDTO;
     }
 
-    public static CategoryDTO updateCategoryDto(){
-        CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setId(2L);
+    public static CategoryBasicDTO updateCategoryDto(){
+        CategoryBasicDTO categoryDTO = new CategoryBasicDTO();
         categoryDTO.setName("update");
         categoryDTO.setImage("url/update");
         categoryDTO.setDescription("update");

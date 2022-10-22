@@ -1,5 +1,6 @@
 package com.alkemy.ong.mapper;
 
+import com.alkemy.ong.dto.ActivityBasicDTO;
 import com.alkemy.ong.dto.ActivityDTO;
 import com.alkemy.ong.model.Activity;
 import org.mapstruct.BeanMapping;
@@ -15,5 +16,5 @@ public interface ActivityMapper {
     Activity activityDTOToActivity (ActivityDTO dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Activity updateActivityToDTO(ActivityDTO dto, @MappingTarget Activity activity);
+    Activity updateActivityToDTO(ActivityBasicDTO dto, @MappingTarget Activity activity);
 }

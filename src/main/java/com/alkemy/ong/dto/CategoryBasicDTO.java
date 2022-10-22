@@ -5,16 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDTO {
+public class CategoryBasicDTO {
 
-    @NotNull(message = "{request.name}")
     @Pattern(regexp = "^[A-Za-z]*$", message = "{request.letters}")
     private String name;
 

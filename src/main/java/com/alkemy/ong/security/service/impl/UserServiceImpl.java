@@ -1,5 +1,6 @@
 package com.alkemy.ong.security.service.impl;
 
+import com.alkemy.ong.dto.UserPatchDTO;
 import com.alkemy.ong.exception.*;
 import com.alkemy.ong.dto.AuxUserGetDto;
 import com.alkemy.ong.security.dto.UserGetDto;
@@ -203,7 +204,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
 
     @Override
-    public AuxUserGetDto update(Long id, UserPostDto dto) throws ResourceNotFoundException {
+    public AuxUserGetDto update(Long id, UserPatchDTO dto) throws ResourceNotFoundException {
         if (!userRepository.existsById(id)) {
             throw new ResourceNotFoundException(message.getMessage("id.invalid", null, Locale.US));
         }
