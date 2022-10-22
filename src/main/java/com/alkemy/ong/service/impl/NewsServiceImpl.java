@@ -122,6 +122,8 @@ public class NewsServiceImpl implements INewsService {
         int pageSize = pageable.getPageSize();
 
         Page<News> resultPage = repo.findAll(pageable);
+        List<News> news = resultPage.getContent();
+        List<NewsDto> newsDtos = mapper.listNewsToNewsDto(news);
 
         int totalPages = resultPage.getTotalPages();
 
@@ -142,6 +144,6 @@ public class NewsServiceImpl implements INewsService {
                     Pagination.constructNextPageUri(uriBuilder, pageNumber, pageSize));
         }
 
-        return new NewsPaginationDto(resultPage.getContent(), links);
+        return new NewsPaginationDto(newsDtos, links);
     }
 }

@@ -8,6 +8,8 @@ import org.mapstruct.factory.Mappers;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.dto.NewsDto;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface NewsMapper {
 
@@ -20,5 +22,7 @@ public interface NewsMapper {
     News toEntity(NewsDto newsDto);
 
     News updateNewsFromDto(NewsDto dto, @MappingTarget News news);
+
+    List<NewsDto> listNewsToNewsDto(List<News> news);
 
 }
