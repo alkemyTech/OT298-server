@@ -124,7 +124,7 @@ public class ActivityControllerTest {
 
         Mockito.when(activityService.update(1L, nonExistentActivity)).thenThrow(ResourceNotFoundException.class);
 
-        String content = objectWriter.writeValueAsString(updateActivity);
+        String content = objectWriter.writeValueAsString(nonExistentActivity);
 
         MockHttpServletRequestBuilder mockRequest = buildPutRequest("/activities/1", content);
 
