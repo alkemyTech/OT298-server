@@ -122,7 +122,7 @@ public class ActivityControllerTest {
     public void A_non_existent_activity_cannot_be_updated() throws Exception {
         ActivityBasicDTO nonExistentActivity = new ActivityBasicDTO();
 
-        Mockito.when(activityService.update(Mockito.anyLong(), Mockito.any(ActivityBasicDTO.class))).thenThrow(ResourceNotFoundException.class);
+        Mockito.when(activityService.update(1L, nonExistentActivity)).thenThrow(ResourceNotFoundException.class);
 
         String content = objectWriter.writeValueAsString(updateActivity);
 
