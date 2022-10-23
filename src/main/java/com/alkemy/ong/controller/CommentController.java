@@ -24,8 +24,8 @@ public class CommentController implements ICommentController {
     private ICommentService commentService;
 
     @PostMapping
-    public ResponseEntity<CommentGetDto> newComment(@Valid @RequestBody CommentPostDto commentDto) throws ResourceNotFoundException {
-        CommentGetDto commentDtoSaved = commentService.save(commentDto);
+    public ResponseEntity<CommentBasicDTO> newComment(@Valid @RequestBody CommentDto commentDto, Authentication authentication) throws ResourceNotFoundException {
+        CommentBasicDTO commentDtoSaved = commentService.save(commentDto,authentication);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentDtoSaved);
     }
 
