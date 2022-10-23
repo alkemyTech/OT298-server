@@ -3,6 +3,9 @@ package com.alkemy.ong.service;
 import com.alkemy.ong.util.EmailConstants;
 import com.sendgrid.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 import com.sendgrid.helpers.mail.Mail;
@@ -41,9 +44,9 @@ public class SendGridEmailService implements IEmailService {
     @Override
     public void sendWelcomeEmail(String email) throws IOException {
         Email from = new Email(sender);
-        Email to = new Email(email);
         String subject = EmailConstants.SUBJECT_WELCOME;
-        Content content = new Content("text/html", EmailConstants.TEMPLATE_WELCOME);
+        Email to = new Email(email);
+        Content content = new Content("text/html", htmlToString(EmailConstants.TEMPLATE_WELCOME));
         Mail mail = new Mail(from, subject, to, content);
         sendMail(mail);
     }
@@ -63,8 +66,19 @@ public class SendGridEmailService implements IEmailService {
         Email from = new Email(sender);
         Email to = new Email(email);
         String subject = EmailConstants.THANKS_CONTACT;
-        Content content = new Content("text/html", EmailConstants.TEMPLATE_CONTACT);
+        Content content = new Content("text/html", htmlToString(EmailConstants.TEMPLATE_CONTACT));
         Mail mail = new Mail(from, subject, to, content);
         sendMail(mail);
+    }
+
+    public String htmlToString(String pathFile) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        String str;
+        File htmlFile = new File(pathFile);
+        BufferedReader in = new BufferedReader(new FileReader(htmlFile));
+        while((str = in.readLine())!=null)
+            builder.append(str);
+        in.close();
+        return builder.toString();
     }
 }
