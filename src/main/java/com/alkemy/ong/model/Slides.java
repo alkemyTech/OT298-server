@@ -15,11 +15,10 @@ public class Slides {
     private String text;
     private Integer position;
 
-    @ManyToOne
-    @JoinColumn(name = "organization_id", insertable = false, updatable = false)
-    private Organization organization;
-
     @Column(name = "organization_id")
-    private Long organizationId;
+    private Integer OrgId;
 
+    @ManyToOne
+    @JoinColumn(name = "org_id", insertable = false, updatable = false)
+    private Organization organizationId;
 }
