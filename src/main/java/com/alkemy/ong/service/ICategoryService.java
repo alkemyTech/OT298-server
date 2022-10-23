@@ -1,6 +1,7 @@
 package com.alkemy.ong.service;
 
 
+import com.alkemy.ong.dto.CategoryBasicDTO;
 import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryGetDto;
 import com.alkemy.ong.dto.CategoryDTO;
@@ -19,5 +20,5 @@ public interface ICategoryService {
 
     CategoryCompleteGetDto getCategoryById(Long id);
     void delete(Long id);
-    CategoryDTO update(Long id, CategoryDTO dto);
+    CategoryDTO update(Long id, CategoryBasicDTO dto);
 }

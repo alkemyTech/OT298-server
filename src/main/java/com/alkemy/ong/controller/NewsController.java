@@ -2,11 +2,8 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.documentation.INewsController;
 import com.alkemy.ong.dto.CommentBasicDTO;
-import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.dto.NewsPaginationDto;
-import com.alkemy.ong.model.News;
-import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.INewsService;
 
 import javax.servlet.http.HttpServletRequest;

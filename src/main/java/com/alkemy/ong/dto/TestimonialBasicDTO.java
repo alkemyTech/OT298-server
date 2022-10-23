@@ -5,22 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActivityDTO {
+public class TestimonialBasicDTO {
 
-    @NotNull(message = "{request.name}")
     private String name;
 
-    @NotNull(message = "{request.content}")
-    @Lob
+    private String image;
+
     private String content;
 
-    @NotNull(message = "{request.image}")
-    private String image;
 }

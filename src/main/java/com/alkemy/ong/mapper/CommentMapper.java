@@ -1,7 +1,8 @@
 package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.CommentBasicDTO;
-import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentGetDto;
+import com.alkemy.ong.dto.CommentPostDto;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.repository.NewsRepository;
@@ -32,21 +33,17 @@ public class CommentMapper {
     @Autowired
     private MessageSource message;
 
-    public CommentDto commentEntityToDto(Comment comment) {
+    public CommentGetDto commentEntityToDto(Comment comment) {
 
-        CommentDto commentDto = new CommentDto();
-
-
-        commentDto.setId( comment.getId() );
+        CommentGetDto commentDto = new CommentGetDto();
+        commentDto.setId(comment.getId());
         commentDto.setBody( comment.getBody() );
         commentDto.setNewsId(comment.getNews().getId() );
-        commentDto.setCreationDate( comment.getCreationDate() );
-        commentDto.setUpdateDate( comment.getUpdateDate() );
 
         return commentDto;
     }
 
-    public Comment commentDtoToEntity(CommentDto commentDto, Authentication authentication) {
+    public Comment commentDtoToEntity(CommentPostDto commentDto, Authentication authentication) {
 
 
         User user = userService.getUserAuthenticated(authentication);
@@ -60,8 +57,7 @@ public class CommentMapper {
         comment.setUser( user );
         comment.setNews( news );
         news.getComments().add(comment);
-        comment.setCreationDate( commentDto.getCreationDate() );
-        comment.setUpdateDate( commentDto.getUpdateDate() );
+
 
         return comment;
     }

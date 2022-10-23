@@ -1,7 +1,8 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CommentBasicDTO;
-import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentGetDto;
+import com.alkemy.ong.dto.CommentPostDto;
 
 import com.alkemy.ong.exception.*;
 import com.alkemy.ong.mapper.CommentMapper;
@@ -40,19 +41,14 @@ public class CommentServiceImpl implements ICommentService {
     private IUserService userService;
 
     @Override
-    public  CommentBasicDTO save(CommentDto commentDto,Authentication authentication) {
+    public  CommentBasicDTO save(CommentPostDto commentDto,Authentication authentication) {
 
         User user = userService.getUserAuthenticated(authentication);
 
-
-
         try {
             Comment commentEntity = commentMapper.commentDtoToEntity(commentDto,authentication);
-
             Comment savedEntity = commentRepository.save(commentEntity);
-
             CommentBasicDTO dto=commentMapper.commentBodyToCommentBasicDTO(savedEntity);
-
             return dto;
         } catch (EntityNotSavedException ense) {
             throw new EntityNotSavedException(message.getMessage("comment.notAdded", null, Locale.US));
@@ -74,12 +70,12 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public CommentDto updateComment(Long commentId, CommentBasicDTO dto) {
+    public CommentGetDto updateComment(Long commentId, CommentBasicDTO dto) {
         if (!commentRepository.existsById(commentId)) {
             throw new ResourceNotFoundException(message.getMessage("comment.notFound", null, Locale.US));
         }
         if (dto.getBody() == null) {
-            throw new ResourceNotFoundException(message.getMessage("request.body", null, Locale.US));
+            throw new EntityNullException(message.getMessage("request.body", null, Locale.US));
         }
         Comment comment = commentRepository.getById(commentId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

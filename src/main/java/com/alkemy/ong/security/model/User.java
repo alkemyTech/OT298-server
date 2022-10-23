@@ -36,16 +36,16 @@ public class User implements UserDetails {
     private Long id;
 
     @NotBlank(message = "First name is required")
-    @Pattern(regexp = "^[A-Za-z]*$")
+    @Pattern(regexp = "^[a-zA-Z][ a-zA-Z]*$", message = "{user.name.pattern}")
     @Column(name="first_name", nullable = false)
     private String firstName;
 
     @NotBlank (message = "Last name is required")
-    @Pattern(regexp = "^[A-Za-z]*$")
+    @Pattern(regexp = "^[a-zA-Z][ a-zA-Z]*$", message = "{user.lastname.pattern}")
     @Column(name="last_name", nullable = false)
     private String lastName;
 
-    @Email (message = "Email name is required")
+    @Email (message = "{email.format}")
     @Column(unique = true, nullable = false)
     private String email;
 

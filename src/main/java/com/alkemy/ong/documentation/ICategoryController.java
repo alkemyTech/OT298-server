@@ -1,5 +1,6 @@
 package com.alkemy.ong.documentation;
 
+import com.alkemy.ong.dto.CategoryBasicDTO;
 import com.alkemy.ong.dto.CategoryCompleteGetDto;
 import com.alkemy.ong.dto.CategoryDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,19 +23,17 @@ import static com.alkemy.ong.util.Constants.messagesForDocs.*;
 public interface ICategoryController {
 
     @Operation(summary = GET_CATEGORIES)
-    @SecurityRequirement(name = BEARER_AUTH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_OK, description = GET_CATEGORIES_SUCCESSFUL, content = @Content),
             @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = INVALID_PAGE, content = @Content),
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = PAGE_NOT_FOUND, content = @Content),
-            @ApiResponse(responseCode = STATUS_NO_CONTENT, description = NO_CATEGORIES, content = @Content),
+            @ApiResponse(responseCode = STATUS_NOT_FOUND, description = NO_CATEGORIES, content = @Content),
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
     })
     ResponseEntity<Map<String, Object>> getAllCategories(
             @RequestParam(defaultValue = FIRST_PAGE, required = false) Integer page);
 
     @Operation(summary = GET_CATEGORY_ID)
-    @SecurityRequirement(name = BEARER_AUTH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_OK, description = GET_CATEGORY_SUCCESSFUL, content = @Content),
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = CATEGORY_NOT_FOUND, content = @Content),
@@ -44,7 +43,6 @@ public interface ICategoryController {
 
 
     @Operation(summary = ADD_CATEGORY)
-    @SecurityRequirement(name = BEARER_AUTH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_CREATED, description = CATEGORY_CREATED, content = @Content),
             @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = BAD_REQUEST, content = @Content),
@@ -53,7 +51,6 @@ public interface ICategoryController {
     ResponseEntity<CategoryDTO> saveCategory (@Valid @RequestBody CategoryDTO dto);
 
     @Operation(summary = DELETE_CATEGORY)
-    @SecurityRequirement(name = BEARER_AUTH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_NO_CONTENT, description = CATEGORY_DELETED, content = @Content),
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = CATEGORY_NOT_FOUND, content = @Content),
@@ -62,7 +59,6 @@ public interface ICategoryController {
     ResponseEntity<Void> deleteCategory(@PathVariable Long id);
 
     @Operation(summary = UPDATE_CATEGORY)
-    @SecurityRequirement(name = BEARER_AUTH)
     @ApiResponses(value = {
             @ApiResponse(responseCode = STATUS_OK, description = CATEGORY_UPDATED, content = @Content),
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = CATEGORY_NOT_FOUND, content = @Content),
@@ -70,5 +66,5 @@ public interface ICategoryController {
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
     })
     ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id,
-                                                      @Valid @RequestBody CategoryDTO dto);
+                                               @Valid @RequestBody CategoryBasicDTO dto);
     }
