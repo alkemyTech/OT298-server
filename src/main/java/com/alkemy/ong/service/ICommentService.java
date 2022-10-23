@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ICommentService {
 
-    CommentDto save(CommentDto commentDto);
+    CommentBasicDTO save(CommentDto commentDto, Authentication authentication);
 
     List<CommentBasicDTO> getAllComments();
 

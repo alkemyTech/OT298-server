@@ -22,10 +22,6 @@ public class CommentDto {
 
     @Min(value = 1,message = "{id.zero}")
     @NotNull(message = "{id.invalid}")
-    private Long userId;
-
-    @Min(value = 1,message = "{id.zero}")
-    @NotNull(message = "{id.invalid}")
     private Long newsId;
 
 
