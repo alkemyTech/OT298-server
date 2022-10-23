@@ -41,15 +41,15 @@ public class CommentServiceImpl implements ICommentService {
     private IUserService userService;
 
     @Override
-    public CommentGetDto save(CommentPostDto commentDto) {
+    public  CommentBasicDTO save(CommentPostDto commentDto,Authentication authentication) {
+
+        User user = userService.getUserAuthenticated(authentication);
 
         try {
-            if(commentDto == null){
-                throw new EntityNullException((message.getMessage("comment.notEmpty", null, Locale.US)));
-            }
-            Comment commentEntity = commentMapper.commentDtoToEntity(commentDto);
+            Comment commentEntity = commentMapper.commentDtoToEntity(commentDto,authentication);
             Comment savedEntity = commentRepository.save(commentEntity);
-            return commentMapper.commentEntityToDto(savedEntity);
+            CommentBasicDTO dto=commentMapper.commentBodyToCommentBasicDTO(savedEntity);
+            return dto;
         } catch (EntityNotSavedException ense) {
             throw new EntityNotSavedException(message.getMessage("comment.notAdded", null, Locale.US));
         }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ICommentService {
 
-    CommentGetDto save(CommentPostDto commentDto);
+    CommentBasicDTO save(CommentPostDto commentDto, Authentication authentication);
 
     List<CommentBasicDTO> getAllComments();
 

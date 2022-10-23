@@ -16,10 +16,6 @@ public class CommentPostDto {
     private String body;
 
     @Min(value = 1,message = "{id.zero}")
-    @NotNull(message = "{id.invalid}")
-    private Long userId;
-
-    @Min(value = 1,message = "{id.zero}")
     @NotNull(message = "{request.newsId}")
     private Long newsId;
 
