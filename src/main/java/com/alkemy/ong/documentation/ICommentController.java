@@ -3,7 +3,6 @@ package com.alkemy.ong.documentation;
 import com.alkemy.ong.dto.CommentBasicDTO;
 import com.alkemy.ong.dto.CommentGetDto;
 import com.alkemy.ong.dto.CommentPostDto;
-import com.alkemy.ong.exception.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -32,7 +31,7 @@ public interface ICommentController {
             @ApiResponse(responseCode = STATUS_NOT_FOUND, description = NEWS_NOT_FOUND, content = @Content),
             @ApiResponse(responseCode = STATUS_FORBIDDEN, description = FORBIDDEN, content = @Content)
     })
-    ResponseEntity<CommentGetDto> newComment(@Valid @RequestBody CommentPostDto commentDto);
+    ResponseEntity<CommentBasicDTO> newComment(@Valid @RequestBody CommentPostDto commentDto, Authentication authentication);
 
     @Operation(summary = GET_COMMENTS)
     @ApiResponses(value = {
