@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.SlidesDTO;
 import com.alkemy.ong.service.ISlidesService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(Endpoints.SLIDE)
+@Tag(name = "Slides")
 public class SlidesController {
     @Autowired
     private ISlidesService slidesService;

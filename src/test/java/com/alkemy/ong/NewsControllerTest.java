@@ -6,13 +6,14 @@ import com.alkemy.ong.dto.NewsPaginationDto;
 import com.alkemy.ong.exception.InvalidPaginationParamsException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.exception.ThereAreNoCommentsByNew;
-import com.alkemy.ong.model.News;
+import com.alkemy.ong.security.service.impl.UserServiceImpl;
 import com.alkemy.ong.service.INewsService;
 import com.alkemy.ong.util.Pagination;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,8 +46,11 @@ public class NewsControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private INewsService newsService;
+
+    @MockBean
+    private UserServiceImpl userService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -366,9 +370,9 @@ public class NewsControllerTest {
 
     public static NewsPaginationDto returnNewsPaginationDto(){
         LocalDateTime dateTime = LocalDateTime.now();
-        News news1 = new News(1L,"News1", "Content1", "example.png", 1L, dateTime, dateTime, false);
-        News news2 = new News(2L,"News2", "Content2", "example.png", 1L, dateTime, dateTime, false);
-        List<News> listNews = new ArrayList<>();
+        NewsDto news1 = new NewsDto("News1", "Content1", "example.png", 1L);
+        NewsDto news2 = new NewsDto("News2", "Content2", "example.png", 1L);
+        List<NewsDto> listNews = new ArrayList<>();
         listNews.add(news1);
         listNews.add(news2);
 

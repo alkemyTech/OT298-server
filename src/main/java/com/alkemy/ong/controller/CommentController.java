@@ -1,7 +1,9 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.documentation.ICommentController;
 import com.alkemy.ong.dto.CommentBasicDTO;
-import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentGetDto;
+import com.alkemy.ong.dto.CommentPostDto;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +18,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("comments")
-public class CommentController {
+public class CommentController implements ICommentController {
 
     @Autowired
     private ICommentService commentService;
 
     @PostMapping
-    public ResponseEntity<CommentDto> newComment(@Valid @RequestBody CommentDto commentDto) throws ResourceNotFoundException {
-        CommentDto commentDtoSaved = commentService.save(commentDto);
+    public ResponseEntity<CommentBasicDTO> newComment(@Valid @RequestBody CommentPostDto commentDto, Authentication authentication) throws ResourceNotFoundException {
+        CommentBasicDTO commentDtoSaved = commentService.save(commentDto,authentication);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentDtoSaved);
     }
 
@@ -42,8 +44,8 @@ public class CommentController {
 
 
     @PatchMapping ("/{id}")
-    public ResponseEntity<CommentDto> updateComment (@PathVariable Long id, @RequestBody CommentBasicDTO dto){
-        CommentDto updatedComment = commentService.updateComment(id, dto);
+    public ResponseEntity<CommentGetDto> updateComment (@PathVariable Long id, @RequestBody CommentBasicDTO dto){
+        CommentGetDto updatedComment = commentService.updateComment(id, dto);
         return ResponseEntity.accepted().body(updatedComment);
 
     }

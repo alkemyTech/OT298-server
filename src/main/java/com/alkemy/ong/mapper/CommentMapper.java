@@ -1,14 +1,17 @@
 package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.CommentBasicDTO;
-import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentGetDto;
+import com.alkemy.ong.dto.CommentPostDto;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.UserRepository;
+import com.alkemy.ong.security.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +22,8 @@ import java.util.stream.Collectors;
 @Component
 public class CommentMapper {
 
+    @Autowired
+    private IUserService userService;
 
     @Autowired
     private UserRepository usersRepository;
@@ -28,24 +33,21 @@ public class CommentMapper {
     @Autowired
     private MessageSource message;
 
-    public CommentDto commentEntityToDto(Comment comment) {
+    public CommentGetDto commentEntityToDto(Comment comment) {
 
-        CommentDto commentDto = new CommentDto();
-
-
-        commentDto.setId( comment.getId() );
+        CommentGetDto commentDto = new CommentGetDto();
+        commentDto.setId(comment.getId());
         commentDto.setBody( comment.getBody() );
-        commentDto.setUserId(comment.getUser().getId());
         commentDto.setNewsId(comment.getNews().getId() );
-        commentDto.setCreationDate( comment.getCreationDate() );
-        commentDto.setUpdateDate( comment.getUpdateDate() );
 
         return commentDto;
     }
 
-    public Comment commentDtoToEntity(CommentDto commentDto) {
-      
-        User user = usersRepository.findById(commentDto.getUserId()).orElseThrow(() -> new UsernameNotFoundException(message.getMessage("user.notFound",null, Locale.US)));
+    public Comment commentDtoToEntity(CommentPostDto commentDto, Authentication authentication) {
+
+
+        User user = userService.getUserAuthenticated(authentication);
+
 
         News news = newsRepository.findById(commentDto.getNewsId()).orElseThrow(()-> new UsernameNotFoundException(message.getMessage("news.notFound",null, Locale.US)));
 
@@ -53,12 +55,9 @@ public class CommentMapper {
 
         comment.setBody( commentDto.getBody() );
         comment.setUser( user );
-
         comment.setNews( news );
         news.getComments().add(comment);
 
-        comment.setCreationDate( commentDto.getCreationDate() );
-        comment.setUpdateDate( commentDto.getUpdateDate() );
 
         return comment;
     }

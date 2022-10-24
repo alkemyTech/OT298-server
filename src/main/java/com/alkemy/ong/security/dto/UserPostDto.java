@@ -16,22 +16,21 @@ import javax.validation.constraints.Pattern;
 public class UserPostDto {
 
     @NotBlank (message = "First name is required")
-    @Pattern(regexp = "^[A-Za-z]*$")
+    @Pattern(regexp = "^[a-zA-Z][ a-zA-Z]*$", message = "{user.name.pattern}")
     @NotNull
     private String firstName;
 
     @NotBlank (message = "Last name is required")
-    @Pattern(regexp = "^[A-Za-z]*$")
+    @Pattern(regexp = "^[a-zA-Z][ a-zA-Z]*$", message = "{user.lastname.pattern}")
     @NotNull
     private String lastName;
 
-    @Email
-    @Email (message = "Email name is required")
-    @NotNull
+    @Email (message = "{email.format}")
+    @NotNull (message = "{email.isRequired}")
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–{}:;',?/*~$^+=<>]).{8,20}$")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–{}:;',?/*~$^+=<>]).{8,20}$", message = "{password.pattern}")
     @NotNull
     private String password;
 

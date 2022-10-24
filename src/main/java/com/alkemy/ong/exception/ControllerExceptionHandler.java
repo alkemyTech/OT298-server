@@ -70,7 +70,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 ex.getMessage(),
                 request.getDescription(false));
 
-        return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
     }
 
     @Override
@@ -124,12 +124,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {ThereAreNoCategories.class})
     protected ResponseEntity<Object> handleThereAreNoCategories(ThereAreNoCategories ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
-                HttpStatus.NO_CONTENT.value(),
+                HttpStatus.NOT_FOUND.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
       
-        return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = {ThereAreNoCommentsByNew.class})
@@ -259,12 +259,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = { NotOriginalUserException.class})
     protected ResponseEntity<ErrorMessage> handleNotOriginalUserException(NotOriginalUserException ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
-                HttpStatus.FORBIDDEN.value(),
+                HttpStatus.UNAUTHORIZED.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
 
-        return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(value = {ParameterNotFound.class})
@@ -277,6 +277,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 request.getDescription(false));
 
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = {EntityNullException.class})
+    protected ResponseEntity<ErrorMessage> handleEntityNullException(EntityNullException ex,
+                                                               WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
 

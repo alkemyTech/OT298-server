@@ -1,5 +1,6 @@
 package com.alkemy.ong.documentation;
 
+import com.alkemy.ong.dto.TestimonialBasicDTO;
 import com.alkemy.ong.dto.TestimonialDTO;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import java.util.Map;
 
-@Tag(name = "Testimonial Controller", description = "CRUD of testimonials")
+@Tag(name = "Testimonial", description = "CRUD of testimonials")
 public interface ITestimonialController {
 
         @Operation(summary = "Get paginated testimonials" , description = "testimonial.get.page.description")
@@ -48,7 +49,7 @@ public interface ITestimonialController {
         })
         ResponseEntity<TestimonialDTO> updateTestimonial(@Parameter(description = "Testimonial Id to update") Long id,
                                                          @Parameter(description = "Testimonial DTO to update testimonial data")
-                                                         TestimonialDTO dto);
+                                                         TestimonialBasicDTO dto);
 
         @Operation(summary = "Soft delete a testimonial" , description = "testimonial.delete.description")
         @ApiResponses(value = {

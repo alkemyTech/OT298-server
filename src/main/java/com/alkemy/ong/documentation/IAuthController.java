@@ -13,28 +13,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import java.io.IOException;
 
+import static com.alkemy.ong.util.Constants.httpCodes.*;
 
-@Tag(name = "Auth Controller", description = "documentation of authentication endpoints")
+
+@Tag(name = "Auth", description = "documentation of authentication endpoints")
 public interface IAuthController {
     
 
     @Operation(summary = "Register user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "User created successfully", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content)
+            @ApiResponse(responseCode = STATUS_CREATED, description = "User created successfully", content = @Content),
+            @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = "Bad Request", content = @Content),
+            @ApiResponse(responseCode = STATUS_NOT_FOUND, description = "Not Found", content = @Content),
+            @ApiResponse(responseCode = STATUS_INTERNAL_SERVER_ERROR, description = "Internal Server Error", content = @Content)
     })
     ResponseEntity<UserGetDto> register(@Valid @RequestBody UserPostDto dto) throws IOException;
 
 
     @Operation(summary = "Login user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Logged user", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content),
-            @ApiResponse(responseCode = "403", description = "Not Found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content)
+            @ApiResponse(responseCode = STATUS_OK, description = "Logged user", content = @Content),
+            @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = "Bad Request", content = @Content),
+            @ApiResponse(responseCode = STATUS_NOT_FOUND, description = "Not Found", content = @Content),
+            @ApiResponse(responseCode = STATUS_FORBIDDEN, description = "Forbidden", content = @Content),
+            @ApiResponse(responseCode = STATUS_INTERNAL_SERVER_ERROR, description = "Internal Server Error", content = @Content)
     })
     ResponseEntity<AuthResponse> signIn(@Valid @RequestBody AuthRequest request) throws Exception;
 
@@ -42,10 +44,10 @@ public interface IAuthController {
 
     @Operation(summary = "Get Users")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content),
-            @ApiResponse(responseCode = "403", description = "Not Found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content)
+            @ApiResponse(responseCode = STATUS_BAD_REQUEST, description = "Bad Request", content = @Content),
+            @ApiResponse(responseCode = STATUS_NOT_FOUND, description = "Not Found", content = @Content),
+            @ApiResponse(responseCode = STATUS_FORBIDDEN, description = "Forbidden", content = @Content),
+            @ApiResponse(responseCode = STATUS_INTERNAL_SERVER_ERROR, description = "Internal Server Error", content = @Content)
     })
     ResponseEntity<UserInformationDto> userInformation(@Valid Authentication authentication);
 

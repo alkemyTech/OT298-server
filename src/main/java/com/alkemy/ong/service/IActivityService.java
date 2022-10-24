@@ -1,6 +1,7 @@
 package com.alkemy.ong.service;
 
 
+import com.alkemy.ong.dto.ActivityBasicDTO;
 import com.alkemy.ong.dto.ActivityDTO;
 
 import java.util.List;
@@ -10,5 +11,5 @@ public interface IActivityService {
 
     List<ActivityDTO> getAll();
 
-    ActivityDTO update (Long id, ActivityDTO dto);
+    ActivityDTO update (Long id, ActivityBasicDTO dto);
 }

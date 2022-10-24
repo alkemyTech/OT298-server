@@ -1,7 +1,9 @@
 package com.alkemy.ong.security.service.impl;
 
+import com.alkemy.ong.dto.UserPatchDTO;
 import com.alkemy.ong.exception.*;
 import com.alkemy.ong.dto.AuxUserGetDto;
+import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.security.dto.UserGetDto;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -203,29 +205,35 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
 
     @Override
-    public AuxUserGetDto update(Long id, UserPostDto dto) throws ResourceNotFoundException {
+    public AuxUserGetDto update(Long id, UserPatchDTO dto) throws ResourceNotFoundException {
         if (!userRepository.existsById(id)) {
             throw new ResourceNotFoundException(message.getMessage("id.invalid", null, Locale.US));
         }
         User user = userRepository.findById(id).get();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (dto.getFirstName() != null) {
-            user.setFirstName(dto.getFirstName());
+        if (user.getEmail().equals(auth.getName()) || auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals(ROLE_ADMIN))) {
+            if (dto.getFirstName() != null) {
+                user.setFirstName(dto.getFirstName());
+            }
+
+            if (dto.getLastName() != null) {
+                user.setLastName(dto.getLastName());
+            }
+
+            if (dto.getPhoto() != null) {
+                user.setPhoto(dto.getPhoto());
+            }
+
+            if (dto.getPassword() != null) {
+                user.setPassword(passwordEncoder.encode(dto.getPassword()));
+            }
+
+            return userMapper.toAuxDto(userRepository.save(user));
+        } else {
+            throw new PermissionDeniedException(message.getMessage("access.denied", null, Locale.US));
         }
-
-        if (dto.getLastName() != null) {
-            user.setLastName(dto.getLastName());
-        }
-
-        if (dto.getPhoto() != null) {
-            user.setPhoto(dto.getPhoto());
-        }
-
-        if (dto.getPassword() != null) {
-            user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        }
-
-        return userMapper.toAuxDto(userRepository.save(user));
     }
 
     @Override

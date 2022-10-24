@@ -16,6 +16,6 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewsPaginationDto {
-    private List<News> news;
+    private List<NewsDto> news;
     private Map<String, String> links;
 }
