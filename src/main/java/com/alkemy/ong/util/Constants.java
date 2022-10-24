@@ -134,5 +134,30 @@ public class Constants {
         public static final String PARAMETER_MEMBER_PAGE = "Number page, size page and sort";
 
     }
+
+    public static abstract class UserApi{
+
+        public static final String TAG_NAME = "User";
+        public static final String TAG_DESCRIPTION = "View, update and delete User";
+
+        public static final String SUCCESS = "This operation was succesful";
+        public static final String INVALID_DATA = "The data entered is invalid";
+        public static final String NOT_FOUND_USER = "The member was not found with the indicated ID";
+        public static final String NO_AUTHORIZATION = "Access denied, needed authorization to access";
+        public static final String THERE_ARE_NO_USERS = "There are no saved users";
+        public static final String ERROR_SERVER_UPDATE = "Server error updating user";
+
+        public static final String SUMARY_UPDATE = "Update a user";
+        public static final String SUMARY_DELETE = "Delete a user";
+        public static final String SUMARY_GET_ALL = "Get all users";
+
+        public static final String DESCRIPTION_UPDATE = "This endpoint is used to update a user";
+        public static final String DESCRIPTION_DELETE = "This endpoint is used to delete a user by ID";
+        public static final String DESCRIPTION_GET_ALL = "This endpoint is used to get all users";
+
+        public static final String PARAMETER_ID = "Id of the user";
+        public static final String PARAMETER_USER_UPDATE = "User to update";
+
+    }
 }
 
