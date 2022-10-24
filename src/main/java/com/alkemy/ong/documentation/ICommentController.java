@@ -21,7 +21,7 @@ import static com.alkemy.ong.util.Constants.httpCodes.*;
 import static com.alkemy.ong.util.Constants.messagesForDocs.*;
 import static com.alkemy.ong.util.Constants.messagesForDocs.FORBIDDEN;
 
-@Tag(name = "Comments", description = "View, create, delete and update comments")
+@Tag(name = "Comment", description = "View, create, delete and update comments")
 public interface ICommentController {
 
     @Operation(summary = CREATE_COMMENT)

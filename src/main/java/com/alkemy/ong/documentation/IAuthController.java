@@ -16,7 +16,7 @@ import java.io.IOException;
 import static com.alkemy.ong.util.Constants.httpCodes.*;
 
 
-@Tag(name = "Auth Controller", description = "documentation of authentication endpoints")
+@Tag(name = "Auth", description = "documentation of authentication endpoints")
 public interface IAuthController {
     
 

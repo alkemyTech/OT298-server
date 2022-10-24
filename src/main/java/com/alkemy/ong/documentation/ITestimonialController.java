@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import java.util.Map;
 
-@Tag(name = "Testimonial Controller", description = "CRUD of testimonials")
+@Tag(name = "Testimonial", description = "CRUD of testimonials")
 public interface ITestimonialController {
 
         @Operation(summary = "Get paginated testimonials" , description = "testimonial.get.page.description")
