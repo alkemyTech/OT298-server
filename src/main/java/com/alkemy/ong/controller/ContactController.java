@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.ContactDTO;
 import com.alkemy.ong.service.IContactService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import static com.alkemy.ong.util.Constants.Endpoints.CONTACT;
 
 @RestController
 @RequestMapping(CONTACT)
+@Tag(name = "Contact")
 public class ContactController {
 
     @Autowired

@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
-@Tag(name = "${news.docs.tagName}", description = "${news.docs.tagDescription}")
+@Tag(name = "News", description = "${news.docs.tagDescription}")
 public interface INewsController {
 
 

@@ -19,7 +19,7 @@ import static com.alkemy.ong.util.Constants.FIRST_PAGE;
 import static com.alkemy.ong.util.Constants.httpCodes.*;
 import static com.alkemy.ong.util.Constants.messagesForDocs.*;
 
-@Tag(name = "Categories", description = "View, add, update and delete categories")
+@Tag(name = "Category", description = "View, add, update and delete categories")
 public interface ICategoryController {
 
     @Operation(summary = GET_CATEGORIES)
