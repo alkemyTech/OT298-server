@@ -29,7 +29,7 @@ public class SlidesController {
     }
 
     @PostMapping
-    public ResponseEntity<SlidesDTO> save(@RequestBody SlidesDTO slidesDTO) {
+    public ResponseEntity<SlidesDTO> save(@RequestBody SlidesDTO slidesDTO) throws Exception {
 
         SlidesDTO slidesSave = slidesService.save(slidesDTO);
 

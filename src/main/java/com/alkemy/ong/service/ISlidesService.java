@@ -8,7 +8,7 @@ import java.util.LinkedList;
 public interface ISlidesService {
     SlidesDTO delete(Long id);
 
-    SlidesDTO save(SlidesDTO slidesDTO);
+    SlidesDTO save(SlidesDTO slidesDTO) throws Exception;
 
     LinkedList<SlidesDTO> listSlides(LinkedList<SlidesDTO> slidesDTOlist);
 
