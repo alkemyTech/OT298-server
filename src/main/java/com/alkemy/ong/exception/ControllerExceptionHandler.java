@@ -65,12 +65,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ErrorMessage> handleUnauthorizedException (PermissionDeniedException ex,
                                                                         WebRequest request){
         ErrorMessage message = new ErrorMessage(
-                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.FORBIDDEN.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
 
-        return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
     }
 
     @Override
